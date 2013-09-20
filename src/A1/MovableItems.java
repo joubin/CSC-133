@@ -8,5 +8,21 @@ package A1;
  * To change this template use File | Settings | File Templates.
  */
 public abstract class MovableItems {
+    public int getDirection() {
+        return direction;
+    }
+
+    public void setDirection(int direction) {
+        if(direction%5 == 0){
+            this.direction = direction;
+        }else {
+            System.out.println("You cant do that");
+        }
+    }
+
+    private int direction;
+
+
+
 
 }
