@@ -12,8 +12,7 @@ import java.awt.*;
 public class Game {
 
     private GameWorld gw;
-    private float x, y;
-    private static Color myColor = Color.white;
+
 
     public Game(){
         gw = new GameWorld();

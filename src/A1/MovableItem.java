@@ -7,7 +7,8 @@ package A1;
  * Time: 11:43 PM
  * To change this template use File | Settings | File Templates.
  */
-public abstract class MovableItems {
+public abstract class MovableItem {
+
     public int getDirection() {
         return direction;
     }
