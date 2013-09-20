@@ -8,4 +8,5 @@ package A1;
  * To change this template use File | Settings | File Templates.
  */
 public abstract class MovableItems {
+
 }
