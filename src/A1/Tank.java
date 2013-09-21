@@ -43,13 +43,11 @@ public class Tank extends MovableItem implements ISteerable {
 
     }
 
-    public void modifySpeed(Boolean i){
+    public void modifySpeed(int i){
         int tmpSpeed = 0;
-        if (i){
-            tmpSpeed = this.getSpeed() + 1;
-        }else{
-            tmpSpeed = this.getSpeed() - 1;
-        }
+
+        tmpSpeed = this.getSpeed() + i;
+
         this.setSpeed(tmpSpeed);
 
     }

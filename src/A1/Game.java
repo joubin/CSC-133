@@ -12,7 +12,6 @@ import java.util.Scanner;
 public class Game {
 
     private GameWorld gw;
-    private Tank myTank = new Tank();
 
 
     public Game() {
@@ -25,21 +24,55 @@ public class Game {
         // Code here to operate on the game world
     }
 
-    private getCommand(){
+    private void getCommand(){
         Scanner in = new Scanner(System.in);
         String temp = in.nextLine();
-        switch (temp){
-            case "r":
-                myTank.setDirection(5);
+        char input = temp.charAt(0);
+        switch (input){
+            case 'r':
+                gw.changePlayerTankDirection(5);
                 break;
-            case "l":
-                myTank.setDirection(-5);
+            case 'l':
+                gw.changePlayerTankDirection(-5);
                 break;
-            case "i":
-                myTank.modifySpeed(true);
+            case 'i':
+                gw.modifyPlayerTankSpeed(1);
                 break;
-            case "k":
-                myTank.modifySpeed(false);
+            case 'k':
+                gw.modifyPlayerTankSpeed(-1);
+                break;
+            case 'f':
+                gw.firePlayerTankMissile();
+                break;
+            case 'e':
+                gw.fireEnemyTankMissile();
+                break;
+            case '1':
+                gw.getHitWithMissle();
+                break;
+            case '2':
+                gw.missleCollisions();
+                break;
+            case '3':
+                gw.blockMovableObject();
+                break;
+            case 't':
+                gw.tickClock();
+                break;
+            case 'd':
+                gw.displayCurrentGameState();
+                break;
+            case 'm':
+                gw.drawMap();
+                break;
+            case '?':
+                gw.printHelpMessage();
+                break;
+            case 'q':
+                gw.quit();
+                break;
+            default:
+                System.out.println("You have picked an option that does not exist");
 
         }
     }
