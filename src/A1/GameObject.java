@@ -9,9 +9,11 @@ import java.awt.*;
  * Time: 10:55 AM
  * To change this template use File | Settings | File Templates.
  */
-public class GameObject {
+public abstract class GameObject {
 
-    private float x;
+    private float x, y;
+    private Color myColor = Color.white;
+
 
     public float getX() {
         return x;
@@ -29,11 +31,10 @@ public class GameObject {
         this.y = y;
     }
 
-    private float y;
 
-    public static Color getMyColor() {
+    public Color getMyColor() {
         return myColor;
     }
 
-    private static Color myColor = Color.white;
+
 }

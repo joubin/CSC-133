@@ -1,6 +1,6 @@
 package A1;
 
-import java.awt.*;
+import java.util.Scanner;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,14 +12,35 @@ import java.awt.*;
 public class Game {
 
     private GameWorld gw;
+    private Tank myTank = new Tank();
 
 
-    public Game(){
+    public Game() {
         gw = new GameWorld();
+
         play();
     }
 
-    private void play(){
+    private void play() {
         // Code here to operate on the game world
+    }
+
+    private getCommand(){
+        Scanner in = new Scanner(System.in);
+        String temp = in.nextLine();
+        switch (temp){
+            case "r":
+                myTank.setDirection(5);
+                break;
+            case "l":
+                myTank.setDirection(-5);
+                break;
+            case "i":
+                myTank.modifySpeed(true);
+                break;
+            case "k":
+                myTank.modifySpeed(false);
+
+        }
     }
 }

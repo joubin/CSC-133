@@ -7,6 +7,6 @@ package A1;
  * Time: 10:41 AM
  * To change this template use File | Settings | File Templates.
  */
-public interface IMovable {
+public interface ISteerable {
 
 }
