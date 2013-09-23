@@ -22,6 +22,15 @@ public class Game {
 
     private void play() {
         // Code here to operate on the game world
+        System.out.println("Please enter the number of enemy tanks:");
+        Scanner in = new Scanner(System.in);
+        int numberOfTanks = Integer.parseInt(in.nextLine());
+        System.out.println("Please enter the number of Rocks:");
+        int numberOfRocks = Integer.parseInt(in.nextLine());
+        System.out.println("Please enter the number of Tress:");
+        int numberOfTrees = Integer.parseInt(in.nextLine());
+
+        gw.initialize(numberOfTanks, numberOfRocks, numberOfTrees);
     }
 
     private void getCommand(){
@@ -51,7 +60,7 @@ public class Game {
                 gw.getHitWithMissle();
                 break;
             case '2':
-                gw.missleCollisions();
+                gw.missileCollisions();
                 break;
             case '3':
                 gw.blockMovableObject();

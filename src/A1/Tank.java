@@ -1,5 +1,7 @@
 package A1;
 
+import java.util.Random;
+
 /**
  * Created with IntelliJ IDEA.
  * User: joubin
@@ -10,11 +12,15 @@ package A1;
 public class Tank extends MovableItem implements ISteerable {
 
     private int armorStrength;
-    private int missleCount;
+    private int missileCount;
 
-    public Tank()  {
+    public Tank(float x, float y)  {
         this.armorStrength = 10;
-        this.missleCount = 10;
+        this.missileCount = 10;
+        Random random = new Random(1024);
+        setX(x);
+        setY(y);
+
     }
 
     public int getArmorStrength() {
@@ -25,18 +31,18 @@ public class Tank extends MovableItem implements ISteerable {
         this.armorStrength += val;
     }
 
-    public int getMissleCount() {
-        return missleCount;
+    public int getMissileCount() {
+        return missileCount;
     }
 
     public void modifyMissleCount(int val) {
-        this.missleCount += val;
+        this.missileCount += val;
     }
 
     public void fireMissle() {
-        if (this.missleCount > 0){
+        if (this.missileCount > 0){
             Missle a = new Missle(this);
-            this.missleCount -= 1;
+            this.missileCount -= 1;
         }else{
             System.out.println("You are out of missles");
         }
