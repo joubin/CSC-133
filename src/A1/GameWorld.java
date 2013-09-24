@@ -12,13 +12,9 @@ import java.util.Random;
  */
 public class GameWorld {
     private ArrayList<GameObject> go;
-    private ArrayList<Tree> trees;
-    private ArrayList<Rock> rocks;
     private Tank myTank;
-    private ArrayList<Tank> enemyTank;
 
     public void initialize(int numTank, int numRock, int numTree){
-        Random randGen = new Random(1024);
         for(int i = 0; i <= numRock; ++i){
             go.add(new Rock());
         }
@@ -78,6 +74,7 @@ public class GameWorld {
 
     public void getHitWithMissle() {
         //To change body of created methods use File | Settings | File Templates.
+
     }
 
     public void missileCollisions() {
