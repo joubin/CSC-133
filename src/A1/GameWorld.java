@@ -1,6 +1,7 @@
 package A1;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created with IntelliJ IDEA.
@@ -13,10 +14,11 @@ public class GameWorld {
     private ArrayList<GameObject> go;
     private ArrayList<Tree> trees;
     private ArrayList<Rock> rocks;
-    private Tank myTank = new Tank();
+    private Tank myTank;
     private ArrayList<Tank> enemyTank;
 
     public void initialize(int numTank, int numRock, int numTree){
+        Random randGen = new Random(1024);
         for(int i = 0; i <= numRock; ++i){
             go.add(new Rock());
         }
@@ -26,21 +28,31 @@ public class GameWorld {
         }
 
         for(int i = 0; i <= numTank; ++i){
-            go.add(new Tank());
+            go.add(new Tank(getAllXY()[0], getAllXY()[1]));
         }
 
-
+        myTank = new Tank(getAllXY()[0], getAllXY()[1]);
 
     }
 
-    public boolean getAllXY(ArrayList<GameObject> o, float x, float y){
-        for (int i = 0; i <= o.size(); ++i){
-          if (x == o.get(i).getX() && y == o.get(i).getY()){
-                return true;
-            }else{
-              return false;
-          }
+    public float [] getAllXY(){
+        /*
+        This method ensures that objects dont get placed on top of each other
+         */
+        Random randGen = new Random(1024);
+        float  [] xy = {randGen.nextFloat(),randGen.nextFloat()};
+
+        int checkedAll = 0;
+        while(checkedAll != go.size()){
+            for (int i = 0; i <= go.size(); ++i){
+                if (go.get(i).getX() == xy[0] || go.get(i).getY() == xy[1]){
+                    xy[0] = randGen.nextFloat();
+                    xy[1] = randGen.nextFloat();
+                    checkedAll = 0;
+                }
+            }
         }
+        return xy;
     }
 
     public void changePlayerTankDirection(int i){
@@ -56,6 +68,11 @@ public class GameWorld {
     }
 
     public void fireEnemyTankMissile(){
+        for (int i = 0; i < go.size(); ++i){
+            if (go.get(i) instanceof Tank && go.get(i) != myTank){
+                ((Tank) go.get(i)).fireMissle();
+            }
+        }
 
     }
 
