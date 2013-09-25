@@ -1,6 +1,7 @@
 package A1;
 
 import java.awt.*;
+import java.util.Random;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,7 +13,13 @@ import java.awt.*;
 public abstract class GameObject {
 
     private float x, y;
-    private Color myColor = Color.white;
+    Random myRandom = new Random();
+    private float red = myRandom.nextFloat();
+    private float green = myRandom.nextFloat();
+    private float blue = myRandom.nextFloat();
+
+    private Color myColor = new Color(red, green, blue);
+
 
 
     public float getX() {
@@ -37,7 +44,7 @@ public abstract class GameObject {
     }
 
     public String toString(){
-        return String.format("loc=%d,%d color=%s", x,y,myColor.toString());
+        return String.format("loc=[%2f,%2f] color=%s", x,y,myColor.toString());
     }
 
 

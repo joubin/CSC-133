@@ -79,7 +79,7 @@ public class Tank extends MovableItem implements ISteerable {
     }
 
     public String toString(){
-        return String.format("%s speed=%d heading=%d armor=%d missile=%d", super.toString(), getSpeed(), getDirection(), armorStrength, missileCount);
+        return String.format("Tank=> %s speed=%d heading=%d armor=%d missile=%d", super.toString(), getSpeed(), getDirection(), armorStrength, missileCount);
     }
 
 

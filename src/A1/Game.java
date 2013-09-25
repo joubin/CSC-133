@@ -33,6 +33,7 @@ public class Game {
         gw.initialize(numberOfTanks, numberOfRocks, numberOfTrees);
         System.out.println("Ready for commands:");
         while (true) {
+            System.out.print("Command: ");
             String command = in.next();
             char c = command.charAt(0);
             getCommand(c);

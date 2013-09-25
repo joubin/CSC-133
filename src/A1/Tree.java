@@ -20,6 +20,6 @@ public class Tree extends LandscapeItem {
     }
 
     public String toString(){
-        return String.format("%s diameter=%d", super.toString(), rad);
+        return String.format("Tree=> %s diameter=%d", super.toString(), rad);
     }
 }

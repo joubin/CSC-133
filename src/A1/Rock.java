@@ -14,14 +14,14 @@ public class Rock extends LandscapeItem {
 
 
     public Rock(float x, float y) {
-        Random randGenrator = new Random(21);
-        this.width = randGenrator.nextInt();
-        this.height = randGenrator.nextInt();
+        Random randGenrator = new Random();
+        this.width = randGenrator.nextInt(21);
+        this.height = randGenrator.nextInt(21);
         setX(x);
         setY(y);
 
     }
     public String toString(){
-        return String.format("%s width=%d height=%d", super.toString(), width, height);
+        return String.format("Rock=> %s width=%d height=%d", super.toString(), width, height);
     }
 }

@@ -24,15 +24,15 @@ public class GameWorld {
 
 
     public void initialize(int numTank, int numRock, int numTree){
-        for(int i = 0; i <= numRock; ++i){
-            go.add(new Rock(1111, 1111));
+        for(int i = 0; i < numRock; ++i){
+            go.add(new Rock(getAllXY()[0], getAllXY()[1]));
         }
 
         for (int i = 0; i < numTree; ++i){
             go.add(new Tree(getAllXY()[0], getAllXY()[1]));
         }
 
-        for(int i = 0; i <= numTank; ++i){
+        for(int i = 0; i < numTank; ++i){
             Tank temp = new Tank(getAllXY()[0], getAllXY()[1]);
             go.add(temp);
         }
@@ -88,7 +88,7 @@ public class GameWorld {
         This is a helper method
          */
         ArrayList<Tank> tmp = new ArrayList<Tank>();
-        for (int i = 0; i <= obj.size(); ++i){
+        for (int i = 0; i < obj.size(); ++i){
             if (obj.get(i) instanceof Tank){
                 tmp.add((Tank) obj.get(i));
             }
@@ -102,7 +102,7 @@ public class GameWorld {
         This is a helper method
          */
         ArrayList<Missile> tmp = new ArrayList<Missile>();
-        for (int i = 0; i <= obj.size(); ++i){
+        for (int i = 0; i < obj.size(); ++i){
             if (obj.get(i) instanceof Missile){
                 tmp.add((Missile) obj.get(i));
             }
@@ -116,8 +116,8 @@ public class GameWorld {
         This is a helper method
          */
         ArrayList<MovableItem> tmp = new ArrayList<MovableItem>();
-        for (int i = 0; i <= obj.size(); ++i){
-            if (obj.get(i) instanceof MovableItem){
+        for (int i = 0; i < obj.size(); ++i){
+            if (obj.get(i) instanceof Tank || obj.get(i) instanceof Missile){
                 tmp.add((MovableItem) obj.get(i));
             }
         }
@@ -191,7 +191,7 @@ public class GameWorld {
     public void tickClock() {
         clock = clock + 1;
         ArrayList<MovableItem> tmp =  returnAllMoveableItemsFromObject(go);
-        for(int i = 0; i <= tmp.size(); i++){
+        for(int i = 0; i < tmp.size(); i++){
             tmp.get(i).update();
         }
     }
@@ -206,7 +206,7 @@ public class GameWorld {
 
     public void drawMap() {
         for(Iterator<GameObject> gameObject = go.iterator(); gameObject.hasNext();){
-            gameObject.next().toString();
+            System.out.println(gameObject.next().toString());
 
         }
     }

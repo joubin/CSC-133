@@ -15,4 +15,8 @@ public class Missile extends MovableItem {
         this.speed = t.getSpeed();
         this.direction = t.getDirection();
     }
+
+    public String toString(){
+        return String.format("Missile=> %s speed=%d heading=%d ", super.toString(), getSpeed(), getDirection());
+    }
 }
