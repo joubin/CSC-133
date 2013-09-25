@@ -211,10 +211,25 @@ public class GameWorld {
         }
     }
 
-    public void printHelpMessage() {
+    public void printHelpMessage(){
+        System.out.println("Help" +
+                "r: Turn right 5 degrees clockwise" +
+                "l: Turn left 5 degrees counter-clockwise" +
+                "i: Increase speed of your tank" +
+                "k: Decrease speed of your tank" +
+                "f: Fire missile from your tank" +
+                "e: Fire missile from enemy tank" +
+                "1: Indicate that a random tank has been hit by a missile" +
+                "2: indicates that a collision occurred between two missiles" +
+                "3: Random tank has colided with a land object and is now blocked" +
+                "t: Tick game clock" +
+                "d: Display current game states and values" +
+                "m: Display map for the current game" +
+                "q: Quit game" +
+                "?: Print this menu");
     }
 
     public void quit() {
-        //To change body of created methods use File | Settings | File Templates.
+    System.exit(0);
     }
 }
