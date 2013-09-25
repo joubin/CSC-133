@@ -32,13 +32,17 @@ public abstract class MovableItem extends GameObject {
         }
     }
 
-    public void move() {
+    private void move() {
         float newx = (float) Math.sin(direction) * speed;
         float newy = (float) Math.cos(direction) * speed;
         newx += getX();
         newy += getY();
         setX(newx);
         setY(newy);
+    }
+
+    public void update(){
+        move();
     }
 
 

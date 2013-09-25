@@ -36,5 +36,9 @@ public abstract class GameObject {
         return myColor;
     }
 
+    public String toString(){
+        return String.format("loc=%d,%d color=%s", x,y,myColor.toString());
+    }
+
 
 }

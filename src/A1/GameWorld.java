@@ -1,7 +1,9 @@
 package A1;
 
+import java.awt.*;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 /**
@@ -13,8 +15,13 @@ import java.util.Random;
  */
 public class GameWorld {
     private ArrayList<GameObject> go;
-
+    private int clock = 0;
+    public enum objectTypes {
+        TANK, ROCK, TREE
+    }
     private Tank myTank;
+    private int score;
+
 
     public void initialize(int numTank, int numRock, int numTree){
         for(int i = 0; i <= numRock; ++i){
@@ -39,8 +46,8 @@ public class GameWorld {
         /*
         This method ensures that objects dont get placed on top of each other
          */
-        Random randGen = new Random(1024);
-        float  [] xy = {randGen.nextFloat(),randGen.nextFloat()};
+        Random randGen = new Random();
+        float  [] xy = {randGen.nextInt(1024),randGen.nextInt(1024)};
 
         int checkedAll = 0;
         while(checkedAll != go.size()){
@@ -74,35 +81,56 @@ public class GameWorld {
         }
     }
 
-    public ArrayList<GameObject> getObject(ArrayList<GameObject> obj, char typeOf){
+
+    public ArrayList<Tank> returnAllTanksFromObject(ArrayList<GameObject> obj){
         /*
-        This returns objects of type 'typeof' in an arrayList.
-        This is just a helper function
+        Returns all tanks that are in obj.
+        This is a helper method
          */
-        ArrayList<GameObject> tmp = null;
+        ArrayList<Tank> tmp = new ArrayList<Tank>();
         for (int i = 0; i <= obj.size(); ++i){
-            GameObject tempObject = obj.get(i);
-            switch (typeOf){
-                case 'T':  // if T, then looking for Tank
-                    if (obj.get(i) instanceof Tank && obj.get(i) != myTank){
-                        tmp.add(obj.get(i));
-                    }
-                    break;
-                case 'M': // if M, then looking for a Missile
-                    if (obj.get(i) instanceof Missile){
-                        tmp.add(obj.get(i));
-                    }
-                    break;
-                default:break;
+            if (obj.get(i) instanceof Tank){
+                tmp.add((Tank) obj.get(i));
+            }
+        }
+        return tmp;
+        }
+
+    public ArrayList<Missile> returnAllMissileFromObject(ArrayList<GameObject> obj){
+        /*
+        Returns all missiles that are in obj.
+        This is a helper method
+         */
+        ArrayList<Missile> tmp = new ArrayList<Missile>();
+        for (int i = 0; i <= obj.size(); ++i){
+            if (obj.get(i) instanceof Missile){
+                tmp.add((Missile) obj.get(i));
             }
         }
         return tmp;
     }
 
+    public ArrayList<MovableItem> returnAllMoveableItemsFromObject(ArrayList<GameObject> obj){
+        /*
+        Returns all Moveable items that are in obj.
+        This is a helper method
+         */
+        ArrayList<MovableItem> tmp = new ArrayList<MovableItem>();
+        for (int i = 0; i <= obj.size(); ++i){
+            if (obj.get(i) instanceof MovableItem){
+                tmp.add((MovableItem) obj.get(i));
+            }
+        }
+        return tmp;
+
+    }
+
+
+
     public void fireEnemyTankMissile(){
-        ArrayList tmp = getObject(go, 'T');
-        Random r = new Random(tmp.size());
-        Tank t = (Tank) tmp.get(r.nextInt());
+        ArrayList<Tank  > tmp = returnAllTanksFromObject(go);
+        Random r = new Random();
+        Tank t = (Tank) tmp.get(r.nextInt(tmp.size()));
         boolean ableToFire = t.fireMissle();
         if (ableToFire){
             Missile m = new Missile(t);
@@ -116,18 +144,28 @@ public class GameWorld {
     }
 
     public void getHitWithMissle() {
+        ArrayList<Tank> tanksInGame = returnAllTanksFromObject(go);
+        Random r = new Random();
+        Tank randomTank = tanksInGame.get(r.nextInt(tanksInGame.size()));
+//        ArrayList<Missile> missilesInGame = returnAllMissileFromObject(go);
+//        Missile randomMissile = missilesInGame.get(r.nextInt(missilesInGame.size()));
+        randomTank.modifyArmorStrength(-1);
+        if(!removeMissileFromMap(1)){
+            System.out.println("There were no missiles");
+        }else{
         myTank.modifyArmorStrength(-1);
+        }
     }
 
     public boolean removeMissileFromMap(int x){
         /*
         This is a helper function to remove missles from the map
         */
-        ArrayList<GameObject> m = getObject(go, 'M');
+        ArrayList<Missile> m = returnAllMissileFromObject(go);
         if (m.size() > x){
-        Random r = new Random(m.size());
+        Random r = new Random();
         for(int i = 0; i < x; ++i){
-            Missile tmp = (Missile) m.get(r.nextInt());
+            Missile tmp = (Missile) m.get(r.nextInt(m.size()));
             go.remove(go.indexOf(tmp));
             }
         return true;
@@ -143,15 +181,34 @@ public class GameWorld {
     }
 
     public void blockMovableObject() {
+        ArrayList<Tank> tanks = returnAllTanksFromObject(go);
+        Random r = new Random();
+        Tank tmp = (Tank) tanks.get(r.nextInt(tanks.size()));
+        tmp.setSpeed(0);
+        tmp.toggleBlocked();
     }
 
     public void tickClock() {
+        clock = clock + 1;
+        ArrayList<MovableItem> tmp =  returnAllMoveableItemsFromObject(go);
+        for(int i = 0; i <= tmp.size(); i++){
+            tmp.get(i).update();
+        }
     }
 
     public void displayCurrentGameState() {
+        int health = myTank.getArmorStrength();
+        System.out.print("Clock:" + clock +
+                        "\nScore:" + score +
+                        "\nHealth:" + health+"/10\n");
+
     }
 
     public void drawMap() {
+        for(Iterator<GameObject> gameObject = go.iterator(); gameObject.hasNext();){
+            gameObject.next().toString();
+
+        }
     }
 
     public void printHelpMessage() {

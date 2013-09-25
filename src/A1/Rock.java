@@ -21,4 +21,7 @@ public class Rock extends LandscapeItem {
         setY(y);
 
     }
+    public String toString(){
+        return String.format("%s width=%d height=%d", super.toString(), width, height);
+    }
 }

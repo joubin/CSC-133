@@ -18,4 +18,8 @@ public class Tree extends LandscapeItem {
         setX(x);
         setY(y);
     }
+
+    public String toString(){
+        return String.format("%s diameter=%d", super.toString(), rad);
+    }
 }
