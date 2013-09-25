@@ -7,10 +7,10 @@ package A1;
  * Time: 11:34 AM
  * To change this template use File | Settings | File Templates.
  */
-public class Missle extends MovableItem {
+public class Missile extends MovableItem {
     private int direction, speed, lifetime;
 
-    public Missle(Tank t) {
+    public Missile(Tank t) {
         this.lifetime = 5;
         this.speed = t.getSpeed();
         this.direction = t.getDirection();

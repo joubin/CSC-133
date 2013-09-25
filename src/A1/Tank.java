@@ -39,13 +39,11 @@ public class Tank extends MovableItem implements ISteerable {
         this.missileCount += val;
     }
 
-    public void fireMissle() {
-        if (this.missileCount > 0){
-            Missle a = new Missle(this);
-            this.missileCount -= 1;
-        }else{
-            System.out.println("You are out of missles");
+    public boolean fireMissle() {
+        if (missileCount >= 0){
+            return true;
         }
+        return false;
 
     }
 

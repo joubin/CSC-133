@@ -13,10 +13,12 @@ public class Rock extends LandscapeItem {
     private int width, height;
 
 
-    public Rock() {
-        Random randGenrator = new Random();
-        this.width = randGenrator.nextInt(21);
-        this.height = randGenrator.nextInt(21);
+    public Rock(float x, float y) {
+        Random randGenrator = new Random(21);
+        this.width = randGenrator.nextInt();
+        this.height = randGenrator.nextInt();
+        setX(x);
+        setY(y);
 
     }
 }

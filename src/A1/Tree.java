@@ -12,8 +12,10 @@ import java.util.Random;
 public class Tree extends LandscapeItem {
     private int rad;
 
-    public Tree() {
+    public Tree(float x, float y) {
         Random randGenrator = new Random();
         this.rad = randGenrator.nextInt(21);
+        setX(x);
+        setY(y);
     }
 }
