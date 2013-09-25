@@ -14,7 +14,7 @@ import java.util.Random;
  * To change this template use File | Settings | File Templates.
  */
 public class GameWorld {
-    private ArrayList<GameObject> go;
+    private ArrayList<GameObject> go = new ArrayList<GameObject>();
     private int clock = 0;
     public enum objectTypes {
         TANK, ROCK, TREE
@@ -25,7 +25,7 @@ public class GameWorld {
 
     public void initialize(int numTank, int numRock, int numTree){
         for(int i = 0; i <= numRock; ++i){
-            go.add(new Rock(getAllXY()[0], getAllXY()[1]));
+            go.add(new Rock(1111, 1111));
         }
 
         for (int i = 0; i < numTree; ++i){
@@ -49,16 +49,16 @@ public class GameWorld {
         Random randGen = new Random();
         float  [] xy = {randGen.nextInt(1024),randGen.nextInt(1024)};
 
-        int checkedAll = 0;
-        while(checkedAll != go.size()){
-            for (int i = 0; i <= go.size(); ++i){
-                if (go.get(i).getX() == xy[0] || go.get(i).getY() == xy[1]){
-                    xy[0] = randGen.nextFloat();
-                    xy[1] = randGen.nextFloat();
-                    checkedAll = 0;
-                }
-            }
-        }
+//        int checkedAll = 0;
+//        while(checkedAll != go.size()){
+//            for (int i = 0; i <= go.size(); ++i){
+//                if (go.get(i).getX() == xy[0] || go.get(i).getY() == xy[1]){
+//                    xy[0] = randGen.nextFloat();
+//                    xy[1] = randGen.nextFloat();
+//                    checkedAll = 0;
+//                }
+//            }
+//        }
         return xy;
     }
 
@@ -212,21 +212,21 @@ public class GameWorld {
     }
 
     public void printHelpMessage(){
-        System.out.println("Help" +
-                "r: Turn right 5 degrees clockwise" +
-                "l: Turn left 5 degrees counter-clockwise" +
-                "i: Increase speed of your tank" +
-                "k: Decrease speed of your tank" +
-                "f: Fire missile from your tank" +
-                "e: Fire missile from enemy tank" +
-                "1: Indicate that a random tank has been hit by a missile" +
-                "2: indicates that a collision occurred between two missiles" +
-                "3: Random tank has colided with a land object and is now blocked" +
-                "t: Tick game clock" +
-                "d: Display current game states and values" +
-                "m: Display map for the current game" +
-                "q: Quit game" +
-                "?: Print this menu");
+        System.out.println("Help\n" +
+                "r: Turn right 5 degrees clockwise\n" +
+                "l: Turn left 5 degrees counter-clockwise\n" +
+                "i: Increase speed of your tank\n" +
+                "k: Decrease speed of your tank\n" +
+                "f: Fire missile from your tank\n" +
+                "e: Fire missile from enemy tank\n" +
+                "1: Indicate that a random tank has been hit by a missile\n" +
+                "2: indicates that a collision occurred between two missiles\n" +
+                "3: Random tank has colided with a land object and is now blocked\n" +
+                "t: Tick game clock\n" +
+                "d: Display current game states and values\n" +
+                "m: Display map for the current game\n" +
+                "q: Quit game\n" +
+                "?: Print this menu\n");
     }
 
     public void quit() {

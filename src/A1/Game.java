@@ -31,13 +31,16 @@ public class Game {
         int numberOfTrees = Integer.parseInt(in.nextLine());
 
         gw.initialize(numberOfTanks, numberOfRocks, numberOfTrees);
+        System.out.println("Ready for commands:");
+        while (true) {
+            String command = in.next();
+            char c = command.charAt(0);
+            getCommand(c);
+        }
     }
 
-    private void getCommand(){
-        Scanner in = new Scanner(System.in);
-        String temp = in.nextLine();
-        char input = temp.charAt(0);
-        switch (input){
+    private void getCommand(char c){
+        switch (c){
             case 'r':
                 gw.changePlayerTankDirection(5);
                 break;
