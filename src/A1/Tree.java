@@ -7,7 +7,6 @@ import java.util.Random;
  * User: joubin
  * Date: 9/20/13
  * Time: 11:10 AM
- * To change this template use File | Settings | File Templates.
  */
 public class Tree extends LandscapeItem {
     private int rad;

@@ -5,11 +5,20 @@ package A1;
  * User: joubin
  * Date: 9/19/13
  * Time: 11:43 PM
- * To change this template use File | Settings | File Templates.
  */
 public abstract class MovableItem extends GameObject {
     private int direction;
     private int speed;
+    private int health;
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health += health;
+    }
+
 
     public int getSpeed() {
         return speed;
@@ -32,7 +41,7 @@ public abstract class MovableItem extends GameObject {
         }
     }
 
-    private void move() {
+    public void move() {
         float newx = (float) Math.sin(direction) * speed;
         float newy = (float) Math.cos(direction) * speed;
         newx += getX();

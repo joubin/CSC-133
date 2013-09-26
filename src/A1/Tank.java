@@ -7,31 +7,42 @@ import java.util.Random;
  * User: joubin
  * Date: 9/20/13
  * Time: 11:13 AM
- * To change this template use File | Settings | File Templates.
  */
 public class Tank extends MovableItem implements ISteerable {
 
-    private int armorStrength;
+    private int health;
     private int missileCount;
     private boolean blocked = false;
+    private boolean isPlayer = false;
+    private String name ="Tank";
 
     public Tank(float x, float y)  {
-        this.armorStrength = 10;
+        this.health = 10;
         this.missileCount = 10;
-
         Random random = new Random(1024);
         setX(x);
         setY(y);
 
     }
 
+    public Tank(float x, float y, boolean myTank)  {
+        this.health = 10;
+        this.missileCount = 10;
+        this.isPlayer = true;
+        Random random = new Random(1024);
+        setX(x);
+        setY(y);
+        if(myTank) name = "My Tank";
 
-    public int getArmorStrength() {
-        return armorStrength;
+    }
+
+
+    public int getHealth() {
+        return health;
     }
 
     public void modifyArmorStrength(int val) {
-        this.armorStrength += val;
+        this.health += val;
     }
 
     public int getMissileCount() {
@@ -78,8 +89,12 @@ public class Tank extends MovableItem implements ISteerable {
         }
     }
 
+    public String getName(){
+        return this.name;
+    }
+
     public String toString(){
-        return String.format("Tank=> %s speed=%d heading=%d armor=%d missile=%d", super.toString(), getSpeed(), getDirection(), armorStrength, missileCount);
+        return String.format("%s=> %s speed=%d heading=%d armor=%d missile=%d",name, super.toString(), getSpeed(), getDirection(), health, missileCount);
     }
 
 

@@ -8,7 +8,6 @@ import java.util.Random;
  * User: joubin
  * Date: 9/20/13
  * Time: 10:55 AM
- * To change this template use File | Settings | File Templates.
  */
 public abstract class GameObject {
 
@@ -44,7 +43,7 @@ public abstract class GameObject {
     }
 
     public String toString(){
-        return String.format("loc=[%2f,%2f] color=%s", x,y,myColor.toString());
+        return String.format("loc=[%.2f,%.2f] color=%s", x,y,myColor.toString());
     }
 
 

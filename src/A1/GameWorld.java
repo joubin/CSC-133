@@ -1,7 +1,5 @@
 package A1;
 
-import java.awt.*;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
@@ -11,7 +9,6 @@ import java.util.Random;
  * User: joubin
  * Date: 9/19/13
  * Time: 11:32 PM
- * To change this template use File | Settings | File Templates.
  */
 public class GameWorld {
     private ArrayList<GameObject> go = new ArrayList<GameObject>();
@@ -37,7 +34,7 @@ public class GameWorld {
             go.add(temp);
         }
 
-        myTank = new Tank(getAllXY()[0], getAllXY()[1]);
+        myTank = new Tank(getAllXY()[0], getAllXY()[1], true);
         go.add(myTank);
 
     }
@@ -130,8 +127,17 @@ public class GameWorld {
     public void fireEnemyTankMissile(){
         ArrayList<Tank  > tmp = returnAllTanksFromObject(go);
         Random r = new Random();
-        Tank t = (Tank) tmp.get(r.nextInt(tmp.size()));
+        Tank t = null;
+        if (tmp.size() > 1){
+            do{
+                 t = (Tank) tmp.get(r.nextInt(tmp.size()));
+            }while(t == myTank);
+        }else {
+            System.out.println("You are the only tank");
+            return;
+        }
         boolean ableToFire = t.fireMissle();
+        System.out.println(t.getName());
         if (ableToFire){
             Missile m = new Missile(t);
             t.modifyMissleCount(-1);
@@ -193,11 +199,20 @@ public class GameWorld {
         ArrayList<MovableItem> tmp =  returnAllMoveableItemsFromObject(go);
         for(int i = 0; i < tmp.size(); i++){
             tmp.get(i).update();
+            deathReaper(tmp.get(i));
         }
     }
 
+    public void deathReaper(MovableItem m){
+        int tmpHealth = m.getHealth();
+        if (tmpHealth < 1){
+            go.remove(m);
+        }
+
+    }
+
     public void displayCurrentGameState() {
-        int health = myTank.getArmorStrength();
+        int health = myTank.getHealth();
         System.out.print("Clock:" + clock +
                         "\nScore:" + score +
                         "\nHealth:" + health+"/10\n");
