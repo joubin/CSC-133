@@ -11,8 +11,10 @@ public class Missile extends MovableItem {
 
     public Missile(Tank t) {
         setHealth(5);
-        this.setSpeed(t.getSpeed());
+        this.setSpeed(t.getSpeed()+5);
         this.setDirection(t.getDirection());
+        setX(t.getX());
+        setY(t.getY());
     }
 
 
