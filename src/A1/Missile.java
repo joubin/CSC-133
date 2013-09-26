@@ -7,7 +7,6 @@ package A1;
  * Time: 11:34 AM
  */
 public class Missile extends MovableItem {
-    private int health;
 
     public Missile(Tank t) {
         setHealth(5);
@@ -23,9 +22,6 @@ public class Missile extends MovableItem {
         setHealth(-1);
 
     }
-
-
-
 
 
     public String toString(){

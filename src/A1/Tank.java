@@ -54,7 +54,7 @@ public class Tank extends MovableItem implements ISteerable {
     }
 
     public boolean fireMissle() {
-        if (missileCount >= 0){
+        if (missileCount > 0){
             return true;
         }
         return false;
