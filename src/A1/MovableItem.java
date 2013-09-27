@@ -11,6 +11,10 @@ public abstract class MovableItem extends GameObject {
     private int speed;
     private int health;
 
+    public MovableItem(int direction){
+        this.direction = direction;
+    }
+
     public int getHealth() {
         return health;
     }
@@ -32,12 +36,19 @@ public abstract class MovableItem extends GameObject {
     public int getDirection() {
         return direction;
     }
+    private void setDirection(int direction){
+        this.direction = direction;
 
-    public void setDirection(int direction) {
-        if (direction % 5 == 0) {
-            this.direction += direction;
-        } else {
-            this.direction -= direction % 5;
+    }
+
+    protected void mChangeDirection(int direction) {
+        if(this instanceof ISteerable){
+            if (direction % 5 == 0) {
+                setDirection(getDirection() + direction);
+            } else {
+                int d = getDirection() - direction;
+                setDirection(getDirection() - (direction%5));
+            }
         }
     }
 

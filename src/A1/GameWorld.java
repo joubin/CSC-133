@@ -13,9 +13,6 @@ import java.util.Random;
 public class GameWorld {
     private ArrayList<GameObject> go = new ArrayList<GameObject>();
     private int clock = 0;
-    public enum objectTypes {
-        TANK, ROCK, TREE
-    }
     private Tank myTank;
     private int score;
 
@@ -46,21 +43,22 @@ public class GameWorld {
         Random randGen = new Random();
         float  [] xy = {randGen.nextInt(1024),randGen.nextInt(1024)};
 
-//        int checkedAll = 0;
-//        while(checkedAll != go.size()){
-//            for (int i = 0; i <= go.size(); ++i){
-//                if (go.get(i).getX() == xy[0] || go.get(i).getY() == xy[1]){
-//                    xy[0] = randGen.nextFloat();
-//                    xy[1] = randGen.nextFloat();
-//                    checkedAll = 0;
-//                }
-//            }
-//        }
+        int checkedAll = 0;
+        while(checkedAll != go.size()){
+            for (int i = 0; i < go.size(); ++i){
+                if (go.get(i).getX() == xy[0] || go.get(i).getY() == xy[1]){
+                    xy[0] = randGen.nextFloat();
+                    xy[1] = randGen.nextFloat();
+                }
+                checkedAll += 1;
+            }
+        }
         return xy;
     }
 
     public void changePlayerTankDirection(int i){
-       myTank.setDirection(i);
+        System.out.println("Setting direction on my tank");
+       myTank.changeDirection(i);
    }
 
     public void modifyPlayerTankSpeed(int i){
@@ -155,11 +153,10 @@ public class GameWorld {
         Tank randomTank = tanksInGame.get(r.nextInt(tanksInGame.size()));
 //        ArrayList<Missile> missilesInGame = returnAllMissileFromObject(go);
 //        Missile randomMissile = missilesInGame.get(r.nextInt(missilesInGame.size()));
-        randomTank.modifyArmorStrength(-1);
         if(!removeMissileFromMap(1)){
             System.out.println("There were no missiles");
         }else{
-        myTank.modifyArmorStrength(-1);
+            randomTank.modifyArmorStrength(-1);
         }
     }
 
@@ -168,7 +165,7 @@ public class GameWorld {
         This is a helper function to remove missles from the map
         */
         ArrayList<Missile> m = returnAllMissileFromObject(go);
-        if (m.size() > x){
+        if (m.size() >= x){
         Random r = new Random();
         for(int i = 0; i < x; ++i){
             Missile tmp = (Missile) m.get(r.nextInt(m.size()));

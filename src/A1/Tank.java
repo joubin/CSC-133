@@ -17,6 +17,7 @@ public class Tank extends MovableItem implements ISteerable {
     private String name ="Tank";
 
     public Tank(float x, float y)  {
+        super(0);
         this.health = 10;
         this.missileCount = 10;
         Random random = new Random(1024);
@@ -26,6 +27,7 @@ public class Tank extends MovableItem implements ISteerable {
     }
 
     public Tank(float x, float y, boolean myTank)  {
+        super(0);
         this.health = 10;
         this.missileCount = 10;
         this.isPlayer = true;
@@ -75,19 +77,15 @@ public class Tank extends MovableItem implements ISteerable {
         }else{
             int tmpSpeed = 0;
             tmpSpeed = this.getSpeed() + i;
-            this.setSpeed(tmpSpeed);
+            if(tmpSpeed >= 0) this.setSpeed(tmpSpeed);
         }
 
     }
 
-    public void setDirection(int direction){
-        if (getBlockStatus()){
-            toggleBlocked();
-            super.setDirection(direction);
-        }else{
-            super.setDirection(direction);
+    @Override
+    public void changeDirection(int direction){
+        mChangeDirection(direction);
         }
-    }
 
     public String getName(){
         return this.name;
