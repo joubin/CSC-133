@@ -78,6 +78,7 @@ public class Tank extends MovableItem implements ISteerable {
             int tmpSpeed = 0;
             tmpSpeed = this.getSpeed() + i;
             if(tmpSpeed >= 0) this.setSpeed(tmpSpeed);
+            else System.out.println("You cant have negative speed");
         }
 
     }
