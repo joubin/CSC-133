@@ -10,7 +10,6 @@ import java.util.Random;
  */
 public class Tank extends MovableItem implements ISteerable {
 
-    private int health;
     private int missileCount;
     private boolean blocked = false;
     private boolean isPlayer = false;
@@ -18,7 +17,7 @@ public class Tank extends MovableItem implements ISteerable {
 
     public Tank(float x, float y)  {
         super(0);
-        this.health = 10;
+        setHealth(10);
         this.missileCount = 10;
         Random random = new Random(1024);
         setX(x);
@@ -28,7 +27,7 @@ public class Tank extends MovableItem implements ISteerable {
 
     public Tank(float x, float y, boolean myTank)  {
         super(0);
-        this.health = 10;
+        setHealth(10);
         this.missileCount = 10;
         this.isPlayer = true;
         Random random = new Random(1024);
@@ -39,12 +38,10 @@ public class Tank extends MovableItem implements ISteerable {
     }
 
 
-    public int getHealth() {
-        return health;
-    }
+
 
     public void modifyArmorStrength(int val) {
-        this.health += val;
+        setHealth(getHealth() + val);
     }
 
     public int getMissileCount() {
@@ -55,7 +52,7 @@ public class Tank extends MovableItem implements ISteerable {
         this.missileCount += val;
     }
 
-    public boolean fireMissle() {
+    public boolean fireMissile() {
         if (missileCount > 0){
             return true;
         }
@@ -93,7 +90,7 @@ public class Tank extends MovableItem implements ISteerable {
     }
 
     public String toString(){
-        return String.format("%s=> %s speed=%d heading=%d armor=%d missile=%d",name, super.toString(), getSpeed(), getDirection(), health, missileCount);
+        return String.format("%s=> %s speed=%d heading=%d armor=%d missile=%d",name, super.toString(), getSpeed(), getDirection(), getHealth(), missileCount);
     }
 
 

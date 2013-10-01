@@ -37,8 +37,7 @@ public abstract class MovableItem extends GameObject {
         return direction;
     }
     private void setDirection(int direction){
-        this.direction = direction;
-
+        this.direction = ((direction % 360 + 360) % 360);
     }
 
     protected void mChangeDirection(int direction) {

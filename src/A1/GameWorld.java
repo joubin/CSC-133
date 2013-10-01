@@ -66,7 +66,7 @@ public class GameWorld {
     }
 
     public void firePlayerTankMissile(){
-        boolean ableToFire = myTank.fireMissle();
+        boolean ableToFire = myTank.fireMissile();
         if( ableToFire ){
             Missile m = new Missile(myTank);
             myTank.modifyMissleCount(-1);
@@ -134,7 +134,7 @@ public class GameWorld {
             System.out.println("You are the only tank");
             return;
         }
-        boolean ableToFire = t.fireMissle();
+        boolean ableToFire = t.fireMissile();
         System.out.println(t.getName());
         if (ableToFire){
             Missile m = new Missile(t);

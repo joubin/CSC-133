@@ -22,11 +22,12 @@ public abstract class GameObject {
 
 
     public float getX() {
+
         return x;
     }
 
     public void setX(float x) {
-        this.x = x;
+        this.x = ((x % 1023 + 1023) % 1023);
     }
 
     public float getY() {
@@ -34,7 +35,7 @@ public abstract class GameObject {
     }
 
     public void setY(float y) {
-        this.y = y;
+        this.y = ((y % 1023 + 1023) % 1023);
     }
 
 
@@ -43,7 +44,7 @@ public abstract class GameObject {
     }
 
     public String toString(){
-        return String.format("loc=[%.2f,%.2f] color=%s", x,y,myColor.toString());
+        return String.format("loc=[%.2f,%.2f] color=[%s,%s,%s]", x,y,myColor.getRed(), myColor.getGreen(), myColor.getBlue());
     }
 
 
