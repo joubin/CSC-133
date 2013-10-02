@@ -8,6 +8,9 @@ package A1;
  * To change this template use File | Settings | File Templates.
  */
 public abstract class LandscapeItem  extends GameObject {
+    /*
+    collection of landscape items.
+     */
 
     //Items that do not move
 }

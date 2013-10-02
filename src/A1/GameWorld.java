@@ -11,26 +11,47 @@ import java.util.Random;
  * Time: 11:32 PM
  */
 public class GameWorld {
-    private ArrayList<GameObject> go = new ArrayList<GameObject>();
-    private int clock = 0;
-    private Tank myTank;
-    private int score;
+    /*
+    The game world is responsible of encapsulating all game related objects
+     */
+    private ArrayList<GameObject> go = new ArrayList<GameObject>(); // Arraylist containg all game objects at play
+    private int clock = 0; // initial clock of the game
+    private Tank myTank; // Unique tank for the player
+    private int score; // Unique score for the player
 
 
     public void initialize(int numTank, int numRock, int numTree){
+        /*
+        this method behaves exactly like a constructor, however, I renamed it becase the professors sample code called
+        created an instance of the gameworld without any parameters.
+         */
         for(int i = 0; i < numRock; ++i){
+            /*
+            Create the request number of rocks
+
+            The getAllXY provides an X and Y location that has not been used yet.
+             */
             go.add(new Rock(getAllXY()[0], getAllXY()[1]));
         }
 
         for (int i = 0; i < numTree; ++i){
+            /*
+            Create the correct number of trees.
+            Also ensure that it is not placed on top of another object.
+             */
             go.add(new Tree(getAllXY()[0], getAllXY()[1]));
         }
 
         for(int i = 0; i < numTank; ++i){
+            /*
+            Create the correct number of tanks and add them to the game
+             */
             Tank temp = new Tank(getAllXY()[0], getAllXY()[1]);
             go.add(temp);
         }
-
+        /*
+        Finally initialize and add myTank (players tank) to the collection of gameObjects go
+         */
         myTank = new Tank(getAllXY()[0], getAllXY()[1], true);
         go.add(myTank);
 
@@ -38,41 +59,50 @@ public class GameWorld {
 
     public float [] getAllXY(){
         /*
+        This code has not been tested for accuracy.
+
+        However, since it was not a requirement by the assignment, Im leaving it in.
+         */
+        /*
         This method ensures that objects dont get placed on top of each other
          */
-        Random randGen = new Random();
-        float  [] xy = {randGen.nextInt(1024),randGen.nextInt(1024)};
-
-        int checkedAll = 0;
+        Random randGen = new Random(); // Random number generator
+        /*
+        check all objects in my collection of gameobjects for the above x and y pair
+         */
+        while(true){ // loop will exit when something is returned.
+            float  [] xy = {randGen.nextInt(1024),randGen.nextInt(1024)}; // pick and x and y between 0 - 1024
+            int checkedAll = 0;
         while(checkedAll != go.size()){
             for (int i = 0; i < go.size(); ++i){
                 if (go.get(i).getX() == xy[0] || go.get(i).getY() == xy[1]){
                     xy[0] = randGen.nextFloat();
                     xy[1] = randGen.nextFloat();
                 }
-                checkedAll += 1;
+                checkedAll += 1; // count up to ensure that all items have been checked.
             }
         }
-        return xy;
+        return xy; // If all items are checked and the new x and y pair are uniqe, return it and use it.
+
+        }
     }
 
-    public void changePlayerTankDirection(int i){
-        System.out.println("Setting direction on my tank");
+    public void changePlayerTankDirection(int i){ // call the change direction method for the player tank.
        myTank.changeDirection(i);
    }
 
-    public void modifyPlayerTankSpeed(int i){
+    public void modifyPlayerTankSpeed(int i){ // increase or decrease speed of the player tank
         myTank.modifySpeed(i);
     }
 
-    public void firePlayerTankMissile(){
-        boolean ableToFire = myTank.fireMissile();
-        if( ableToFire ){
+    public void firePlayerTankMissile(){ // Fire player tank
+        boolean ableToFire = myTank.fireMissile(); // First check to see if the tank is able to fire
+        if( ableToFire ){ // if so, create a new missile object and decrease the missile count of players tank
             Missile m = new Missile(myTank);
             myTank.modifyMissleCount(-1);
-            go.add(m);
+            go.add(m); // add the newly created missile to the collection of game objects.
         }else{
-            System.out.println("This tank has no more ammo");
+            System.out.println("This tank has no more ammo"); // Print error message.
         }
     }
 
@@ -123,7 +153,7 @@ public class GameWorld {
 
 
     public void fireEnemyTankMissile(){
-        ArrayList<Tank  > tmp = returnAllTanksFromObject(go);
+        ArrayList<Tank> tmp = returnAllTanksFromObject(go);
         Random r = new Random();
         Tank t = null;
         if (tmp.size() > 1){

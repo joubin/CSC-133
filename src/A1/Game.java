@@ -86,22 +86,22 @@ public class Game {
                 gw.blockMovableObject(); // Ask the game world to simulate an object getting blocked by a lanscape object
                 break;
             case 't':
-                gw.tickClock();
+                gw.tickClock();  // Ask the game world to tick the clock of the game
                 break;
             case 'd':
-                gw.displayCurrentGameState();
+                gw.displayCurrentGameState();  // Ask the game world to display game stats regarding the player
                 break;
             case 'm':
-                gw.drawMap();
+                gw.drawMap(); // Ask the game world to draw a map of the world. (Right now in txt)
                 break;
             case '?':
-                gw.printHelpMessage();
+                gw.printHelpMessage(); // Print a help message outlining how to use the commands on the console
                 break;
             case 'q':
-                gw.quit();
+                gw.quit(); // Ask the gameworld to quit the game
                 break;
             default:
-                System.out.println("You have picked an option that does not exist");
+                System.out.println("You have picked an option that does not exist"); // In case an option that has not been coded is used
 
         }
     }
