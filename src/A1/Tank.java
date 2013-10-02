@@ -8,7 +8,7 @@ import java.util.Random;
  * Date: 9/20/13
  * Time: 11:13 AM
  */
-public class Tank extends MovableItem implements ISteerable {
+public class Tank extends Vehicle {
 
     private int missileCount;
     private boolean blocked = false;
@@ -77,10 +77,8 @@ public class Tank extends MovableItem implements ISteerable {
             if(tmpSpeed >= 0) this.setSpeed(tmpSpeed);
             else System.out.println("You cant have negative speed");
         }
-
     }
 
-    @Override
     public void changeDirection(int direction){
         mChangeDirection(direction);
         }
@@ -92,6 +90,8 @@ public class Tank extends MovableItem implements ISteerable {
     public String toString(){
         return String.format("%s=> %s speed=%d heading=%d armor=%d missile=%d",name, super.toString(), getSpeed(), getDirection(), getHealth(), missileCount);
     }
+
+
 
 
     // Make it so it can only fire a missle when it has missles to fire.

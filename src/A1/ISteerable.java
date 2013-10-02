@@ -8,6 +8,5 @@ package A1;
  */
 public interface ISteerable {
 
-    public void changeDirection(int d);
-
+    public void mChangeDirection(int direction);
 }

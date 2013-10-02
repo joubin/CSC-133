@@ -36,11 +36,12 @@ public abstract class MovableItem extends GameObject {
     public int getDirection() {
         return direction;
     }
+
     private void setDirection(int direction){
         this.direction = ((direction % 360 + 360) % 360);
     }
 
-    protected void mChangeDirection(int direction) {
+    public void mChangeDirection(int direction) {
         if(this instanceof ISteerable){
             if (direction % 5 == 0) {
                 setDirection(getDirection() + direction);

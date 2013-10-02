@@ -6,7 +6,7 @@ package A1;
  * Date: 9/20/13
  * Time: 11:34 AM
  */
-public class Missile extends MovableItem {
+public class Missile extends Projectile {
 
     public Missile(Tank t) {
         super(t.getDirection());
