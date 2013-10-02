@@ -10,6 +10,4 @@ public abstract class Vehicle extends MovableItem implements ISteerable{
     public Vehicle(int direction) {
         super(direction);
     }
-
-
 }
