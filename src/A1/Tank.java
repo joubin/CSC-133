@@ -10,22 +10,29 @@ import java.util.Random;
  */
 public class Tank extends Vehicle {
 
-    private int missileCount;
-    private boolean blocked = false;
-    private boolean isPlayer = false;
+    private int missileCount;   // each tank has it own number of missiles
+    private boolean blocked = false; // tanks can get blocked by other objects. The game world will let them know if so
+    private boolean isPlayer = false; // special flag to differentiate the player tank from other tanks
     private String name ="Tank";
 
     public Tank(float x, float y)  {
-        super(0);
-        setHealth(10);
-        this.missileCount = 10;
-        Random random = new Random(1024);
-        setX(x);
+        /*
+        Constructors 1:
+            Used to generate tanks not the players
+         */
+        super(0); // set initial direction of the tank
+        setHealth(10); // set the health
+        this.missileCount = 10; // set missile count
+        setX(x); // set x and y coordinates given by the gameworld
         setY(y);
 
     }
 
     public Tank(float x, float y, boolean myTank)  {
+        /*
+        Special constructor unique for the player.
+        allows
+         */
         super(0);
         setHealth(10);
         this.missileCount = 10;
@@ -41,18 +48,30 @@ public class Tank extends Vehicle {
 
 
     public void modifyArmorStrength(int val) {
+        /*
+        incase the tank is hit, it needs to loose
+         */
         setHealth(getHealth() + val);
     }
 
     public int getMissileCount() {
+        /*
+        return missile count
+         */
         return missileCount;
     }
 
     public void modifyMissleCount(int val) {
+        /*
+        gain or loose missiles
+         */
         this.missileCount += val;
     }
 
     public boolean fireMissile() {
+        /*
+        fire a missile
+         */
         if (missileCount > 0){
             return true;
         }
@@ -61,14 +80,25 @@ public class Tank extends Vehicle {
     }
 
     public void toggleBlocked(){
+        /*
+        get blocked or unblocked
+         */
         this.blocked = !this.blocked;
     }
 
     public boolean getBlockStatus(){
+        /*
+        return block status
+         */
         return this.blocked;
     }
 
     public void modifySpeed(int i){
+        /*
+        check to make sure youre not blocked before moving
+
+        Increase and decrease speed
+         */
         if(getBlockStatus()) {
             System.out.println("You are blocked");
         }else{
@@ -80,14 +110,23 @@ public class Tank extends Vehicle {
     }
 
     public void changeDirection(int direction){
+        /*
+        steer the object by setting new direction
+         */
         mChangeDirection(direction);
         }
 
     public String getName(){
+        /*
+        return the name of this object
+         */
         return this.name;
     }
 
     public String toString(){
+        /*
+        toString specific to tanks
+         */
         return String.format("%s=> %s speed=%d heading=%d armor=%d missile=%d",name, super.toString(), getSpeed(), getDirection(), getHealth(), missileCount);
     }
 

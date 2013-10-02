@@ -8,7 +8,6 @@ package A1;
  */
 public class Starter {
     public static void main(String[] args) {
-        Game g = new Game();
-
+        Game g = new Game(); // creates an instance of the game
     }
 }

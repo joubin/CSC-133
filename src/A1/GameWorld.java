@@ -152,39 +152,45 @@ public class GameWorld {
 
 
 
-    public void fireEnemyTankMissile(){
-        ArrayList<Tank> tmp = returnAllTanksFromObject(go);
-        Random r = new Random();
+    public void fireEnemyTankMissile(){ // Fire enemy Tank
+        ArrayList<Tank> tmp = returnAllTanksFromObject(go); // Get all tanks from the game world
+        Random r = new Random(); // A random number generator
         Tank t = null;
         if (tmp.size() > 1){
             do{
-                 t = (Tank) tmp.get(r.nextInt(tmp.size()));
-            }while(t == myTank);
+                 t = (Tank) tmp.get(r.nextInt(tmp.size())); // Get a random tank from the collection
+            }while(t == myTank); // as long as the tank is not the player tank
         }else {
             System.out.println("You are the only tank");
             return;
         }
-        boolean ableToFire = t.fireMissile();
-        System.out.println(t.getName());
-        if (ableToFire){
-            Missile m = new Missile(t);
-            t.modifyMissleCount(-1);
-            go.add(m);
+        boolean ableToFire = t.fireMissile(); // check to see if the given tank can fire
+//        System.out.println(t.getName()); //debug code
+        if (ableToFire){ // if the tank is able to fire,
+            Missile m = new Missile(t);// create a new missile
+            t.modifyMissleCount(-1); // remove the missile from the tanks ammo count
+            go.add(m); // add the newly created missile to the collection of game objects
         }else{
-            System.out.println("This tank has no more ammo");
+            System.out.println("This tank has no more ammo");   // Print error message
         }
 
 
     }
 
     public void getHitWithMissle() {
-        ArrayList<Tank> tanksInGame = returnAllTanksFromObject(go);
-        Random r = new Random();
-        Tank randomTank = tanksInGame.get(r.nextInt(tanksInGame.size()));
+        // simulate that a random tank has been hit by a missile.
+        ArrayList<Tank> tanksInGame = returnAllTanksFromObject(go); // get an array of all tanks in the game
+        Random r = new Random(); // Random number generator
+        Tank randomTank = tanksInGame.get(r.nextInt(tanksInGame.size())); // pick a random tank
 //        ArrayList<Missile> missilesInGame = returnAllMissileFromObject(go);
 //        Missile randomMissile = missilesInGame.get(r.nextInt(missilesInGame.size()));
+        /*
+        check to see if there are missiles in the game.
+
+        If there are, remove the missile from the game and decrease the armor of a the random tank
+         */
         if(!removeMissileFromMap(1)){
-            System.out.println("There were no missiles");
+            System.out.println("There were no missiles"); //print error message
         }else{
             randomTank.modifyArmorStrength(-1);
         }
@@ -194,34 +200,45 @@ public class GameWorld {
         /*
         This is a helper function to remove missles from the map
         */
-        ArrayList<Missile> m = returnAllMissileFromObject(go);
+        ArrayList<Missile> m = returnAllMissileFromObject(go);  // Get all missiles from the game
         if (m.size() >= x){
         Random r = new Random();
         for(int i = 0; i < x; ++i){
-            Missile tmp = (Missile) m.get(r.nextInt(m.size()));
-            go.remove(go.indexOf(tmp));
+            Missile tmp = (Missile) m.get(r.nextInt(m.size())); // choose a random missile
+            go.remove(go.indexOf(tmp)); // and remove it
             }
-        return true;
+        return true; // return true if able to remove a missile from the game
         }
-        return false;
+        return false; // false otherwise.
     }
 
-    public void missileCollisions() {
+    public void missileCollisions() { //
+        // simulate two missiles coliding and remove 2
         boolean didRemoveMissile = removeMissileFromMap(2);
         if (!didRemoveMissile){
-            System.out.println("There arent two missiles for two to collide");
+            System.out.println("There arent two missiles for two to collide"); //print error message
         }
     }
 
     public void blockMovableObject() {
+        /*
+        Block a random movable object
+         */
         ArrayList<Tank> tanks = returnAllTanksFromObject(go);
         Random r = new Random();
         Tank tmp = (Tank) tanks.get(r.nextInt(tanks.size()));
         tmp.setSpeed(0);
-        tmp.toggleBlocked();
+        tmp.toggleBlocked(); // set its status to blocked
     }
 
     public void tickClock() {
+        /*
+        on a tick, update all objects.
+
+        That means to call their update method.
+
+        Each object has a unique update method to its behavior.
+         */
         clock = clock + 1;
         ArrayList<MovableItem> tmp =  returnAllMoveableItemsFromObject(go);
         for(int i = 0; i < tmp.size(); i++){
@@ -231,6 +248,9 @@ public class GameWorld {
     }
 
     public void deathReaper(MovableItem m){
+        /*
+        Remove an object that has health 0 or less (Should never happen)
+         */
         int tmpHealth = m.getHealth();
         if (tmpHealth < 1){
             go.remove(m);
@@ -239,6 +259,9 @@ public class GameWorld {
     }
 
     public void displayCurrentGameState() {
+        /*
+        display game states related to the player
+         */
         int health = myTank.getHealth();
         System.out.print("Clock:" + clock +
                         "\nScore:" + score +
@@ -247,6 +270,9 @@ public class GameWorld {
     }
 
     public void drawMap() {
+        /*
+        draw a map, provide information regarding the object on the map using their unique toStrings
+         */
         for(Iterator<GameObject> gameObject = go.iterator(); gameObject.hasNext();){
             System.out.println(gameObject.next().toString());
 
@@ -254,6 +280,9 @@ public class GameWorld {
     }
 
     public void printHelpMessage(){
+        /*
+        print a help menu.
+         */
         System.out.println("Help\n" +
                 "r: Turn right 5 degrees clockwise\n" +
                 "l: Turn left 5 degrees counter-clockwise\n" +
@@ -272,6 +301,9 @@ public class GameWorld {
     }
 
     public void quit() {
+        /*
+        gracefully quit the game
+         */
     System.exit(0);
     }
 }
