@@ -51,6 +51,6 @@ public class GameObjectCollection implements ICollection {
         public void remove(Object o) {
             localGameObjects.remove(localGameObjects.indexOf(o));
         }
-
+        // Adding some comment so that I can push
     }
 }
