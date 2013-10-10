@@ -33,7 +33,7 @@ public class Tree extends LandscapeItem {
         setY(y);
     }
 
-    public String toString(){
+    public String toString() {
         /*
         Appends the toString provided from the parent class -- all objects -- to Tree specific information
          */

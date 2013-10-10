@@ -7,7 +7,7 @@ package A1;
  * Time: 11:38 PM
  * To change this template use File | Settings | File Templates.
  */
-public abstract class LandscapeItem  extends GameObject {
+public abstract class LandscapeItem extends GameObject {
     /*
     collection of landscape items.
      */

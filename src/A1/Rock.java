@@ -29,7 +29,6 @@ public class Rock extends LandscapeItem {
     }
 
 
-
     public Rock(float x, float y) {
         /*
         When a rock is generated, it is given a random width and height between 0 to 20.
@@ -41,7 +40,8 @@ public class Rock extends LandscapeItem {
         setY(y);
 
     }
-    public String toString(){
+
+    public String toString() {
         /*
         This tostring combines what has been returned by gameobject and adds Rock specified attributes.
          */

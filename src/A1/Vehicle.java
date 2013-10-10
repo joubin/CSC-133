@@ -6,7 +6,7 @@ package A1;
  * Date: 10/1/13
  * Time: 4:46 PM
  */
-public abstract class Vehicle extends MovableItem implements ISteerable{
+public abstract class Vehicle extends MovableItem implements ISteerable {
     /*
     Added a Vehicle class as collection of Streeable objects.
      */

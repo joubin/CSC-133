@@ -21,7 +21,7 @@ public class Game {
          */
         gw = new GameWorld();
         int forgiveness = 0; // To allow the user the wrong input before the game is initialized.
-        do try{
+        do try {
             System.out.println("Please enter the number of enemy tanks:");
             int numberOfTanks = Integer.parseInt(in.nextLine()); // get the number of tanks from the user
             System.out.println("Please enter the number of Rocks:");
@@ -30,12 +30,12 @@ public class Game {
             int numberOfTrees = Integer.parseInt(in.nextLine()); // get the number of trees from the user
             gw.initialize(numberOfTanks, numberOfRocks, numberOfTrees); // init the gameworld
             break; // if this part of the code is reached, that means the game has been init properly.
-                   // Otherwise, loop the try catch until forgiveness is reached 2
-        }catch (java.lang.NumberFormatException e){
+            // Otherwise, loop the try catch until forgiveness is reached 2
+        } catch (java.lang.NumberFormatException e) {
             System.out.println("Wrong key input");
-            forgiveness+=1;
+            forgiveness += 1;
             if (forgiveness >= 2) System.exit(1);
-        }while(forgiveness < 2);
+        } while (forgiveness < 2);
         play();
     }
 
@@ -53,11 +53,11 @@ public class Game {
         }
     }
 
-    private void getCommand(char c){
+    private void getCommand(char c) {
         /*
 
          */
-        switch (c){
+        switch (c) {
             case 'r':
                 gw.changePlayerTankDirection(5); // Ask the game world to change player game direction
                 break;

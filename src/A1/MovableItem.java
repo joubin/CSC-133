@@ -14,7 +14,7 @@ public abstract class MovableItem extends GameObject {
     private int speed;  // Speed of the object
     private int health; // Health of the object
 
-    public MovableItem(int direction){
+    public MovableItem(int direction) {
         /*
         All objects have to have a direction when first constructed.
          */
@@ -63,7 +63,7 @@ public abstract class MovableItem extends GameObject {
         return direction;
     }
 
-    private void setDirection(int direction){
+    private void setDirection(int direction) {
         /*
         set a new direction for a given object
          */
@@ -78,12 +78,12 @@ public abstract class MovableItem extends GameObject {
          However it is not a requirement as long as sub classes are properly implemented.
          */
 //        if(this instanceof ISteerable){
-            if (direction % 5 == 0) {
-                setDirection(getDirection() + direction);
-            } else {
-                int d = getDirection() - direction;
-                setDirection(getDirection() - (direction%5));
-            }
+        if (direction % 5 == 0) {
+            setDirection(getDirection() + direction);
+        } else {
+            int d = getDirection() - direction;
+            setDirection(getDirection() - (direction % 5));
+        }
 //        }
     }
 
@@ -99,7 +99,7 @@ public abstract class MovableItem extends GameObject {
         setY(newy);
     }
 
-    public void update(){
+    public void update() {
         /*
         added for ease of use.
 

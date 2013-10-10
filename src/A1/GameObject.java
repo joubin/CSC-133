@@ -29,18 +29,21 @@ public abstract class GameObject {
     public float getX() {
         return x;
     }
+
     /*
     Setting the x location. The formula below ensures that the the range is always positive
      */
     public void setX(float x) {
         this.x = ((x % 1024 + 1024) % 1024);
     }
+
     /*
     Returns the y location of an item.
     */
     public float getY() {
         return y;
     }
+
     /*
     Setting the y location. The formula below ensures that the the range is always positive
      */
@@ -54,12 +57,13 @@ public abstract class GameObject {
     public Color getMyColor() {
         return myColor;
     }
+
     /*
     To string that all objects have in common.
     Returns a string consiting of the location, and color of the object
      */
-    public String toString(){
-        return String.format("loc=[%.2f,%.2f] color=[%s,%s,%s]", x,y,myColor.getRed(), myColor.getGreen(), myColor.getBlue());
+    public String toString() {
+        return String.format("loc=[%.2f,%.2f] color=[%s,%s,%s]", x, y, myColor.getRed(), myColor.getGreen(), myColor.getBlue());
     }
 
 

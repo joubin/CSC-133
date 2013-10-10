@@ -20,13 +20,13 @@ public class Missile extends Projectile {
     public Missile(Tank t) {
         super(t.getDirection());
         setHealth(5);
-        this.setSpeed(t.getSpeed()+5);
+        this.setSpeed(t.getSpeed() + 5);
         setX(t.getX());
         setY(t.getY());
     }
 
 
-    public void update(){
+    public void update() {
         /*
         The update method of missile is uniq because after each game tick, the missile dies.
 
@@ -38,7 +38,7 @@ public class Missile extends Projectile {
     }
 
 
-    public String toString(){
+    public String toString() {
         /*
         Returns the parent class toString which is uniq to all objects and adds missile specific attributes.
          */

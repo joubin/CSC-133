@@ -6,7 +6,7 @@ package A1;
  * Date: 10/1/13
  * Time: 4:59 PM
  */
-public abstract class Projectile extends MovableItem{
+public abstract class Projectile extends MovableItem {
     /*
     Added a projectile class as a collection of objecst that do not inherent the ability to steer.
      */

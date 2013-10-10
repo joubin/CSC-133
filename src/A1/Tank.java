@@ -13,9 +13,9 @@ public class Tank extends Vehicle {
     private int missileCount;   // each tank has it own number of missiles
     private boolean blocked = false; // tanks can get blocked by other objects. The game world will let them know if so
     private boolean isPlayer = false; // special flag to differentiate the player tank from other tanks
-    private String name ="Tank";
+    private String name = "Tank";
 
-    public Tank(float x, float y)  {
+    public Tank(float x, float y) {
         /*
         Constructors 1:
             Used to generate tanks not the players
@@ -28,7 +28,7 @@ public class Tank extends Vehicle {
 
     }
 
-    public Tank(float x, float y, boolean myTank)  {
+    public Tank(float x, float y, boolean myTank) {
         /*
         Special constructor unique for the player.
         allows
@@ -40,11 +40,9 @@ public class Tank extends Vehicle {
         Random random = new Random(1024);
         setX(x);
         setY(y);
-        if(myTank) name = "My Tank";
+        if (myTank) name = "My Tank";
 
     }
-
-
 
 
     public void modifyArmorStrength(int val) {
@@ -72,65 +70,63 @@ public class Tank extends Vehicle {
         /*
         fire a missile
          */
-        if (missileCount > 0){
+        if (missileCount > 0) {
             return true;
         }
         return false;
 
     }
 
-    public void toggleBlocked(){
+    public void toggleBlocked() {
         /*
         get blocked or unblocked
          */
         this.blocked = !this.blocked;
     }
 
-    public boolean getBlockStatus(){
+    public boolean getBlockStatus() {
         /*
         return block status
          */
         return this.blocked;
     }
 
-    public void modifySpeed(int i){
+    public void modifySpeed(int i) {
         /*
         check to make sure youre not blocked before moving
 
         Increase and decrease speed
          */
-        if(getBlockStatus()) {
+        if (getBlockStatus()) {
             System.out.println("You are blocked");
-        }else{
+        } else {
             int tmpSpeed = 0;
             tmpSpeed = this.getSpeed() + i;
-            if(tmpSpeed >= 0) this.setSpeed(tmpSpeed);
+            if (tmpSpeed >= 0) this.setSpeed(tmpSpeed);
             else System.out.println("You cant have negative speed");
         }
     }
 
-    public void changeDirection(int direction){
+    public void changeDirection(int direction) {
         /*
         steer the object by setting new direction
          */
         mChangeDirection(direction);
-        }
+    }
 
-    public String getName(){
+    public String getName() {
         /*
         return the name of this object
          */
         return this.name;
     }
 
-    public String toString(){
+    public String toString() {
         /*
         toString specific to tanks
          */
-        return String.format("%s=> %s speed=%d heading=%d armor=%d missile=%d",name, super.toString(), getSpeed(), getDirection(), getHealth(), missileCount);
+        return String.format("%s=> %s speed=%d heading=%d armor=%d missile=%d", name, super.toString(), getSpeed(), getDirection(), getHealth(), missileCount);
     }
-
-
 
 
     // Make it so it can only fire a missle when it has missles to fire.
