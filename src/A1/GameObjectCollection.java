@@ -23,6 +23,10 @@ public class GameObjectCollection implements ICollection {
 
     }
 
+    public void add(GameObject o){
+        myObjects.add(o);
+    }
+
     private class GameObjectIterator implements IIterator, A1.GameObjectIterator {
 
         private int current, next;
@@ -52,10 +56,7 @@ public class GameObjectCollection implements ICollection {
             localGameObjects.remove(localGameObjects.indexOf(o));
         }
 
-        @Override
-        public void add(GameObject o){
-            localGameObjects.add(o);
-        }
+
         // Adding some comment so that I can push
         // adding more
     }

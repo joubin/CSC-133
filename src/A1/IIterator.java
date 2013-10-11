@@ -13,5 +13,4 @@ public interface IIterator {
 
     public void remove(GameObject o);
 
-    public void add(GameObject o);
 }
