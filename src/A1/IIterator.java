@@ -11,5 +11,7 @@ public interface IIterator {
 
     public Object next();
 
-    public void remove(Object o);
+    public void remove(GameObject o);
+
+    public void add(GameObject o);
 }

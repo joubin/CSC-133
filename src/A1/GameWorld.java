@@ -14,7 +14,7 @@ public class GameWorld {
     /*
     The game world is responsible of encapsulating all game related objects
      */
-    private ArrayList<GameObject> go = new ArrayList<GameObject>(); // Arraylist containg all game objects at play
+    private GameObjectCollection go = new GameObjectCollection(); // Arraylist containg all game objects at play
     private int clock = 0; // initial clock of the game
     private Tank myTank; // Unique tank for the player
     private int score; // Unique score for the player
