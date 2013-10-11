@@ -1,4 +1,4 @@
-package A1;
+package a2;
 
 import java.awt.*;
 import java.util.Random;
