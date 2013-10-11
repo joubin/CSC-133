@@ -70,19 +70,22 @@ public class GameWorld {
         /*
         check all objects in my collection of gameobjects for the above x and y pair
          */
+
+
         while (true) { // loop will exit when something is returned.
             float[] xy = {randGen.nextInt(1024), randGen.nextInt(1024)}; // pick and x and y between 0 - 1024
             int checkedAll = 0;
-            while (checkedAll != go.size()) {
-                for (int i = 0; i < go.size(); ++i) {
-                    if (go.get(i).getX() == xy[0] || go.get(i).getY() == xy[1]) {
-                        xy[0] = randGen.nextFloat();
-                        xy[1] = randGen.nextFloat();
-                    }
-                    checkedAll += 1; // count up to ensure that all items have been checked.
+
+            IIterator iterator = go.iterator();
+
+            while (iterator.hasNext()){
+                GameObject a = (GameObject) iterator.next();
+                if (a.getX() == xy[0] || a.getY() == xy[1]) {
+                    xy[0] = randGen.nextFloat();
+                    xy[1] = randGen.nextFloat();
                 }
             }
-            return xy; // If all items are checked and the new x and y pair are uniqe, return it and use it.
+            return xy;
 
         }
     }
@@ -107,43 +110,51 @@ public class GameWorld {
     }
 
 
-    public ArrayList<Tank> returnAllTanksFromObject(ArrayList<GameObject> obj) {
+    public GameObjectCollection returnAllTanksFromObject(GameObjectCollection obj) {
         /*
         Returns all tanks that are in obj.
         This is a helper method
          */
-        ArrayList<Tank> tmp = new ArrayList<Tank>();
-        for (int i = 0; i < obj.size(); ++i) {
-            if (obj.get(i) instanceof Tank) {
-                tmp.add((Tank) obj.get(i));
+        GameObjectCollection tmp = new GameObjectCollection();
+        IIterator iterator = obj.iterator();
+        while (iterator.hasNext()) {
+            GameObject tmpTank = (GameObject) iterator.next();
+            if (tmpTank instanceof Tank) {
+                tmp.add(tmpTank);
             }
         }
         return tmp;
     }
 
-    public ArrayList<Missile> returnAllMissileFromObject(ArrayList<GameObject> obj) {
+    public GameObjectCollection returnAllMissileFromObject(GameObjectCollection obj) {
         /*
         Returns all missiles that are in obj.
         This is a helper method
          */
-        ArrayList<Missile> tmp = new ArrayList<Missile>();
-        for (int i = 0; i < obj.size(); ++i) {
-            if (obj.get(i) instanceof Missile) {
-                tmp.add((Missile) obj.get(i));
+        GameObjectCollection tmp = new GameObjectCollection();
+        IIterator iterator = obj.iterator();
+
+        while (iterator.hasNext()) {
+            GameObject tmpMissile = (GameObject) iterator.next();
+            if (tmpMissile instanceof Missile) {
+                tmp.add(tmpMissile);
             }
         }
         return tmp;
     }
 
-    public ArrayList<MovableItem> returnAllMoveableItemsFromObject(ArrayList<GameObject> obj) {
+    public GameObjectCollection returnAllMoveableItemsFromObject(GameObjectCollection obj) {
         /*
         Returns all Moveable items that are in obj.
         This is a helper method
          */
-        ArrayList<MovableItem> tmp = new ArrayList<MovableItem>();
-        for (int i = 0; i < obj.size(); ++i) {
-            if (obj.get(i) instanceof Tank || obj.get(i) instanceof Missile) {
-                tmp.add((MovableItem) obj.get(i));
+        GameObjectCollection tmp = new GameObjectCollection();
+        IIterator iterator = obj.iterator();
+
+        while (iterator.hasNext()) {
+            GameObject tmpObject = (GameObject) iterator.next();
+            if (tmpObject instanceof Tank || tmpObject instanceof Missile) {
+                tmp.add(tmpObject);
             }
         }
         return tmp;
@@ -152,12 +163,14 @@ public class GameWorld {
 
 
     public void fireEnemyTankMissile() { // Fire enemy Tank
-        ArrayList<Tank> tmp = returnAllTanksFromObject(go); // Get all tanks from the game world
+        GameObjectCollection tmp = returnAllTanksFromObject(go); // Get all tanks from the game world
         Random r = new Random(); // A random number generator
         Tank t = null;
-        if (tmp.size() > 1) {
+        IIterator iterator = tmp.iterator();
+
+        if (iterator.size() > 1) {
             do {
-                t = (Tank) tmp.get(r.nextInt(tmp.size())); // Get a random tank from the collection
+                t = (Tank) iterator.randomItem(); // Get a random tank from the collection
             } while (t == myTank); // as long as the tank is not the player tank
         } else {
             System.out.println("You are the only tank");
@@ -178,9 +191,10 @@ public class GameWorld {
 
     public void getHitWithMissle() {
         // simulate that a random tank has been hit by a missile.
-        ArrayList<Tank> tanksInGame = returnAllTanksFromObject(go); // get an array of all tanks in the game
+        GameObjectCollection tanksInGame = returnAllTanksFromObject(go); // get an array of all tanks in the game
+        IIterator iterator = tanksInGame.iterator();
         Random r = new Random(); // Random number generator
-        Tank randomTank = tanksInGame.get(r.nextInt(tanksInGame.size())); // pick a random tank
+        Tank randomTank = (Tank) iterator.randomItem(); // pick a random tank
 //        ArrayList<Missile> missilesInGame = returnAllMissileFromObject(go);
 //        Missile randomMissile = missilesInGame.get(r.nextInt(missilesInGame.size()));
         /*
@@ -199,12 +213,13 @@ public class GameWorld {
         /*
         This is a helper function to remove missles from the map
         */
-        ArrayList<Missile> m = returnAllMissileFromObject(go);  // Get all missiles from the game
-        if (m.size() >= x) {
+        GameObjectCollection m = returnAllMissileFromObject(go);  // Get all missiles from the game
+        IIterator itr = m.iterator();
+        if (itr.size() >= x) {
             Random r = new Random();
             for (int i = 0; i < x; ++i) {
-                Missile tmp = (Missile) m.get(r.nextInt(m.size())); // choose a random missile
-                go.remove(go.indexOf(tmp)); // and remove it
+                itr.remove(itr.randomItem()); // remove the number of random missiles
+
             }
             return true; // return true if able to remove a missile from the game
         }
@@ -223,9 +238,9 @@ public class GameWorld {
         /*
         Block a random movable object
          */
-        ArrayList<Tank> tanks = returnAllTanksFromObject(go);
-        Random r = new Random();
-        Tank tmp = (Tank) tanks.get(r.nextInt(tanks.size()));
+        GameObjectCollection tanks = returnAllTanksFromObject(go);
+        IIterator itr = tanks.iterator();
+        Tank tmp = (Tank) itr.randomItem();
         tmp.setSpeed(0);
         tmp.toggleBlocked(); // set its status to blocked
     }
@@ -239,10 +254,12 @@ public class GameWorld {
         Each object has a unique update method to its behavior.
          */
         clock = clock + 1;
-        ArrayList<MovableItem> tmp = returnAllMoveableItemsFromObject(go);
-        for (int i = 0; i < tmp.size(); i++) {
-            tmp.get(i).update();
-            deathReaper(tmp.get(i));
+        GameObjectCollection tmp = returnAllMoveableItemsFromObject(go);
+        IIterator itr = tmp.iterator();
+        while (itr.hasNext()){
+                MovableItem tmpGameObject = (MovableItem) itr.next();
+                tmpGameObject.update();
+                deathReaper(tmpGameObject);
         }
     }
 
@@ -250,9 +267,10 @@ public class GameWorld {
         /*
         Remove an object that has health 0 or less (Should never happen)
          */
+        IIterator itr = go.iterator();
         int tmpHealth = m.getHealth();
         if (tmpHealth < 1) {
-            go.remove(m);
+            itr.remove(m);
         }
 
     }
@@ -272,8 +290,9 @@ public class GameWorld {
         /*
         draw a map, provide information regarding the object on the map using their unique toStrings
          */
-        for (Iterator<GameObject> gameObject = go.iterator(); gameObject.hasNext(); ) {
-            System.out.println(gameObject.next().toString());
+        IIterator iterator = go.iterator();
+        while (iterator.hasNext()) {
+            System.out.println(iterator.next().toString());
 
         }
     }

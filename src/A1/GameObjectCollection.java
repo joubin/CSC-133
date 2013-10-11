@@ -1,6 +1,7 @@
 package A1;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created with IntelliJ IDEA.
@@ -27,16 +28,20 @@ public class GameObjectCollection implements ICollection {
         myObjects.add(o);
     }
 
-    private class GameObjectIterator implements IIterator, A1.GameObjectIterator {
+    private class GameObjectIterator implements IIterator {
 
         private int current, next;
         private ArrayList<GameObject> localGameObjects;
 
         public GameObjectIterator(ArrayList<GameObject> go) {
             localGameObjects = go;
-
         }
 
+        @Override
+        public GameObject randomItem(){
+            Random r = new Random();
+            return localGameObjects.get(localGameObjects.indexOf(r.nextInt(localGameObjects.size())));
+        }
 
         @Override
         public boolean hasNext() {
@@ -44,7 +49,7 @@ public class GameObjectCollection implements ICollection {
         }
 
         @Override
-        public Object next() {
+        public GameObject next() {
             current = next;
             next += 1;
             return localGameObjects.get(current);
@@ -54,6 +59,11 @@ public class GameObjectCollection implements ICollection {
         @Override
         public void remove(GameObject o) {
             localGameObjects.remove(localGameObjects.indexOf(o));
+        }
+
+        @Override
+        public int size(){
+            return localGameObjects.size();
         }
 
 

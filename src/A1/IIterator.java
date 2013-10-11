@@ -13,4 +13,8 @@ public interface IIterator {
 
     public void remove(GameObject o);
 
+    public int size();
+
+    public GameObject randomItem();
+
 }
