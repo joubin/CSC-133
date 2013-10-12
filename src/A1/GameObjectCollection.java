@@ -1,4 +1,4 @@
-package a2;
+package A1;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -24,7 +24,7 @@ public class GameObjectCollection implements ICollection {
 
     }
 
-    public void add(GameObject o){
+    public void add(GameObject o) {
         myObjects.add(o);
     }
 
@@ -38,9 +38,9 @@ public class GameObjectCollection implements ICollection {
         }
 
         @Override
-        public GameObject randomItem(){
+        public GameObject randomItem() {
             Random r = new Random();
-            return localGameObjects.get(localGameObjects.indexOf(r.nextInt(localGameObjects.size())));
+            return localGameObjects.get(localGameObjects.indexOf(r.nextInt(localGameObjects.size() - 1)));
         }
 
         @Override
@@ -50,9 +50,10 @@ public class GameObjectCollection implements ICollection {
 
         @Override
         public GameObject next() {
-            current = next;
+            GameObject currentObj = localGameObjects.get(current);
+            current += 1;
             next += 1;
-            return localGameObjects.get(current);
+            return currentObj;
 
         }
 
@@ -62,7 +63,7 @@ public class GameObjectCollection implements ICollection {
         }
 
         @Override
-        public int size(){
+        public int size() {
             return localGameObjects.size();
         }
 

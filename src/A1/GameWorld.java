@@ -1,4 +1,4 @@
-package a2;
+package A1;
 
 import java.util.Random;
 
@@ -76,7 +76,7 @@ public class GameWorld {
 
             IIterator iterator = go.iterator();
 
-            while (iterator.hasNext()){
+            while (iterator.hasNext()) {
                 GameObject a = (GameObject) iterator.next();
                 if (a.getX() == xy[0] || a.getY() == xy[1]) {
                     xy[0] = randGen.nextFloat();
@@ -254,10 +254,10 @@ public class GameWorld {
         clock = clock + 1;
         GameObjectCollection tmp = returnAllMoveableItemsFromObject(go);
         IIterator itr = tmp.iterator();
-        while (itr.hasNext()){
-                MovableItem tmpGameObject = (MovableItem) itr.next();
-                tmpGameObject.update();
-                deathReaper(tmpGameObject);
+        while (itr.hasNext()) {
+            MovableItem tmpGameObject = (MovableItem) itr.next();
+            tmpGameObject.update();
+            deathReaper(tmpGameObject);
         }
     }
 

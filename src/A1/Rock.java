@@ -1,4 +1,4 @@
-package a2;
+package A1;
 
 import java.util.Random;
 

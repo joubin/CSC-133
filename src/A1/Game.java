@@ -1,5 +1,7 @@
-package a2;
+package A1;
 
+import javax.swing.*;
+import java.awt.*;
 import java.util.Scanner;
 
 /**
@@ -8,10 +10,12 @@ import java.util.Scanner;
  * Date: 9/19/13
  * Time: 11:33 PM
  */
-public class Game {
+public class Game extends JFrame {
 
     private GameWorld gw; // An instance of the game world
     private Scanner in = new Scanner(System.in); // Scanner used to get input from the user
+    // Make a gameworld proxy
+    private ButtonPanel bp = new ButtonPanel();
 
 
     public Game() {
@@ -36,6 +40,15 @@ public class Game {
             forgiveness += 1;
             if (forgiveness >= 2) System.exit(1);
         } while (forgiveness < 2);
+
+
+        this.setLayout(new BorderLayout());
+        this.setSize(1024, 1024);
+        this.setLocation(1, 1);
+        this.add(bp, BorderLayout.WEST);
+        this.setVisible(true);
+
+
         play();
     }
 
