@@ -5,7 +5,6 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 
 /**
- * Created with IntelliJ IDEA.
  * User: joubin
  * Date: 10/11/13
  * Time: 10:08 PM
