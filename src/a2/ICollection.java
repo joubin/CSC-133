@@ -8,5 +8,7 @@ package a2;
  */
 public interface ICollection {
     public IIterator iterator();
+    public void add(GameObject obj);
+
 
 }

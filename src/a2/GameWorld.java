@@ -1,5 +1,6 @@
 package a2;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -8,14 +9,19 @@ import java.util.Random;
  * Date: 9/19/13
  * Time: 11:32 PM
  */
-public class GameWorld {
+public class GameWorld implements IObservable, IGameWold {
     /*
     The game world is responsible of encapsulating all game related objects
      */
-    private GameObjectCollection go = new GameObjectCollection(); // Arraylist containg all game objects at play
+    private GameObjectCollection go = new GameObjectCollection(); // Arraylist containg all game objects at play.
+
+
+
+    //For A2, we made our own collection. According to the assignment, we needed that only for this
     private int clock = 0; // initial clock of the game
     private Tank myTank; // Unique tank for the player
     private int score; // Unique score for the player
+    private ArrayList<IObserver> observers = new ArrayList<IObserver>(); // Since GameWorld is observable, it has to register its observers
 
 
     public void initialize(int numTank, int numRock, int numTree) {
@@ -321,5 +327,30 @@ public class GameWorld {
         gracefully quit the game
          */
         System.exit(0);
+    }
+
+    public int getClock() {
+        return clock;
+    }
+    public int getPlayerHealth(){
+        return myTank.getHealth();
+    }
+
+    public int getScore(){
+        return this.score;
+    }
+
+    @Override
+    public void addObserver(IObserver observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void notifyObservers() {
+        GameWorldProxy tmpProxy = new GameWorldProxy();
+        Object randomObject = new Object();
+        for (int i =0; i < observers.size(); i++){
+            observers.get(i).update(tmpProxy, randomObject);
+        }
     }
 }

@@ -7,4 +7,10 @@ package a2;
  * Time: 10:18 PM
  */
 public interface IGameWold {
+    public int getClock();
+    public int getPlayerHealth();
+    public int getScore();
+
+    public void addObserver(IObserver obs);
+    public void notifyObservers();
 }

@@ -6,12 +6,31 @@ package a2;
  * Date: 10/11/13
  * Time: 12:16 PM
  */
-public class GameWorldProxy implements IObservable {
-    GameWorld gw; // Replace the gameworld inside game.
+public class GameWorldProxy implements IObservable, IGameWold {
+    GameWorld gw; // only game has knowldge of the real game world object
+
+    public GameWorldProxy(GameWorld gw) {
+        this.gw = gw;
+    }
 
 
     @Override
-    public void addObserver(IObserver obs) {
+    public int getClock() {
+        return gw.getClock();
+    }
+
+    @Override
+    public int getPlayerHealth() {
+        return gw.getPlayerHealth();
+    }
+
+    @Override
+    public int getScore() {
+        return gw.getScore();
+    }
+
+    @Override
+    public void addObserver(IObserver observer) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 

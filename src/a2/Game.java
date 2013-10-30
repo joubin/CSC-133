@@ -2,6 +2,8 @@ package a2;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Scanner;
 
 /**
@@ -10,12 +12,15 @@ import java.util.Scanner;
  * Date: 9/19/13
  * Time: 11:33 PM
  */
-public class Game extends JFrame {
+public class Game extends JFrame{
 
     private GameWorld gw; // An instance of the game world
     private Scanner in = new Scanner(System.in); // Scanner used to get input from the user
     // Make a gameworld proxy
+    GameWorldProxy gwp = new GameWorldProxy(gw);
     private ButtonPanel bp = new ButtonPanel();
+    private ScoreView sv = new ScoreView();
+    private MapView mv = new MapView();
 
 
     public Game() {
@@ -25,7 +30,8 @@ public class Game extends JFrame {
          */
         gw = new GameWorld();
         int forgiveness = 0; // To allow the user the wrong input before the game is initialized.
-        do try {
+        do try {          //TODO
+            // Change this to a GUI object that appears and asks for input
             System.out.println("Please enter the number of enemy tanks:");
             int numberOfTanks = Integer.parseInt(in.nextLine()); // get the number of tanks from the user
             System.out.println("Please enter the number of Rocks:");
@@ -45,11 +51,28 @@ public class Game extends JFrame {
         this.setLayout(new BorderLayout());
         this.setSize(1024, 1024);
         this.setLocation(1, 1);
+        this.add(sv, BorderLayout.NORTH);
         this.add(bp, BorderLayout.WEST);
+        this.add(mv, BorderLayout.CENTER);
+        int mapName = JComponent.WHEN_IN_FOCUSED_WINDOW;
+        InputMap myMap = new InputMap();
+        ActionMap myAction = new ActionMap();
+        KeyStroke leftArrow = KeyStroke.getKeyStroke("LEFT");
+        KeyStroke rightArrow = KeyStroke.getKeyStroke("RIGHT");
+        KeyStroke upArrow = KeyStroke.getKeyStroke("UP");
+        KeyStroke downArrow = KeyStroke.getKeyStroke("DOWN");
+        KeyStroke spaceKey = KeyStroke.getKeyStroke("SPACE");
+        myMap.put(leftArrow, "left");
+        myMap.put(rightArrow, "right");
+        myMap.put(upArrow, "up");
+        myMap.put(downArrow, "down");
+//        myAction.put("left", );
+        //TODO finsih making these after commands
+
         this.setVisible(true);
 
 
-        play();
+//        play();
     }
 
     private void play() {
@@ -118,4 +141,5 @@ public class Game extends JFrame {
 
         }
     }
+
 }

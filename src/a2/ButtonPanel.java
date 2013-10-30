@@ -13,7 +13,7 @@ import java.awt.*;
 public class ButtonPanel extends JPanel {
 
     public ButtonPanel() {
-        this.setPreferredSize(new Dimension(300, 700));
+        this.setPreferredSize(new Dimension(200, 700));
         this.setLayout(new GridLayout(11, 1));
         this.setBorder(new TitledBorder("Commands"));
         addButtons();
