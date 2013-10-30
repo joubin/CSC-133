@@ -30,6 +30,22 @@ public class GameWorldProxy implements IObservable, IGameWold {
     }
 
     @Override
+    public void tick() {
+        gw.tick();
+    }
+
+    @Override
+    public boolean getSound() {
+        return gw.getSound();
+    }
+
+    @Override
+    public void setSound(boolean sound) {
+        gw.setSound(!gw.getSound());
+    }
+
+
+    @Override
     public void addObserver(IObserver observer) {
         //To change body of implemented methods use File | Settings | File Templates.
     }

@@ -14,7 +14,7 @@ public class ScoreView extends JPanel implements IObserver{
     private JLabel lives = new JLabel("");
 
     public ScoreView() {
-        GameWorldProxy tmpProxy = new GameWorldProxy();
+
         this.setPreferredSize(new Dimension(1024,60)); // 200 ratio
 
 

@@ -2,8 +2,6 @@ package a2;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.Scanner;
 
 /**
@@ -32,13 +30,14 @@ public class Game extends JFrame{
         int forgiveness = 0; // To allow the user the wrong input before the game is initialized.
         do try {          //TODO
             // Change this to a GUI object that appears and asks for input
-            System.out.println("Please enter the number of enemy tanks:");
-            int numberOfTanks = Integer.parseInt(in.nextLine()); // get the number of tanks from the user
-            System.out.println("Please enter the number of Rocks:");
-            int numberOfRocks = Integer.parseInt(in.nextLine()); // get the number of rocks from the user
-            System.out.println("Please enter the number of Tress:");
-            int numberOfTrees = Integer.parseInt(in.nextLine()); // get the number of trees from the user
-            gw.initialize(numberOfTanks, numberOfRocks, numberOfTrees); // init the gameworld
+//            System.out.println("Please enter the number of enemy tanks:");
+//            int numberOfTanks = Integer.parseInt(in.nextLine()); // get the number of tanks from the user
+//            System.out.println("Please enter the number of Rocks:");
+//            int numberOfRocks = Integer.parseInt(in.nextLine()); // get the number of rocks from the user
+//            System.out.println("Please enter the number of Tress:");
+//            int numberOfTrees = Integer.parseInt(in.nextLine()); // get the number of trees from the user
+//            gw.initialize(numberOfTanks, numberOfRocks, numberOfTrees); // init the gameworld
+            gw.initialize(0,0,0);
             break; // if this part of the code is reached, that means the game has been init properly.
             // Otherwise, loop the try catch until forgiveness is reached 2
         } catch (java.lang.NumberFormatException e) {
@@ -47,14 +46,7 @@ public class Game extends JFrame{
             if (forgiveness >= 2) System.exit(1);
         } while (forgiveness < 2);
 
-
-        this.setLayout(new BorderLayout());
-        this.setSize(1024, 1024);
-        this.setLocation(1, 1);
-        this.add(sv, BorderLayout.NORTH);
-        this.add(bp, BorderLayout.WEST);
-        this.add(mv, BorderLayout.CENTER);
-        int mapName = JComponent.WHEN_IN_FOCUSED_WINDOW;
+        this.makeGUI();
         InputMap myMap = new InputMap();
         ActionMap myAction = new ActionMap();
         KeyStroke leftArrow = KeyStroke.getKeyStroke("LEFT");
@@ -69,10 +61,47 @@ public class Game extends JFrame{
 //        myAction.put("left", );
         //TODO finsih making these after commands
 
+
+        play();
+    }
+
+    private void makeGUI(){
+
+        //Get commands
+        CommandAbout about = CommandAbout.getInstance();
+        this.setLayout(new BorderLayout());
+        this.setSize(1024, 1024);
+        this.setLocation(1, 1);
+        this.add(sv, BorderLayout.NORTH);
+        this.add(bp, BorderLayout.WEST);
+        this.add(mv, BorderLayout.CENTER);
+        int mapName = JComponent.WHEN_IN_FOCUSED_WINDOW;
+
+        JMenuBar menuBar = new JMenuBar();
+        JMenu file = new JMenu("File");
+        JMenuItem myNew = new JMenuItem("New");
+        JMenuItem  mySave = new JMenuItem("Save");
+        JMenuItem myUndo = new JMenuItem("Undo");
+        JMenuItem myAbout = new JMenuItem("About");
+        JMenuItem myQuit = new JMenuItem("Quit");
+        JCheckBoxMenuItem soundMenu = new JCheckBoxMenuItem("Sound",false);
+
+        file.add(myNew);
+        file.add(mySave);
+        file.add(myUndo);
+        file.add(soundMenu);
+
+//        file.add(myAbout);
+        file.add(new JMenuItem(about));
+        file.add(new CommandQuit());
+
+        menuBar.add(file);
+
+        this.setJMenuBar(menuBar);
+
+
         this.setVisible(true);
 
-
-//        play();
     }
 
     private void play() {
@@ -122,7 +151,7 @@ public class Game extends JFrame{
                 gw.blockMovableObject(); // Ask the game world to simulate an object getting blocked by a lanscape object
                 break;
             case 't':
-                gw.tickClock();  // Ask the game world to tick the clock of the game
+                gw.tick();  // Ask the game world to tick the clock of the game
                 break;
             case 'd':
                 gw.displayCurrentGameState();  // Ask the game world to display game stats regarding the player

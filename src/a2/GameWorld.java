@@ -22,6 +22,9 @@ public class GameWorld implements IObservable, IGameWold {
     private Tank myTank; // Unique tank for the player
     private int score; // Unique score for the player
     private ArrayList<IObserver> observers = new ArrayList<IObserver>(); // Since GameWorld is observable, it has to register its observers
+    private boolean sound = true;
+
+
 
 
     public void initialize(int numTank, int numRock, int numTree) {
@@ -33,7 +36,7 @@ public class GameWorld implements IObservable, IGameWold {
             /*
             Create the request number of rocks
 
-            The getAllXY provides an X and Y location that has not been used yet.
+            The tickAllXY provides an X and Y location that has not been used yet.
              */
             go.add(new Rock(getAllXY()[0], getAllXY()[1]));
         }
@@ -249,7 +252,7 @@ public class GameWorld implements IObservable, IGameWold {
         tmp.toggleBlocked(); // set its status to blocked
     }
 
-    public void tickClock() {
+    public void tick() {
         /*
         on a tick, update all objects.
 
@@ -266,6 +269,8 @@ public class GameWorld implements IObservable, IGameWold {
             deathReaper(tmpGameObject);
         }
     }
+
+
 
     public void deathReaper(MovableItem m) {
         /*
@@ -340,6 +345,14 @@ public class GameWorld implements IObservable, IGameWold {
         return this.score;
     }
 
+    public boolean getSound() {
+        return sound;
+    }
+
+    public void setSound(boolean sound) {
+        this.sound = sound;
+    }
+
     @Override
     public void addObserver(IObserver observer) {
         observers.add(observer);
@@ -347,10 +360,10 @@ public class GameWorld implements IObservable, IGameWold {
 
     @Override
     public void notifyObservers() {
-        GameWorldProxy tmpProxy = new GameWorldProxy();
-        Object randomObject = new Object();
-        for (int i =0; i < observers.size(); i++){
-            observers.get(i).update(tmpProxy, randomObject);
-        }
+//        GameWorldProxy tmpProxy = new GameWorldProxy();
+//        Object randomObject = new Object();
+//        for (int i =0; i < observers.size(); i++){
+//            observers.get(i).update(tmpProxy, randomObject);
+//        }
     }
 }

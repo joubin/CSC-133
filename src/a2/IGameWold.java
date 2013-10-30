@@ -10,7 +10,9 @@ public interface IGameWold {
     public int getClock();
     public int getPlayerHealth();
     public int getScore();
-
+    public void tick();
+    public boolean getSound();
+    public void setSound(boolean sound);
     public void addObserver(IObserver obs);
     public void notifyObservers();
 }

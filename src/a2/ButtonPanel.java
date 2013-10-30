@@ -23,9 +23,17 @@ public class ButtonPanel extends JPanel {
        /*
        Setup the quit button.
         */
-        QuitAction quit = QuitAction.getInstance();
+        CommandHelp help = CommandHelp.getInstance();
+        CommandAbout about = CommandAbout.getInstance();
+        CommandQuit quit = CommandQuit.getInstance();
+
+        JButton helpButton = new JButton(help);
+        this.add(helpButton);
+        JButton aboutButton = new JButton(about);
+        this.add(aboutButton);
         JButton quitButton = new JButton(quit);
         this.add(quitButton);
+
 
     }
 }
