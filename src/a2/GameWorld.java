@@ -196,7 +196,7 @@ public class GameWorld implements IObservable, IGameWold {
 
     }
 
-    public void getHitWithMissle() {
+    public void getHitWithMissile() {
         // simulate that a random tank has been hit by a missile.
         GameObjectCollection tanksInGame = returnAllTanksFromObject(go); // get an array of all tanks in the game
         IIterator iterator = tanksInGame.iterator();
@@ -268,6 +268,7 @@ public class GameWorld implements IObservable, IGameWold {
             tmpGameObject.update();
             deathReaper(tmpGameObject);
         }
+       notifyObservers();
     }
 
 
@@ -345,12 +346,16 @@ public class GameWorld implements IObservable, IGameWold {
         return this.score;
     }
 
+    public void addScore(){
+        this.score++;
+    }
     public boolean getSound() {
-        return sound;
+        return this.sound;
     }
 
     public void setSound(boolean sound) {
         this.sound = sound;
+        notifyObservers();
     }
 
     @Override
@@ -360,10 +365,10 @@ public class GameWorld implements IObservable, IGameWold {
 
     @Override
     public void notifyObservers() {
-//        GameWorldProxy tmpProxy = new GameWorldProxy();
-//        Object randomObject = new Object();
-//        for (int i =0; i < observers.size(); i++){
-//            observers.get(i).update(tmpProxy, randomObject);
-//        }
+        GameWorldProxy tmpProxy = new GameWorldProxy(this);
+        Object randomObject = new Object();
+        for (int i =0; i < observers.size(); i++){
+            observers.get(i).update(tmpProxy, randomObject);
+        }
     }
 }

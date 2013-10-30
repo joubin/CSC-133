@@ -12,6 +12,7 @@ public class ScoreView extends JPanel implements IObserver{
     private JLabel gameTime = new JLabel("");
     private JLabel score = new JLabel("");
     private JLabel lives = new JLabel("");
+    private JLabel soundLable = new JLabel("");
 
     public ScoreView() {
 
@@ -29,6 +30,12 @@ public class ScoreView extends JPanel implements IObserver{
 
         this.add(new JLabel("Lives: "));
         this.add(lives);
+        this.add( Box.createHorizontalStrut(30) );
+
+        this.add(new JLabel("Sound: "));
+        this.add(soundLable);
+
+
     }
 
     @Override
@@ -37,9 +44,16 @@ public class ScoreView extends JPanel implements IObserver{
         Integer myTime = gwp.getClock();
         Integer myScore = gwp.getScore();
         Integer myLives = gwp.getPlayerHealth();
+        Boolean sound = gwp.getSound();
         this.gameTime.setText(""+myTime);
         this.score.setText(myScore.toString());
         this.lives.setText(myLives.toString());
+        if(sound == true){
+            soundLable.setText("ON");
+        }else{
+            soundLable.setText("OFF");
+        }
+
 
 
     }

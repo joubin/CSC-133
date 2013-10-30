@@ -25,8 +25,14 @@ public class CommandTick extends AbstractAction {
 
     }
 
+    public void target(GameWorldProxy gwp){
+        this.gwProxy = gwp ;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         gwProxy.tick();
+        System.out.println("Tick From " + e.getActionCommand() + " " + e.getSource().getClass());
+
     }
 }

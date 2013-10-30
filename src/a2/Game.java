@@ -15,10 +15,10 @@ public class Game extends JFrame{
     private GameWorld gw; // An instance of the game world
     private Scanner in = new Scanner(System.in); // Scanner used to get input from the user
     // Make a gameworld proxy
-    GameWorldProxy gwp = new GameWorldProxy(gw);
-    private ButtonPanel bp = new ButtonPanel();
-    private ScoreView sv = new ScoreView();
-    private MapView mv = new MapView();
+    private GameWorldProxy gwp;
+    private ButtonPanel bp;
+    private ScoreView sv;
+    private MapView mv;
 
 
     public Game() {
@@ -27,6 +27,13 @@ public class Game extends JFrame{
         parameters.
          */
         gw = new GameWorld();
+        gwp = new GameWorldProxy(gw);
+        bp = new ButtonPanel(gwp);
+        sv = new ScoreView();
+        mv = new MapView();
+
+        gw.addObserver(sv);
+        gw.addObserver(mv);
         int forgiveness = 0; // To allow the user the wrong input before the game is initialized.
         do try {          //TODO
             // Change this to a GUI object that appears and asks for input
@@ -69,6 +76,18 @@ public class Game extends JFrame{
 
         //Get commands
         CommandAbout about = CommandAbout.getInstance();
+        CommandHelp help = CommandHelp.getInstance();
+        CommandIncreaseSpeed increaseSpeed = CommandIncreaseSpeed.getInstance();
+        CommandLeft left = CommandLeft.getInstance();
+        CommandQuit quit = CommandQuit.getInstance();
+        CommandRight right = CommandRight.getInstance();
+        CommandSound sound = CommandSound.getInstance();
+        CommandTick tick = CommandTick.getInstance();
+
+
+        sound.target(gwp);
+
+
         this.setLayout(new BorderLayout());
         this.setSize(1024, 1024);
         this.setLocation(1, 1);
@@ -85,7 +104,7 @@ public class Game extends JFrame{
         JMenuItem myAbout = new JMenuItem("About");
         JMenuItem myQuit = new JMenuItem("Quit");
         JCheckBoxMenuItem soundMenu = new JCheckBoxMenuItem("Sound",false);
-
+        soundMenu.setAction(sound);
         file.add(myNew);
         file.add(mySave);
         file.add(myUndo);
@@ -99,7 +118,7 @@ public class Game extends JFrame{
 
         this.setJMenuBar(menuBar);
 
-
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setVisible(true);
 
     }
@@ -142,7 +161,7 @@ public class Game extends JFrame{
                 gw.fireEnemyTankMissile(); // Ask the game world to fire a missile from a random enemy tank
                 break;
             case '1':
-                gw.getHitWithMissle(); // Ask the game world to simulate tank getting hit with a missile
+                gw.getHitWithMissile(); // Ask the game world to simulate tank getting hit with a missile
                 break;
             case '2':
                 gw.missileCollisions(); // Ask the game world to simulate a collision between two missiles

@@ -11,8 +11,9 @@ import java.awt.*;
  * Time: 8:20 PM
  */
 public class ButtonPanel extends JPanel {
-
-    public ButtonPanel() {
+    private GameWorldProxy gwp = null;
+    public ButtonPanel(GameWorldProxy gwp) {
+        this.gwp =  gwp;
         this.setPreferredSize(new Dimension(200, 700));
         this.setLayout(new GridLayout(11, 1));
         this.setBorder(new TitledBorder("Commands"));
@@ -26,13 +27,16 @@ public class ButtonPanel extends JPanel {
         CommandHelp help = CommandHelp.getInstance();
         CommandAbout about = CommandAbout.getInstance();
         CommandQuit quit = CommandQuit.getInstance();
+        CommandTick tick = CommandTick.getInstance();
+        tick.target(gwp);
+        JButton tickButton = new JButton(tick);
+        JButton helpButton = new JButton(CommandHelp.getInstance());
+        JButton quitButton = new JButton(CommandQuit.getInstance());
 
-        JButton helpButton = new JButton(help);
+        this.add(tickButton);
         this.add(helpButton);
-        JButton aboutButton = new JButton(about);
-        this.add(aboutButton);
-        JButton quitButton = new JButton(quit);
         this.add(quitButton);
+
 
 
     }

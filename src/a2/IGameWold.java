@@ -15,4 +15,13 @@ public interface IGameWold {
     public void setSound(boolean sound);
     public void addObserver(IObserver obs);
     public void notifyObservers();
+    public void getHitWithMissile();
+    public void changePlayerTankDirection(int d);
+    public void modifyPlayerTankSpeed(int s);
+    public void firePlayerTankMissile();
+    public void blockTank();
+    public void getHitByMissile();
+    public void missilesCollide();
+
+
 }

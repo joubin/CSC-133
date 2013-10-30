@@ -32,7 +32,6 @@ public class CommandHelp extends AbstractAction {
 
     public synchronized void actionPerformed(ActionEvent e){
 
-        System.out.println("About From " + e.getActionCommand() + " " + e.getSource().getClass());
         // TODO pause the game
         URL pathToImage = this.getClass().getResource("/a2/Resources/tank.png");
 
@@ -52,6 +51,8 @@ public class CommandHelp extends AbstractAction {
                 "m: Display map for the current game\n" +
                 "q: Quit game\n" +
                 "?: Print this menu ", "Help", JOptionPane.INFORMATION_MESSAGE, icon);
+
+        System.out.println("Help From " + e.getActionCommand() + " " + e.getSource().getClass());
 
     }
 }
