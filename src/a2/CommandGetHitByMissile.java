@@ -7,10 +7,15 @@ import java.awt.event.ActionEvent;
  * User: joubin
  */
 public class CommandGetHitByMissile extends AbstractAction {
-    private GameWorldProxy gwp;
-    private static CommandGetHitByMissile getHitByMissile = null;
 
-    public synchronized CommandGetHitByMissile getInstance(){
+    private static CommandGetHitByMissile getHitByMissile = null;
+    private GameWorldProxy gwp;
+
+    public CommandGetHitByMissile() {
+        super("Missile Hit Player");
+    }
+
+    public synchronized static CommandGetHitByMissile getInstance(){
         if (getHitByMissile == null) getHitByMissile = new CommandGetHitByMissile();
         return getHitByMissile;
     }
@@ -18,6 +23,7 @@ public class CommandGetHitByMissile extends AbstractAction {
     public void target(GameWorldProxy gwp){
         this.gwp = gwp;
     }
+
 
     @Override
     public void actionPerformed(ActionEvent e) {

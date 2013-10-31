@@ -16,5 +16,8 @@ public interface IIterator {
     public int size();
 
     public GameObject randomItem();
+    
+    public GameObject get(int a);
 
+    public int indexOf(Missile tmp);
 }

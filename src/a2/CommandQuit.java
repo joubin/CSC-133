@@ -28,7 +28,7 @@ public class CommandQuit extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println("Quitting: " + e.getSource());
+        System.out.println("Quitting: " + e.getActionCommand() + " " + e.getSource().getClass());
         URL pathToImage = this.getClass().getResource("/a2/Resources/tank.png");
         final ImageIcon icon = new ImageIcon(pathToImage);
 

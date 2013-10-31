@@ -116,6 +116,21 @@ public class GameWorld implements IObservable, IGameWold {
         }
     }
 
+    @Override
+    public void blockTank() {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void getHitByMissile() {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void missilesCollide() {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
 
     public GameObjectCollection returnAllTanksFromObject(GameObjectCollection obj) {
         /*
@@ -172,22 +187,24 @@ public class GameWorld implements IObservable, IGameWold {
     public void fireEnemyTankMissile() { // Fire enemy Tank
         GameObjectCollection tmp = returnAllTanksFromObject(go); // Get all tanks from the game world
         Random r = new Random(); // A random number generator
-        Tank t = null;
+        GameObject t = null;
+        Tank tankChosen = null;
         IIterator iterator = tmp.iterator();
 
         if (iterator.size() > 1) {
             do {
-                t = (Tank) iterator.randomItem(); // Get a random tank from the collection
-            } while (t == myTank); // as long as the tank is not the player tank
+                t = (GameObject) iterator.next(); // Get a random tank from the collection
+            } while (t == myTank || !(t instanceof Tank)); // as long as the tank is not the player tank
+            tankChosen = (Tank) t;
         } else {
             System.out.println("You are the only tank");
             return;
         }
-        boolean ableToFire = t.fireMissile(); // check to see if the given tank can fire
+        boolean ableToFire = tankChosen.fireMissile(); // check to see if the given tank can fire
 //        System.out.println(t.getName()); //debug code
         if (ableToFire) { // if the tank is able to fire,
-            Missile m = new Missile(t);// create a new missile
-            t.modifyMissleCount(-1); // remove the missile from the tanks ammo count
+            Missile m = new Missile(tankChosen);// create a new missile
+            tankChosen.modifyMissleCount(-1); // remove the missile from the tanks ammo count
             go.add(m); // add the newly created missile to the collection of game objects
         } else {
             System.out.println("This tank has no more ammo");   // Print error message
@@ -224,9 +241,9 @@ public class GameWorld implements IObservable, IGameWold {
         IIterator itr = m.iterator();
         if (itr.size() >= x) {
             Random r = new Random();
-            for (int i = 0; i < x; ++i) {
-                itr.remove(itr.randomItem()); // remove the number of random missiles
-
+            for(int i = 0; i < x; ++i){
+                Missile tmp = (Missile) itr.get(r.nextInt(itr.size())); // choose a random missile
+                itr.remove(tmp); // and remove it
             }
             return true; // return true if able to remove a missile from the game
         }

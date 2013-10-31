@@ -27,7 +27,7 @@ public class CommandIncreaseSpeed extends AbstractAction {
     public void actionPerformed(ActionEvent e) {
         gameWorldProxy.modifyPlayerTankSpeed(1);
 
-        System.out.println("About From " + e.getActionCommand() + " " + e.getSource().getClass());
+        System.out.println("Increase Speed From " + e.getActionCommand() + " " + e.getSource().getClass());
 
 
     }

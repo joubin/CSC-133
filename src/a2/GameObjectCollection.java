@@ -37,6 +37,15 @@ public class GameObjectCollection implements ICollection {
             localGameObjects = go;
         }
 
+        public GameObject get(int i){
+            return localGameObjects.get(i);
+        }
+
+        @Override
+        public int indexOf(Missile tmp) {
+            return localGameObjects.indexOf(tmp);
+        }
+
         @Override
         public GameObject randomItem() {
             Random r = new Random();
