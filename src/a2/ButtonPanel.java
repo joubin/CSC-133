@@ -30,9 +30,9 @@ public class ButtonPanel extends JPanel {
         CommandTick tick = CommandTick.getInstance();
         CommandGetHitByMissile getHitByMissile = CommandGetHitByMissile.getInstance();
         CommandMissileHitMissile missileHitMissile = CommandMissileHitMissile.getInstance();
-        missileHitMissile.target(gwp);
-        getHitByMissile.target(gwp);
-        tick.target(gwp);
+        missileHitMissile.setTarget(gwp);
+        getHitByMissile.setTarget(gwp);
+        tick.setTarget(gwp);
         JButton missileHitMissileButton = new JButton(missileHitMissile);
         JButton tickButton = new JButton(tick);
         JButton gethit = new JButton(getHitByMissile);

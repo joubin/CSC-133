@@ -8,11 +8,11 @@ import java.awt.event.ActionEvent;
  */
 public class CommandFileSave extends AbstractAction{
 
-    private static CommandFileSave save = null;
+    private static CommandFileSave pFile = null;
     private GameWorldProxy gwp;
 
     public CommandFileSave(){
-        super("Save");
+        super("File");
     }
 
     public void target(GameWorldProxy gwp) {
@@ -20,11 +20,11 @@ public class CommandFileSave extends AbstractAction{
     }
 
     public synchronized static CommandFileSave getInstance(){
-        if (save == null) save = new CommandFileSave();
-        return save;
+        if (pFile == null) pFile = new CommandFileSave();
+        return pFile;
     }
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println("Save From " + e.getActionCommand() + " " + e.getSource().getClass());
+        System.out.println("New File From " + e.getActionCommand() + " " + e.getSource().getClass());
     }
 }

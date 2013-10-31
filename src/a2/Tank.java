@@ -49,7 +49,7 @@ public class Tank extends Vehicle {
         /*
         incase the tank is hit, it needs to loose
          */
-        setHealth(getHealth() + val);
+        setHealth(val);
     }
 
     public int getMissileCount() {

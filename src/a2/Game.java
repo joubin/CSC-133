@@ -37,14 +37,14 @@ public class Game extends JFrame{
         int forgiveness = 0; // To allow the user the wrong input before the game is initialized.
         do try {          //TODO
             // Change this to a GUI object that appears and asks for input
-            System.out.println("Please enter the number of enemy tanks:");
-            int numberOfTanks = Integer.parseInt(in.nextLine()); // get the number of tanks from the user
-            System.out.println("Please enter the number of Rocks:");
-            int numberOfRocks = Integer.parseInt(in.nextLine()); // get the number of rocks from the user
-            System.out.println("Please enter the number of Tress:");
-            int numberOfTrees = Integer.parseInt(in.nextLine()); // get the number of trees from the user
-            gw.initialize(numberOfTanks, numberOfRocks, numberOfTrees); // init the gameworld
-//            gw.initialize(0,0,0);
+//            System.out.println("Please enter the number of enemy tanks:");
+//            int numberOfTanks = Integer.parseInt(in.nextLine()); // get the number of tanks from the user
+//            System.out.println("Please enter the number of Rocks:");
+//            int numberOfRocks = Integer.parseInt(in.nextLine()); // get the number of rocks from the user
+//            System.out.println("Please enter the number of Tress:");
+//            int numberOfTrees = Integer.parseInt(in.nextLine()); // get the number of trees from the user
+//            gw.initialize(numberOfTanks, numberOfRocks, numberOfTrees); // init the gameworld
+            gw.initialize(10,0,0);
             break; // if this part of the code is reached, that means the game has been init properly.
             // Otherwise, loop the try catch until forgiveness is reached 2
         } catch (java.lang.NumberFormatException e) {
@@ -53,13 +53,21 @@ public class Game extends JFrame{
             if (forgiveness >= 2) System.exit(1);
         } while (forgiveness < 2);
 
-        InputMap myMap = new InputMap();
-        ActionMap myAction = new ActionMap();
+        JPanel mapPanel = mv;
+        int mapName = JComponent.WHEN_IN_FOCUSED_WINDOW;
+        InputMap myMap = mapPanel.getInputMap(mapName);
+//        InputMap myMap2 = new InputMap();
+        ActionMap myAction = mapPanel.getActionMap();
+//        int myMap = JComponent.WHEN_IN_FOCUSED_WINDOW;
 
         CommandLeft turnLeft = CommandLeft.getInstance();
         CommandRight turnRight = CommandRight.getInstance();
         CommandIncreaseSpeed increaseSpeed = CommandIncreaseSpeed.getInstance();
         CommandDecreaseSpeed decreaseSpeed = CommandDecreaseSpeed.getInstance();
+        CommandFireMissile fireMissile = CommandFireMissile.getInstance();
+        fireMissile.target(gwp);
+        turnLeft.target(gwp);
+        turnRight.target(gwp);
 
         KeyStroke leftArrow = KeyStroke.getKeyStroke("LEFT");
         KeyStroke rightArrow = KeyStroke.getKeyStroke("RIGHT");
@@ -75,9 +83,10 @@ public class Game extends JFrame{
         myMap.put(downArrow, "down");
         myAction.put("down", decreaseSpeed);
         myMap.put(spaceKey, "space");
-        myAction.put("space", null);
+        myAction.put("space", fireMissile);
 
         this.makeGUI();
+        this.requestFocus();
 
 
 

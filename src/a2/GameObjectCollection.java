@@ -18,7 +18,7 @@ public class GameObjectCollection implements ICollection {
         myObjects = new ArrayList<GameObject>();
     }
 
-    public IIterator iterator() {
+    public Iterator iterator() {
         GameObjectIterator gameItr = new GameObjectIterator(myObjects);
         return gameItr;
 
@@ -28,38 +28,39 @@ public class GameObjectCollection implements ICollection {
         myObjects.add(o);
     }
 
-    private class GameObjectIterator implements IIterator {
+    private class GameObjectIterator implements Iterator {
 
         private int current, next;
-        private ArrayList<GameObject> localGameObjects;
 
         public GameObjectIterator(ArrayList<GameObject> go) {
-            localGameObjects = go;
+            myObjects = go;
         }
 
         public GameObject get(int i){
-            return localGameObjects.get(i);
+            return myObjects.get(i);
         }
 
         @Override
         public int indexOf(Missile tmp) {
-            return localGameObjects.indexOf(tmp);
+            return myObjects.indexOf(tmp);
         }
 
         @Override
         public GameObject randomItem() {
             Random r = new Random();
-            return localGameObjects.get(localGameObjects.indexOf(r.nextInt(localGameObjects.size() - 1)));
+            int actualSize = myObjects.size();
+            int randomItemWithinSize = r.nextInt(actualSize);
+            return myObjects.get(randomItemWithinSize);
         }
 
         @Override
         public boolean hasNext() {
-            return current < localGameObjects.size();
+            return current < myObjects.size();
         }
 
         @Override
         public GameObject next() {
-            GameObject currentObj = localGameObjects.get(current);
+            GameObject currentObj = myObjects.get(current);
             current += 1;
             next += 1;
             return currentObj;
@@ -68,12 +69,13 @@ public class GameObjectCollection implements ICollection {
 
         @Override
         public void remove(GameObject o) {
-            localGameObjects.remove(localGameObjects.indexOf(o));
+            System.out.print("asdl");
+            myObjects.remove(o);
         }
 
         @Override
         public int size() {
-            return localGameObjects.size();
+            return myObjects.size();
         }
 
 

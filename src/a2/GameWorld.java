@@ -4,10 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * Created with IntelliJ IDEA.
  * User: joubin
- * Date: 9/19/13
- * Time: 11:32 PM
  */
 public class GameWorld implements IObservable, IGameWold {
     /*
@@ -83,7 +80,7 @@ public class GameWorld implements IObservable, IGameWold {
             float[] xy = {randGen.nextInt(1024), randGen.nextInt(1024)}; // pick and x and y between 0 - 1024
             int checkedAll = 0;
 
-            IIterator iterator = go.iterator();
+            Iterator iterator = go.iterator();
 
             while (iterator.hasNext()) {
                 GameObject a = (GameObject) iterator.next();
@@ -106,6 +103,7 @@ public class GameWorld implements IObservable, IGameWold {
     }
 
     public void firePlayerTankMissile() { // Fire player tank
+        System.out.print("ASD");
         boolean ableToFire = myTank.fireMissile(); // First check to see if the tank is able to fire
         if (ableToFire) { // if so, create a new missile object and decrease the missile count of players tank
             Missile m = new Missile(myTank);
@@ -116,21 +114,6 @@ public class GameWorld implements IObservable, IGameWold {
         }
     }
 
-    @Override
-    public void blockTank() {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public void getHitByMissile() {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public void missilesCollide() {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
 
     public GameObjectCollection returnAllTanksFromObject(GameObjectCollection obj) {
         /*
@@ -138,7 +121,7 @@ public class GameWorld implements IObservable, IGameWold {
         This is a helper method
          */
         GameObjectCollection tmp = new GameObjectCollection();
-        IIterator iterator = obj.iterator();
+        Iterator iterator = obj.iterator();
         while (iterator.hasNext()) {
             GameObject tmpTank = (GameObject) iterator.next();
             if (tmpTank instanceof Tank) {
@@ -154,7 +137,7 @@ public class GameWorld implements IObservable, IGameWold {
         This is a helper method
          */
         GameObjectCollection tmp = new GameObjectCollection();
-        IIterator iterator = obj.iterator();
+        Iterator iterator = obj.iterator();
 
         while (iterator.hasNext()) {
             GameObject tmpMissile = (GameObject) iterator.next();
@@ -171,7 +154,7 @@ public class GameWorld implements IObservable, IGameWold {
         This is a helper method
          */
         GameObjectCollection tmp = new GameObjectCollection();
-        IIterator iterator = obj.iterator();
+        Iterator iterator = obj.iterator();
 
         while (iterator.hasNext()) {
             GameObject tmpObject = (GameObject) iterator.next();
@@ -183,13 +166,13 @@ public class GameWorld implements IObservable, IGameWold {
 
     }
 
-
+    @Override
     public void fireEnemyTankMissile() { // Fire enemy Tank
         GameObjectCollection tmp = returnAllTanksFromObject(go); // Get all tanks from the game world
         Random r = new Random(); // A random number generator
         GameObject t = null;
         Tank tankChosen = null;
-        IIterator iterator = tmp.iterator();
+        Iterator iterator = tmp.iterator();
 
         if (iterator.size() > 1) {
             do {
@@ -212,11 +195,10 @@ public class GameWorld implements IObservable, IGameWold {
 
 
     }
-
     public void getHitWithMissile() {
         // simulate that a random tank has been hit by a missile.
         GameObjectCollection tanksInGame = returnAllTanksFromObject(go); // get an array of all tanks in the game
-        IIterator iterator = tanksInGame.iterator();
+        Iterator iterator = tanksInGame.iterator();
         Random r = new Random(); // Random number generator
         Tank randomTank = (Tank) iterator.randomItem(); // pick a random tank
 //        ArrayList<Missile> missilesInGame = returnAllMissileFromObject(go);
@@ -238,7 +220,7 @@ public class GameWorld implements IObservable, IGameWold {
         This is a helper function to remove missles from the map
         */
         GameObjectCollection m = returnAllMissileFromObject(go);  // Get all missiles from the game
-        IIterator itr = m.iterator();
+        Iterator itr = m.iterator();
         if (itr.size() >= x) {
             Random r = new Random();
             for(int i = 0; i < x; ++i){
@@ -249,6 +231,7 @@ public class GameWorld implements IObservable, IGameWold {
         }
         return false; // false otherwise.
     }
+
 
     public void missileCollisions() { //
         // simulate two missiles coliding and remove 2
@@ -263,7 +246,7 @@ public class GameWorld implements IObservable, IGameWold {
         Block a random movable object
          */
         GameObjectCollection tanks = returnAllTanksFromObject(go);
-        IIterator itr = tanks.iterator();
+        Iterator itr = tanks.iterator();
         Tank tmp = (Tank) itr.randomItem();
         tmp.setSpeed(0);
         tmp.toggleBlocked(); // set its status to blocked
@@ -279,7 +262,7 @@ public class GameWorld implements IObservable, IGameWold {
          */
         clock = clock + 1;
         GameObjectCollection tmp = returnAllMoveableItemsFromObject(go);
-        IIterator itr = tmp.iterator();
+        Iterator itr = tmp.iterator();
         while (itr.hasNext()) {
             MovableItem tmpGameObject = (MovableItem) itr.next();
             tmpGameObject.update();
@@ -294,7 +277,7 @@ public class GameWorld implements IObservable, IGameWold {
         /*
         Remove an object that has health 0 or less (Should never happen)
          */
-        IIterator itr = go.iterator();
+        Iterator itr = go.iterator();
         int tmpHealth = m.getHealth();
         if (tmpHealth < 1) {
             itr.remove(m);
@@ -317,7 +300,7 @@ public class GameWorld implements IObservable, IGameWold {
         /*
         draw a map, provide information regarding the object on the map using their unique toStrings
          */
-        IIterator iterator = go.iterator();
+        Iterator iterator = go.iterator();
         while (iterator.hasNext()) {
             System.out.println(iterator.next().toString());
 

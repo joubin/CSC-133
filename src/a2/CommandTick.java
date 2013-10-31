@@ -25,7 +25,7 @@ public class CommandTick extends AbstractAction {
 
     }
 
-    public void target(GameWorldProxy gwp){
+    public void setTarget(GameWorldProxy gwp){
         this.gwProxy = gwp ;
     }
 

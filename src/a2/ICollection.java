@@ -1,5 +1,7 @@
 package a2;
 
+import java.util.Iterator;
+
 /**
  * Created with IntelliJ IDEA.
  * User: joubin
@@ -7,7 +9,7 @@ package a2;
  * Time: 9:51 AM
  */
 public interface ICollection {
-    public IIterator iterator();
+    public a2.Iterator iterator();
     public void add(GameObject obj);
 
 

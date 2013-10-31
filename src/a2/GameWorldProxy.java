@@ -69,22 +69,19 @@ public class GameWorldProxy implements IObservable, IGameWold {
     }
 
     @Override
+    public void fireEnemyTankMissile() {
+        gw.fireEnemyTankMissile();
+    }
+
+    @Override
+    public void missileCollisions() {
+        gw.missileCollisions();
+    }
+
+    @Override
     public void firePlayerTankMissile() {
-        //To change body of implemented methods use File | Settings | File Templates.
+        gw.firePlayerTankMissile();
     }
 
-    @Override
-    public void blockTank() {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
 
-    @Override
-    public void getHitByMissile() {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public void missilesCollide() {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
 }

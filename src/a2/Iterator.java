@@ -6,7 +6,7 @@ package a2;
  * Date: 10/10/13
  * Time: 9:51 AM
  */
-public interface IIterator {
+public interface Iterator {
     public boolean hasNext();
 
     public Object next();

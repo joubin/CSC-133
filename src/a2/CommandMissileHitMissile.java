@@ -21,7 +21,7 @@ public class CommandMissileHitMissile extends AbstractAction {
     }
 
 
-    public void target(GameWorldProxy gwp){
+    public void setTarget(GameWorldProxy gwp){
         this.gwp = gwp;
     }
 
@@ -32,7 +32,7 @@ public class CommandMissileHitMissile extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        gwp.missilesCollide();
+        gwp.missileCollisions();
         System.out.println("Missile collide from " + e.getActionCommand() + " " + e.getSource().getClass());
 
     }

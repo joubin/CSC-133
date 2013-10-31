@@ -18,10 +18,9 @@ public interface IGameWold {
     public void getHitWithMissile();
     public void changePlayerTankDirection(int d);
     public void modifyPlayerTankSpeed(int s);
+    public void fireEnemyTankMissile();
+    public void missileCollisions();
     public void firePlayerTankMissile();
-    public void blockTank();
-    public void getHitByMissile();
-    public void missilesCollide();
 
 
 }

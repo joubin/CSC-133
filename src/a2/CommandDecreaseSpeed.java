@@ -7,7 +7,7 @@ import java.awt.event.ActionEvent;
  * User: joubin
  */
 public class CommandDecreaseSpeed extends AbstractAction {
-    private static CommandDecreaseSpeed commandDecreaseSpeed = null;
+    private static CommandDecreaseSpeed commandIncreaseSpeed = null;
     private GameWorldProxy gameWorldProxy;
 
     public CommandDecreaseSpeed() {
@@ -15,8 +15,8 @@ public class CommandDecreaseSpeed extends AbstractAction {
     }
 
     public synchronized static CommandDecreaseSpeed getInstance(){
-        if (commandDecreaseSpeed == null) commandDecreaseSpeed = new CommandDecreaseSpeed();
-        return commandDecreaseSpeed;
+        if (commandIncreaseSpeed == null) commandIncreaseSpeed = new CommandDecreaseSpeed();
+        return commandIncreaseSpeed;
     }
 
     public void target(GameWorldProxy gwp){
@@ -25,9 +25,9 @@ public class CommandDecreaseSpeed extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        gameWorldProxy.modifyPlayerTankSpeed(-1);
+        gameWorldProxy.modifyPlayerTankSpeed(1);
 
-        System.out.println("Decrease Speed From " + e.getActionCommand() + " " + e.getSource().getClass());
+        System.out.println("About From " + e.getActionCommand() + " " + e.getSource().getClass());
 
 
     }
