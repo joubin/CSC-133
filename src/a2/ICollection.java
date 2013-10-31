@@ -9,7 +9,8 @@ import java.util.Iterator;
  * Time: 9:51 AM
  */
 public interface ICollection {
-    public a2.Iterator iterator();
+    public Iterator iterator();
+
     public void add(GameObject obj);
 
 

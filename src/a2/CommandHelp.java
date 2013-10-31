@@ -1,7 +1,6 @@
 package a2;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.net.URL;
 
@@ -16,21 +15,20 @@ public class CommandHelp extends AbstractAction {
     /**
      * Pass the string help to AbstractAction as its title
      */
-    public CommandHelp(){
+    public CommandHelp() {
         super("Help");
     }
 
 
-
-    public static synchronized CommandHelp getInstance(){
-        if(theCommandHelp == null){
+    public static synchronized CommandHelp getInstance() {
+        if (theCommandHelp == null) {
             theCommandHelp = new CommandHelp();
         }
         return theCommandHelp;
     }
 
 
-    public synchronized void actionPerformed(ActionEvent e){
+    public synchronized void actionPerformed(ActionEvent e) {
 
         // TODO pause the game
         URL pathToImage = this.getClass().getResource("/a2/Resources/tank.png");

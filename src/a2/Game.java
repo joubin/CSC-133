@@ -10,7 +10,7 @@ import java.util.Scanner;
  * Date: 9/19/13
  * Time: 11:33 PM
  */
-public class Game extends JFrame{
+public class Game extends JFrame {
 
     private GameWorld gw; // An instance of the game world
     private Scanner in = new Scanner(System.in); // Scanner used to get input from the user
@@ -44,7 +44,7 @@ public class Game extends JFrame{
 //            System.out.println("Please enter the number of Tress:");
 //            int numberOfTrees = Integer.parseInt(in.nextLine()); // get the number of trees from the user
 //            gw.initialize(numberOfTanks, numberOfRocks, numberOfTrees); // init the gameworld
-            gw.initialize(10,0,0);
+            gw.initialize(10, 0, 0);
             break; // if this part of the code is reached, that means the game has been init properly.
             // Otherwise, loop the try catch until forgiveness is reached 2
         } catch (java.lang.NumberFormatException e) {
@@ -65,35 +65,45 @@ public class Game extends JFrame{
         CommandIncreaseSpeed increaseSpeed = CommandIncreaseSpeed.getInstance();
         CommandDecreaseSpeed decreaseSpeed = CommandDecreaseSpeed.getInstance();
         CommandFireMissile fireMissile = CommandFireMissile.getInstance();
+        CommandFireEnemyMissile fireEnemyMissile = CommandFireEnemyMissile.getInstance();
+        CommandGetHitByMissile getHitByMissile = CommandGetHitByMissile.getInstance();
+
+
+        getHitByMissile.setTarget(gwp);
+        fireEnemyMissile.target(gwp);
         fireMissile.target(gwp);
         turnLeft.target(gwp);
         turnRight.target(gwp);
+        decreaseSpeed.target(gwp);
+        increaseSpeed.target(gwp);
 
-        KeyStroke leftArrow = KeyStroke.getKeyStroke("LEFT");
-        KeyStroke rightArrow = KeyStroke.getKeyStroke("RIGHT");
-        KeyStroke upArrow = KeyStroke.getKeyStroke("UP");
-        KeyStroke downArrow = KeyStroke.getKeyStroke("DOWN");
-        KeyStroke spaceKey = KeyStroke.getKeyStroke("SPACE");
-        myMap.put(leftArrow, "left");
-        myAction.put("left", turnLeft);
-        myMap.put(rightArrow, "right");
-        myAction.put("right", turnRight);
-        myMap.put(upArrow, "up");
-        myAction.put("up", increaseSpeed);
-        myMap.put(downArrow, "down");
-        myAction.put("down", decreaseSpeed);
-        myMap.put(spaceKey, "space");
-        myAction.put("space", fireMissile);
+        KeyStroke leftArrow = KeyStroke.getKeyStroke('l');
+        KeyStroke rightArrow = KeyStroke.getKeyStroke('r');
+        KeyStroke upArrow = KeyStroke.getKeyStroke('i');
+        KeyStroke downArrow = KeyStroke.getKeyStroke('k');
+        KeyStroke spaceKey = KeyStroke.getKeyStroke('f');
+        KeyStroke eKey = KeyStroke.getKeyStroke('e');
+        myMap.put(leftArrow, 'l');
+        myAction.put('l', turnLeft);
+        myMap.put(rightArrow, 'r');
+        myAction.put('r', turnRight);
+        myMap.put(upArrow, 'i');
+        myAction.put('i', increaseSpeed);
+        myMap.put(downArrow, 'k');
+        myAction.put('k', decreaseSpeed);
+        myMap.put(spaceKey, 'f');
+        myAction.put('f', fireMissile);
+        myMap.put(eKey, "e");
+        myAction.put("e", fireEnemyMissile);
 
         this.makeGUI();
         this.requestFocus();
 
 
-
         play();
     }
 
-    private void makeGUI(){
+    private void makeGUI() {
 
         //Get commands
         CommandAbout about = CommandAbout.getInstance();
@@ -104,6 +114,9 @@ public class Game extends JFrame{
         CommandRight right = CommandRight.getInstance();
         CommandSound sound = CommandSound.getInstance();
         CommandTick tick = CommandTick.getInstance();
+        CommandGetHitByMissile getHitByMissile = CommandGetHitByMissile.getInstance();
+
+        getHitByMissile.setTarget(gwp);
 
 
         sound.target(gwp);
@@ -119,23 +132,26 @@ public class Game extends JFrame{
 
         JMenuBar menuBar = new JMenuBar();
         JMenu file = new JMenu("File");
+        JMenu commands = new JMenu("Commands");
         JMenuItem myNew = new JMenuItem("New");
-        JMenuItem  mySave = new JMenuItem("Save");
+        JMenuItem mySave = new JMenuItem("Save");
         JMenuItem myUndo = new JMenuItem("Undo");
         JMenuItem myAbout = new JMenuItem("About");
         JMenuItem myQuit = new JMenuItem("Quit");
-        JCheckBoxMenuItem soundMenu = new JCheckBoxMenuItem("Sound",false);
+        JCheckBoxMenuItem soundMenu = new JCheckBoxMenuItem("Sound", false);
         soundMenu.setAction(sound);
         file.add(myNew);
         file.add(mySave);
         file.add(myUndo);
         file.add(soundMenu);
+        commands.add(getHitByMissile);
 
 //        file.add(myAbout);
         file.add(new JMenuItem(about));
         file.add(new CommandQuit());
 
         menuBar.add(file);
+        menuBar.add(commands);
 
         this.setJMenuBar(menuBar);
 

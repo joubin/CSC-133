@@ -11,22 +11,23 @@ public class CommandTick extends AbstractAction {
     GameWorldProxy gwProxy;
     private static CommandTick _TickCommand = null;
 
-    public CommandTick(){
+    public CommandTick() {
         super("Tick");
     }
 
     /**
      * Ensure that it is the only instance of the command
+     *
      * @return CommandTick
      */
-    public static synchronized CommandTick getInstance(){
+    public static synchronized CommandTick getInstance() {
         if (_TickCommand == null) _TickCommand = new CommandTick();
         return _TickCommand;
 
     }
 
-    public void setTarget(GameWorldProxy gwp){
-        this.gwProxy = gwp ;
+    public void setTarget(GameWorldProxy gwp) {
+        this.gwProxy = gwp;
     }
 
     @Override

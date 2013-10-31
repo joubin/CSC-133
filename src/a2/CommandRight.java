@@ -14,12 +14,12 @@ public class CommandRight extends AbstractAction {
         super("Turn Left");
     }
 
-    public synchronized static CommandRight getInstance(){
+    public synchronized static CommandRight getInstance() {
         if (commandRight == null) commandRight = new CommandRight();
         return commandRight;
     }
 
-    public void target(GameWorldProxy gwp){
+    public void target(GameWorldProxy gwp) {
         this.gameWorldProxy = gwp;
     }
 

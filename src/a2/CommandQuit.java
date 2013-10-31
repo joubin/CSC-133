@@ -1,11 +1,8 @@
 package a2;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.file.Path;
 
 /**
  * Created with IntelliJ IDEA.

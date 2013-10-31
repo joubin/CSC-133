@@ -14,12 +14,12 @@ public class CommandIncreaseSpeed extends AbstractAction {
         super("Increase Speed");
     }
 
-    public synchronized static CommandIncreaseSpeed getInstance(){
+    public synchronized static CommandIncreaseSpeed getInstance() {
         if (commandIncreaseSpeed == null) commandIncreaseSpeed = new CommandIncreaseSpeed();
         return commandIncreaseSpeed;
     }
 
-    public void target(GameWorldProxy gwp){
+    public void target(GameWorldProxy gwp) {
         this.gameWorldProxy = gwp;
     }
 

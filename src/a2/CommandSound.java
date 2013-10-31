@@ -10,11 +10,11 @@ public class CommandSound extends AbstractAction {
     GameWorldProxy gwProxy;
     private static CommandSound soundCommand = null;
 
-    public CommandSound(){
+    public CommandSound() {
         super("Sound");
     }
 
-    public void target(GameWorldProxy gwProxy){
+    public void target(GameWorldProxy gwProxy) {
         this.gwProxy = gwProxy;
     }
 

@@ -6,7 +6,7 @@ import javax.swing.border.TitledBorder;
 /**
  * User: joubin
  */
-public class MapView extends JPanel implements IObserver{
+public class MapView extends JPanel implements IObserver {
     public MapView() {
         this.setBorder(new TitledBorder("Map"));
 

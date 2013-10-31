@@ -14,14 +14,15 @@ public class CommandLeft extends AbstractAction {
         super("Turn Left");
     }
 
-    public synchronized static CommandLeft getInstance(){
+    public synchronized static CommandLeft getInstance() {
         if (commandLeft == null) commandLeft = new CommandLeft();
         return commandLeft;
     }
 
-    public void target(GameWorldProxy gwp){
+    public void target(GameWorldProxy gwp) {
         this.gameWorldProxy = gwp;
     }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         gameWorldProxy.changePlayerTankDirection(-5);

@@ -6,12 +6,12 @@ import java.awt.event.ActionEvent;
 /**
  * User: joubin
  */
-public class CommandFileSave extends AbstractAction{
+public class CommandFileSave extends AbstractAction {
 
     private static CommandFileSave pFile = null;
     private GameWorldProxy gwp;
 
-    public CommandFileSave(){
+    public CommandFileSave() {
         super("File");
     }
 
@@ -19,10 +19,11 @@ public class CommandFileSave extends AbstractAction{
         this.gwp = gwp;
     }
 
-    public synchronized static CommandFileSave getInstance(){
+    public synchronized static CommandFileSave getInstance() {
         if (pFile == null) pFile = new CommandFileSave();
         return pFile;
     }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         System.out.println("New File From " + e.getActionCommand() + " " + e.getSource().getClass());

@@ -1,6 +1,7 @@
 package a2;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 /**
@@ -13,15 +14,12 @@ public class GameWorld implements IObservable, IGameWold {
     private GameObjectCollection go = new GameObjectCollection(); // Arraylist containg all game objects at play.
 
 
-
     //For A2, we made our own collection. According to the assignment, we needed that only for this
     private int clock = 0; // initial clock of the game
     private Tank myTank; // Unique tank for the player
     private int score; // Unique score for the player
     private ArrayList<IObserver> observers = new ArrayList<IObserver>(); // Since GameWorld is observable, it has to register its observers
     private boolean sound = true;
-
-
 
 
     public void initialize(int numTank, int numRock, int numTree) {
@@ -168,21 +166,22 @@ public class GameWorld implements IObservable, IGameWold {
 
     @Override
     public void fireEnemyTankMissile() { // Fire enemy Tank
-        GameObjectCollection tmp = returnAllTanksFromObject(go); // Get all tanks from the game world
         Random r = new Random(); // A random number generator
         GameObject t = null;
         Tank tankChosen = null;
-        Iterator iterator = tmp.iterator();
+        Iterator iterator = go.iterator();
 
-        if (iterator.size() > 1) {
             do {
                 t = (GameObject) iterator.next(); // Get a random tank from the collection
-            } while (t == myTank || !(t instanceof Tank)); // as long as the tank is not the player tank
-            tankChosen = (Tank) t;
-        } else {
+            } while (iterator.hasNext() && (t == myTank || !(t instanceof Tank))); // as long as the tank is not the player tank
+
+        if (t == null || t == myTank) {
             System.out.println("You are the only tank");
             return;
+        }else {
+            tankChosen = (Tank) t;
         }
+
         boolean ableToFire = tankChosen.fireMissile(); // check to see if the given tank can fire
 //        System.out.println(t.getName()); //debug code
         if (ableToFire) { // if the tank is able to fire,
@@ -195,12 +194,20 @@ public class GameWorld implements IObservable, IGameWold {
 
 
     }
+
+
     public void getHitWithMissile() {
         // simulate that a random tank has been hit by a missile.
         GameObjectCollection tanksInGame = returnAllTanksFromObject(go); // get an array of all tanks in the game
         Iterator iterator = tanksInGame.iterator();
-        Random r = new Random(); // Random number generator
-        Tank randomTank = (Tank) iterator.randomItem(); // pick a random tank
+        GameObject randomObject = null;
+        Tank randomTank = null;
+        while (iterator.hasNext()) {
+            randomObject = (GameObject) iterator.next();
+            if (randomObject instanceof Tank) {
+                randomTank = (Tank) randomObject;// Pick a random Tank
+            }
+        }
 //        ArrayList<Missile> missilesInGame = returnAllMissileFromObject(go);
 //        Missile randomMissile = missilesInGame.get(r.nextInt(missilesInGame.size()));
         /*
@@ -219,17 +226,27 @@ public class GameWorld implements IObservable, IGameWold {
         /*
         This is a helper function to remove missles from the map
         */
-        GameObjectCollection m = returnAllMissileFromObject(go);  // Get all missiles from the game
-        Iterator itr = m.iterator();
-        if (itr.size() >= x) {
-            Random r = new Random();
-            for(int i = 0; i < x; ++i){
-                Missile tmp = (Missile) itr.get(r.nextInt(itr.size())); // choose a random missile
-                itr.remove(tmp); // and remove it
+        Missile myMissile = null;
+        GameObject myGameObject;
+        int i = 0;
+        int pass = 0;
+        while (i < x && pass <= x) {
+            System.out.print("Making a new itr\n\n");
+            pass++;
+            Iterator itr = go.iterator();
+            while (itr.hasNext()) {
+                myGameObject = (GameObject) itr.next();
+                if (myGameObject instanceof Missile) {
+                    itr.remove();
+                    i++;
+                    break;
+                }
             }
-            return true; // return true if able to remove a missile from the game
+
+
         }
-        return false; // false otherwise.
+        if (i < x) return false;
+        return true;
     }
 
 
@@ -247,9 +264,12 @@ public class GameWorld implements IObservable, IGameWold {
          */
         GameObjectCollection tanks = returnAllTanksFromObject(go);
         Iterator itr = tanks.iterator();
-        Tank tmp = (Tank) itr.randomItem();
-        tmp.setSpeed(0);
-        tmp.toggleBlocked(); // set its status to blocked
+        Tank t;
+
+        t = (Tank) itr.next(); // Get a random tank from the collection
+
+        t.setSpeed(0);
+        t.toggleBlocked(); // set its status to blocked
     }
 
     public void tick() {
@@ -268,9 +288,8 @@ public class GameWorld implements IObservable, IGameWold {
             tmpGameObject.update();
             deathReaper(tmpGameObject);
         }
-       notifyObservers();
+        notifyObservers();
     }
-
 
 
     public void deathReaper(MovableItem m) {
@@ -280,7 +299,7 @@ public class GameWorld implements IObservable, IGameWold {
         Iterator itr = go.iterator();
         int tmpHealth = m.getHealth();
         if (tmpHealth < 1) {
-            itr.remove(m);
+            itr.remove();
         }
 
     }
@@ -338,17 +357,19 @@ public class GameWorld implements IObservable, IGameWold {
     public int getClock() {
         return clock;
     }
-    public int getPlayerHealth(){
+
+    public int getPlayerHealth() {
         return myTank.getHealth();
     }
 
-    public int getScore(){
+    public int getScore() {
         return this.score;
     }
 
-    public void addScore(){
+    public void addScore() {
         this.score++;
     }
+
     public boolean getSound() {
         return this.sound;
     }
@@ -367,7 +388,7 @@ public class GameWorld implements IObservable, IGameWold {
     public void notifyObservers() {
         GameWorldProxy tmpProxy = new GameWorldProxy(this);
         Object randomObject = new Object();
-        for (int i =0; i < observers.size(); i++){
+        for (int i = 0; i < observers.size(); i++) {
             observers.get(i).update(tmpProxy, randomObject);
         }
     }

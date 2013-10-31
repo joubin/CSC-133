@@ -7,7 +7,7 @@ import java.net.URL;
 /**
  * User: joubin
  */
-public class CommandAbout extends AbstractAction{
+public class CommandAbout extends AbstractAction {
     GameWorldProxy gwProxy;
     private static CommandAbout theAboutCommand = null;
 
@@ -15,21 +15,20 @@ public class CommandAbout extends AbstractAction{
      * Constructor to pass the name of the command to the parent AbstractAction to be used when
      * creating menu items
      */
-    public CommandAbout(){
+    public CommandAbout() {
         super("About");
     }
 
 
-
-    public static synchronized CommandAbout getInstance(){
-        if(theAboutCommand == null){
+    public static synchronized CommandAbout getInstance() {
+        if (theAboutCommand == null) {
             theAboutCommand = new CommandAbout();
         }
         return theAboutCommand;
     }
 
 
-    public synchronized void actionPerformed(ActionEvent e){
+    public synchronized void actionPerformed(ActionEvent e) {
         URL pathToImage = this.getClass().getResource("/a2/Resources/tank.png");
 
         final ImageIcon icon = new ImageIcon(pathToImage);

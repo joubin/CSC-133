@@ -12,8 +12,9 @@ import java.awt.*;
  */
 public class ButtonPanel extends JPanel {
     private GameWorldProxy gwp = null;
+
     public ButtonPanel(GameWorldProxy gwp) {
-        this.gwp =  gwp;
+        this.gwp = gwp;
         this.setPreferredSize(new Dimension(200, 700));
         this.setLayout(new GridLayout(11, 1));
         this.setBorder(new TitledBorder("Commands"));
@@ -44,7 +45,6 @@ public class ButtonPanel extends JPanel {
         this.add(tickButton);
         this.add(helpButton);
         this.add(quitButton);
-
 
 
     }

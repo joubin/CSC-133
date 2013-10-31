@@ -11,23 +11,19 @@ public class CommandMissileHitMissile extends AbstractAction {
     private static CommandMissileHitMissile missileHitMissile = null;
     private GameWorldProxy gwp;
 
-    public CommandMissileHitMissile(){
+    public CommandMissileHitMissile() {
         super("Missile Hit Missile");
     }
 
-    public synchronized static CommandMissileHitMissile getInstance(){
+    public synchronized static CommandMissileHitMissile getInstance() {
         if (missileHitMissile == null) missileHitMissile = new CommandMissileHitMissile();
         return missileHitMissile;
     }
 
 
-    public void setTarget(GameWorldProxy gwp){
+    public void setTarget(GameWorldProxy gwp) {
         this.gwp = gwp;
     }
-
-
-
-
 
 
     @Override

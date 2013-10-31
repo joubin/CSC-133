@@ -6,16 +6,16 @@ import java.awt.event.ActionEvent;
 /**
  * User: joubin
  */
-public class CommandFireMissile extends AbstractAction {
-    private static CommandFireMissile commandFire = null;
+public class CommandFireEnemyMissile extends AbstractAction {
+    private static CommandFireEnemyMissile commandFire = null;
     private GameWorldProxy gameWorldProxy;
 
-    public CommandFireMissile() {
+    public CommandFireEnemyMissile() {
         super("Fire");
     }
 
-    public synchronized static CommandFireMissile getInstance() {
-        if (commandFire == null) commandFire = new CommandFireMissile();
+    public synchronized static CommandFireEnemyMissile getInstance() {
+        if (commandFire == null) commandFire = new CommandFireEnemyMissile();
         return commandFire;
     }
 
@@ -26,7 +26,7 @@ public class CommandFireMissile extends AbstractAction {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (this.gameWorldProxy == null) System.exit(1);
-        gameWorldProxy.firePlayerTankMissile();
+        gameWorldProxy.fireEnemyTankMissile();
         System.out.println("Fire Missile From " + e.getActionCommand() + " " + e.getSource().getClass());
 
     }

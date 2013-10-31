@@ -16,12 +16,12 @@ public class CommandGetHitByMissile extends AbstractAction {
         super("Missile Hit Player");
     }
 
-    public synchronized static CommandGetHitByMissile getInstance(){
+    public synchronized static CommandGetHitByMissile getInstance() {
         if (getHitByMissile == null) getHitByMissile = new CommandGetHitByMissile();
         return getHitByMissile;
     }
 
-    public void setTarget(GameWorldProxy gwp){
+    public void setTarget(GameWorldProxy gwp) {
         this.gwp = gwp;
     }
 

@@ -14,20 +14,20 @@ public class CommandDecreaseSpeed extends AbstractAction {
         super("Increase Speed");
     }
 
-    public synchronized static CommandDecreaseSpeed getInstance(){
+    public synchronized static CommandDecreaseSpeed getInstance() {
         if (commandIncreaseSpeed == null) commandIncreaseSpeed = new CommandDecreaseSpeed();
         return commandIncreaseSpeed;
     }
 
-    public void target(GameWorldProxy gwp){
+    public void target(GameWorldProxy gwp) {
         this.gameWorldProxy = gwp;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        gameWorldProxy.modifyPlayerTankSpeed(1);
+        gameWorldProxy.modifyPlayerTankSpeed(-1);
 
-        System.out.println("About From " + e.getActionCommand() + " " + e.getSource().getClass());
+        System.out.println("Down From " + e.getActionCommand() + " " + e.getSource().getClass());
 
 
     }
