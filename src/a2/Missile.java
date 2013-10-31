@@ -42,6 +42,6 @@ public class Missile extends Projectile {
         /*
         Returns the parent class toString which is uniq to all objects and adds missile specific attributes.
          */
-        return String.format("Missile=> %s speed=%d heading=%d ", super.toString(), this.getSpeed(), this.getDirection());
+        return String.format("Missile=> %s speed=%d heading=%d      "+this.getHealth(), super.toString(), this.getSpeed(), this.getDirection());
     }
 }

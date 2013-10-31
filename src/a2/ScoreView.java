@@ -8,10 +8,10 @@ import java.awt.*;
  * User: joubin
  */
 public class ScoreView extends JPanel implements IObserver {
-    private JLabel gameTime = new JLabel("");
-    private JLabel score = new JLabel("");
-    private JLabel lives = new JLabel("");
-    private JLabel soundLable = new JLabel("");
+    private JLabel gameTime = new JLabel("0");
+    private JLabel score = new JLabel("0");
+    private JLabel lives = new JLabel("10");
+    private JLabel soundLable = new JLabel("ON");
 
     public ScoreView() {
 

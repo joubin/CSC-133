@@ -14,8 +14,15 @@ public class Tank extends Vehicle {
     private boolean blocked = false; // tanks can get blocked by other objects. The game world will let them know if so
     private boolean isPlayer = false; // special flag to differentiate the player tank from other tanks
     private String name = "Tank";
+    protected IStrategy curStrategy = null;
 
-    public Tank(float x, float y) {
+
+    public void setCurStrategy(IStrategy curStrategy) {
+        this.curStrategy = curStrategy;
+    }
+
+
+    public Tank(float x, float y, IStrategy strategy) {
         /*
         Constructors 1:
             Used to generate tanks not the players
@@ -25,6 +32,8 @@ public class Tank extends Vehicle {
         this.missileCount = 10; // set missile count
         setX(x); // set x and y coordinates given by the gameworld
         setY(y);
+        this.curStrategy = strategy;
+
 
     }
 
@@ -126,6 +135,16 @@ public class Tank extends Vehicle {
         toString specific to tanks
          */
         return String.format("%s=> %s speed=%d heading=%d armor=%d missile=%d", name, super.toString(), getSpeed(), getDirection(), getHealth(), missileCount);
+    }
+
+    public void update(){
+
+        super.update();
+        if (curStrategy != null){
+            curStrategy.apply();
+            System.out.println("\n                      =====> "+curStrategy.toString());
+        }
+
     }
 
 

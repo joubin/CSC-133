@@ -67,6 +67,9 @@ public class Game extends JFrame {
         CommandFireMissile fireMissile = CommandFireMissile.getInstance();
         CommandFireEnemyMissile fireEnemyMissile = CommandFireEnemyMissile.getInstance();
         CommandGetHitByMissile getHitByMissile = CommandGetHitByMissile.getInstance();
+        CommandChangeStrategy changeStrategy = CommandChangeStrategy.getInstance();
+
+        changeStrategy.setTarget(gwp);
 
 
         getHitByMissile.setTarget(gwp);
@@ -94,7 +97,7 @@ public class Game extends JFrame {
         myMap.put(spaceKey, 'f');
         myAction.put('f', fireMissile);
         myMap.put(eKey, "e");
-        myAction.put("e", fireEnemyMissile);
+        myAction.put("e", changeStrategy);
 
         this.makeGUI();
         this.requestFocus();
@@ -115,8 +118,13 @@ public class Game extends JFrame {
         CommandSound sound = CommandSound.getInstance();
         CommandTick tick = CommandTick.getInstance();
         CommandGetHitByMissile getHitByMissile = CommandGetHitByMissile.getInstance();
+        CommandMissileHitMissile missileHitMissile = CommandMissileHitMissile.getInstance();
+        CommandBlockTank blockTank = CommandBlockTank.getInstance();
 
+
+        missileHitMissile.setTarget(gwp);
         getHitByMissile.setTarget(gwp);
+        blockTank.setTarget(gwp);
 
 
         sound.target(gwp);
@@ -145,6 +153,8 @@ public class Game extends JFrame {
         file.add(myUndo);
         file.add(soundMenu);
         commands.add(getHitByMissile);
+        commands.add(missileHitMissile);
+        commands.add(blockTank);
 
 //        file.add(myAbout);
         file.add(new JMenuItem(about));

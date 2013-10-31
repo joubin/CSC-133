@@ -35,4 +35,8 @@ public interface IGameWold {
 
     public void firePlayerTankMissile();
 
+    public void blockMovableObject();
+
+    public void toggleStrategy();
+
 }

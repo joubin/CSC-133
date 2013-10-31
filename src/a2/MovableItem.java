@@ -109,6 +109,7 @@ public abstract class MovableItem extends GameObject {
         game tick.
          */
         move();
+
     }
 
 

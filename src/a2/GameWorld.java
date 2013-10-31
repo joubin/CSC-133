@@ -20,6 +20,10 @@ public class GameWorld implements IObservable, IGameWold {
     private int score; // Unique score for the player
     private ArrayList<IObserver> observers = new ArrayList<IObserver>(); // Since GameWorld is observable, it has to register its observers
     private boolean sound = true;
+    private StrategyEveryOtherTick everyOtherTick = null;
+    private StrategyEveryTick everyTick = null;
+    private IStrategy currStrat = null;
+
 
 
     public void initialize(int numTank, int numRock, int numTree) {
@@ -27,6 +31,9 @@ public class GameWorld implements IObservable, IGameWold {
         this method behaves exactly like a constructor, however, I renamed it becase the professors sample code called
         created an instance of the gameworld without any parameters.
          */
+        everyTick = new StrategyEveryTick(this);
+        everyOtherTick = new StrategyEveryOtherTick(this);
+        currStrat = everyTick;
         for (int i = 0; i < numRock; ++i) {
             /*
             Create the request number of rocks
@@ -48,7 +55,7 @@ public class GameWorld implements IObservable, IGameWold {
             /*
             Create the correct number of tanks and add them to the game
              */
-            Tank temp = new Tank(getAllXY()[0], getAllXY()[1]);
+            Tank temp = new Tank(getAllXY()[0], getAllXY()[1], currStrat);
             go.add(temp);
         }
         /*
@@ -94,10 +101,12 @@ public class GameWorld implements IObservable, IGameWold {
 
     public void changePlayerTankDirection(int i) { // call the change direction method for the player tank.
         myTank.changeDirection(i);
+        notifyObservers();
     }
 
     public void modifyPlayerTankSpeed(int i) { // increase or decrease speed of the player tank
         myTank.modifySpeed(i);
+        notifyObservers();
     }
 
     public void firePlayerTankMissile() { // Fire player tank
@@ -110,6 +119,7 @@ public class GameWorld implements IObservable, IGameWold {
         } else {
             System.out.println("This tank has no more ammo"); // Print error message.
         }
+        notifyObservers();
     }
 
 
@@ -164,6 +174,7 @@ public class GameWorld implements IObservable, IGameWold {
 
     }
 
+
     @Override
     public void fireEnemyTankMissile() { // Fire enemy Tank
         Random r = new Random(); // A random number generator
@@ -192,7 +203,7 @@ public class GameWorld implements IObservable, IGameWold {
             System.out.println("This tank has no more ammo");   // Print error message
         }
 
-
+        notifyObservers();
     }
 
 
@@ -220,6 +231,7 @@ public class GameWorld implements IObservable, IGameWold {
         } else {
             randomTank.modifyArmorStrength(-1);
         }
+        notifyObservers();
     }
 
     public boolean removeMissileFromMap(int x) {
@@ -246,6 +258,7 @@ public class GameWorld implements IObservable, IGameWold {
 
         }
         if (i < x) return false;
+        notifyObservers();
         return true;
     }
 
@@ -256,6 +269,7 @@ public class GameWorld implements IObservable, IGameWold {
         if (!didRemoveMissile) {
             System.out.println("There arent two missiles for two to collide"); //print error message
         }
+        notifyObservers();
     }
 
     public void blockMovableObject() {
@@ -270,6 +284,7 @@ public class GameWorld implements IObservable, IGameWold {
 
         t.setSpeed(0);
         t.toggleBlocked(); // set its status to blocked
+        notifyObservers();
     }
 
     public void tick() {
@@ -281,8 +296,8 @@ public class GameWorld implements IObservable, IGameWold {
         Each object has a unique update method to its behavior.
          */
         clock = clock + 1;
-        GameObjectCollection tmp = returnAllMoveableItemsFromObject(go);
-        Iterator itr = tmp.iterator();
+
+        Iterator itr = go.iterator();
         while (itr.hasNext()) {
             MovableItem tmpGameObject = (MovableItem) itr.next();
             tmpGameObject.update();
@@ -297,10 +312,14 @@ public class GameWorld implements IObservable, IGameWold {
         Remove an object that has health 0 or less (Should never happen)
          */
         Iterator itr = go.iterator();
-        int tmpHealth = m.getHealth();
-        if (tmpHealth < 1) {
-            itr.remove();
+        while (itr.hasNext())
+        if (m == itr.next()){
+            int tmpHealth = m.getHealth();
+            if (tmpHealth < 1) {
+                itr.remove();
+            }
         }
+        notifyObservers();
 
     }
 
@@ -368,6 +387,7 @@ public class GameWorld implements IObservable, IGameWold {
 
     public void addScore() {
         this.score++;
+        notifyObservers();
     }
 
     public boolean getSound() {
@@ -391,5 +411,26 @@ public class GameWorld implements IObservable, IGameWold {
         for (int i = 0; i < observers.size(); i++) {
             observers.get(i).update(tmpProxy, randomObject);
         }
+        drawMap();
     }
+
+    @Override
+    public void toggleStrategy(){
+
+        Iterator iterator = go.iterator();
+        while (iterator.hasNext()){
+            GameObject gameObject = (GameObject) iterator.next();
+            if (gameObject instanceof Tank){
+                if (currStrat == everyOtherTick)
+                    ((Tank) gameObject).setCurStrategy(everyTick);
+                if (currStrat == everyTick)
+                    ((Tank) gameObject).setCurStrategy(everyOtherTick);
+
+            }
+        }
+
+    }
+
 }
+
+

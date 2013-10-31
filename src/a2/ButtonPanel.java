@@ -31,6 +31,8 @@ public class ButtonPanel extends JPanel {
         CommandTick tick = CommandTick.getInstance();
         CommandGetHitByMissile getHitByMissile = CommandGetHitByMissile.getInstance();
         CommandMissileHitMissile missileHitMissile = CommandMissileHitMissile.getInstance();
+        CommandChangeStrategy changeStrategy = CommandChangeStrategy.getInstance();
+        changeStrategy.setTarget(gwp);
         missileHitMissile.setTarget(gwp);
         getHitByMissile.setTarget(gwp);
         tick.setTarget(gwp);
@@ -39,7 +41,9 @@ public class ButtonPanel extends JPanel {
         JButton gethit = new JButton(getHitByMissile);
         JButton helpButton = new JButton(CommandHelp.getInstance());
         JButton quitButton = new JButton(CommandQuit.getInstance());
+        JButton changeStrategyButton = new JButton(changeStrategy);
 
+        this.add(changeStrategyButton);
         this.add(missileHitMissileButton);
         this.add(gethit);
         this.add(tickButton);

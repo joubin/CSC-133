@@ -83,5 +83,15 @@ public class GameWorldProxy implements IObservable, IGameWold {
         gw.firePlayerTankMissile();
     }
 
+    @Override
+    public void blockMovableObject() {
+        gw.blockMovableObject();
+    }
+
+    @Override
+    public void toggleStrategy() {
+        gw.toggleStrategy();
+    }
+
 
 }
