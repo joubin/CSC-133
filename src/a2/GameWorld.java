@@ -299,9 +299,13 @@ public class GameWorld implements IObservable, IGameWold {
 
         Iterator itr = go.iterator();
         while (itr.hasNext()) {
-            MovableItem tmpGameObject = (MovableItem) itr.next();
-            tmpGameObject.update();
-            deathReaper(tmpGameObject);
+            GameObject dumbTmpGameObject = (GameObject) itr.next();
+            MovableItem tmpGameObject = null;
+            if (dumbTmpGameObject instanceof MovableItem) {
+                tmpGameObject = (MovableItem) dumbTmpGameObject;
+                tmpGameObject.update();
+                deathReaper(tmpGameObject);
+            }
         }
         notifyObservers();
     }

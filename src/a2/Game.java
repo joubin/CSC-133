@@ -37,14 +37,14 @@ public class Game extends JFrame {
         int forgiveness = 0; // To allow the user the wrong input before the game is initialized.
         do try {          //TODO
             // Change this to a GUI object that appears and asks for input
-//            System.out.println("Please enter the number of enemy tanks:");
-//            int numberOfTanks = Integer.parseInt(in.nextLine()); // get the number of tanks from the user
-//            System.out.println("Please enter the number of Rocks:");
-//            int numberOfRocks = Integer.parseInt(in.nextLine()); // get the number of rocks from the user
-//            System.out.println("Please enter the number of Tress:");
-//            int numberOfTrees = Integer.parseInt(in.nextLine()); // get the number of trees from the user
-//            gw.initialize(numberOfTanks, numberOfRocks, numberOfTrees); // init the gameworld
-            gw.initialize(10, 0, 0);
+            System.out.println("Please enter the number of enemy tanks:");
+            int numberOfTanks = Integer.parseInt(in.nextLine()); // get the number of tanks from the user
+            System.out.println("Please enter the number of Rocks:");
+            int numberOfRocks = Integer.parseInt(in.nextLine()); // get the number of rocks from the user
+            System.out.println("Please enter the number of Tress:");
+            int numberOfTrees = Integer.parseInt(in.nextLine()); // get the number of trees from the user
+            gw.initialize(numberOfTanks, numberOfRocks, numberOfTrees); // init the gameworld
+//            gw.initialize(10, 0, 0);
             break; // if this part of the code is reached, that means the game has been init properly.
             // Otherwise, loop the try catch until forgiveness is reached 2
         } catch (java.lang.NumberFormatException e) {
