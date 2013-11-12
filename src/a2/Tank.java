@@ -137,12 +137,12 @@ public class Tank extends Vehicle {
         return String.format("%s=> %s speed=%d heading=%d armor=%d missile=%d", name, super.toString(), getSpeed(), getDirection(), getHealth(), missileCount);
     }
 
-    public void update(){
+    public void update() {
 
         super.update();
-        if (curStrategy != null){
+        if (curStrategy != null) {
             curStrategy.apply();
-            System.out.println("\n                      =====> "+curStrategy.toString());
+            System.out.println("\n                      =====> " + curStrategy.toString());
         }
 
     }

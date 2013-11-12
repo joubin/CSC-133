@@ -10,6 +10,7 @@ public class CommandDecreaseSpeed extends AbstractAction {
     private static CommandDecreaseSpeed commandIncreaseSpeed = null;
     private GameWorldProxy gameWorldProxy;
 
+
     public CommandDecreaseSpeed() {
         super("Increase Speed");
     }

@@ -12,6 +12,6 @@ public class StrategyEveryOtherTick implements IStrategy {
 
     @Override
     public void apply() {
-        if (gameWord.getClock()% 2 == 0) gameWord.fireEnemyTankMissile();
+        if (gameWord.getClock() % 2 == 0) gameWord.fireEnemyTankMissile();
     }
 }

@@ -2,6 +2,9 @@ package a2;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.util.Scanner;
 
 /**
@@ -19,13 +22,76 @@ public class Game extends JFrame {
     private ButtonPanel bp;
     private ScoreView sv;
     private MapView mv;
+    private int numberOfTanks, numberOfTrees, numberOfRocks;
 
+
+    private JFrame loadingMenu = new JFrame();
 
     public Game() {
         /*
         This constructor creates an instance of the game world and initializes it with all of the needed
         parameters.
          */
+        JButton okButton = new JButton("    Ok    ");
+        JButton quitButton = new JButton("  Quit  ");
+
+        JLabel jLabelTanks = new JLabel("Enemy of Tanks  ");
+        jLabelTanks.setHorizontalAlignment(SwingConstants.LEFT);
+        final JTextField numTanksField = new JTextField();
+        numTanksField.setColumns(10);
+
+        JLabel jLabelTree = new JLabel("Number of Trees ");
+        jLabelTree.setHorizontalAlignment(SwingConstants.LEFT);
+
+        final JTextField numTreeField = new JTextField();
+        numTreeField.setColumns(10);
+
+        JLabel jLabelRock = new JLabel("Number of Rocks");
+        jLabelRock.setHorizontalAlignment(SwingConstants.LEFT);
+        final JTextField numOfRocksField = new JTextField();
+
+        numOfRocksField.setColumns(10);
+
+
+        okButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                numberOfTanks = Integer.parseInt(numTanksField.getText());
+                numberOfTrees = Integer.parseInt(numTreeField.getText());
+                numberOfRocks = Integer.parseInt(numOfRocksField.getText());
+                gw.initialize(numberOfTanks, numberOfRocks, numberOfTrees); // init the gameworld
+                loadingMenu.dispatchEvent(new WindowEvent(loadingMenu, WindowEvent.WINDOW_CLOSING));
+            }
+        });
+        quitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                loadingMenu.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                loadingMenu.dispatchEvent(new WindowEvent(loadingMenu, WindowEvent.WINDOW_CLOSING));
+            }
+        });
+
+
+        JPanel setup = new JPanel();
+
+
+        loadingMenu.setLayout(new BorderLayout());
+        loadingMenu.setSize(300, 150);
+        loadingMenu.setLocationRelativeTo(null);
+
+        setup.add(jLabelRock);
+        setup.add(numOfRocksField);
+        setup.add(jLabelTanks);
+        setup.add(numTanksField);
+        setup.add(jLabelTree);
+        setup.add(numTreeField);
+
+        setup.add(okButton);
+        setup.add(quitButton);
+        loadingMenu.add(setup, BorderLayout.CENTER);
+//        loadingMenu.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        loadingMenu.setResizable(false);
+
         gw = new GameWorld();
         gwp = new GameWorldProxy(gw);
         bp = new ButtonPanel(gwp);
@@ -34,24 +100,7 @@ public class Game extends JFrame {
 
         gw.addObserver(sv);
         gw.addObserver(mv);
-        int forgiveness = 0; // To allow the user the wrong input before the game is initialized.
-        do try {          //TODO
-            // Change this to a GUI object that appears and asks for input
-            System.out.println("Please enter the number of enemy tanks:");
-            int numberOfTanks = Integer.parseInt(in.nextLine()); // get the number of tanks from the user
-            System.out.println("Please enter the number of Rocks:");
-            int numberOfRocks = Integer.parseInt(in.nextLine()); // get the number of rocks from the user
-            System.out.println("Please enter the number of Tress:");
-            int numberOfTrees = Integer.parseInt(in.nextLine()); // get the number of trees from the user
-            gw.initialize(numberOfTanks, numberOfRocks, numberOfTrees); // init the gameworld
-//            gw.initialize(10, 0, 0);
-            break; // if this part of the code is reached, that means the game has been init properly.
-            // Otherwise, loop the try catch until forgiveness is reached 2
-        } catch (java.lang.NumberFormatException e) {
-            System.out.println("Wrong key input");
-            forgiveness += 1;
-            if (forgiveness >= 2) System.exit(1);
-        } while (forgiveness < 2);
+
 
         JPanel mapPanel = mv;
         int mapName = JComponent.WHEN_IN_FOCUSED_WINDOW;
@@ -101,6 +150,7 @@ public class Game extends JFrame {
 
         this.makeGUI();
         this.requestFocus();
+        loadingMenu.requestFocus();
 
 
         play();
@@ -167,6 +217,9 @@ public class Game extends JFrame {
 
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setVisible(true);
+        loadingMenu.setUndecorated(true);
+        loadingMenu.setVisible(true);
+
 
     }
 

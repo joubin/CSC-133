@@ -25,7 +25,6 @@ public class GameWorld implements IObservable, IGameWold {
     private IStrategy currStrat = null;
 
 
-
     public void initialize(int numTank, int numRock, int numTree) {
         /*
         this method behaves exactly like a constructor, however, I renamed it becase the professors sample code called
@@ -34,6 +33,7 @@ public class GameWorld implements IObservable, IGameWold {
         everyTick = new StrategyEveryTick(this);
         everyOtherTick = new StrategyEveryOtherTick(this);
         currStrat = everyTick;
+        System.out.println("Rock " + numRock + " Tank " + numTank + " tree " + numTree);
         for (int i = 0; i < numRock; ++i) {
             /*
             Create the request number of rocks
@@ -123,81 +123,18 @@ public class GameWorld implements IObservable, IGameWold {
     }
 
 
-    public GameObjectCollection returnAllTanksFromObject(GameObjectCollection obj) {
-        /*
-        Returns all tanks that are in obj.
-        This is a helper method
-         */
-        GameObjectCollection tmp = new GameObjectCollection();
-        Iterator iterator = obj.iterator();
-        while (iterator.hasNext()) {
-            GameObject tmpTank = (GameObject) iterator.next();
-            if (tmpTank instanceof Tank) {
-                tmp.add(tmpTank);
-            }
-        }
-        return tmp;
-    }
-
-    public GameObjectCollection returnAllMissileFromObject(GameObjectCollection obj) {
-        /*
-        Returns all missiles that are in obj.
-        This is a helper method
-         */
-        GameObjectCollection tmp = new GameObjectCollection();
-        Iterator iterator = obj.iterator();
-
-        while (iterator.hasNext()) {
-            GameObject tmpMissile = (GameObject) iterator.next();
-            if (tmpMissile instanceof Missile) {
-                tmp.add(tmpMissile);
-            }
-        }
-        return tmp;
-    }
-
-    public GameObjectCollection returnAllMoveableItemsFromObject(GameObjectCollection obj) {
-        /*
-        Returns all Moveable items that are in obj.
-        This is a helper method
-         */
-        GameObjectCollection tmp = new GameObjectCollection();
-        Iterator iterator = obj.iterator();
-
-        while (iterator.hasNext()) {
-            GameObject tmpObject = (GameObject) iterator.next();
-            if (tmpObject instanceof Tank || tmpObject instanceof Missile) {
-                tmp.add(tmpObject);
-            }
-        }
-        return tmp;
-
-    }
-
-
     @Override
     public void fireEnemyTankMissile() { // Fire enemy Tank
-        Random r = new Random(); // A random number generator
-        GameObject t = null;
-        Tank tankChosen = null;
-        Iterator iterator = go.iterator();
+        Tank randomTank;
+        do {
+            randomTank = (Tank) go.returnRandomTank();
+        } while (randomTank == myTank);
 
-            do {
-                t = (GameObject) iterator.next(); // Get a random tank from the collection
-            } while (iterator.hasNext() && (t == myTank || !(t instanceof Tank))); // as long as the tank is not the player tank
-
-        if (t == null || t == myTank) {
-            System.out.println("You are the only tank");
-            return;
-        }else {
-            tankChosen = (Tank) t;
-        }
-
-        boolean ableToFire = tankChosen.fireMissile(); // check to see if the given tank can fire
+        boolean ableToFire = randomTank.fireMissile(); // check to see if the given tank can fire
 //        System.out.println(t.getName()); //debug code
         if (ableToFire) { // if the tank is able to fire,
-            Missile m = new Missile(tankChosen);// create a new missile
-            tankChosen.modifyMissleCount(-1); // remove the missile from the tanks ammo count
+            Missile m = new Missile(randomTank);// create a new missile
+            randomTank.modifyMissleCount(-1); // remove the missile from the tanks ammo count
             go.add(m); // add the newly created missile to the collection of game objects
         } else {
             System.out.println("This tank has no more ammo");   // Print error message
@@ -207,18 +144,16 @@ public class GameWorld implements IObservable, IGameWold {
     }
 
 
+    /**
+     * Random Tank gets hit by missile
+     */
     public void getHitWithMissile() {
-        // simulate that a random tank has been hit by a missile.
-        GameObjectCollection tanksInGame = returnAllTanksFromObject(go); // get an array of all tanks in the game
-        Iterator iterator = tanksInGame.iterator();
-        GameObject randomObject = null;
-        Tank randomTank = null;
-        while (iterator.hasNext()) {
-            randomObject = (GameObject) iterator.next();
-            if (randomObject instanceof Tank) {
-                randomTank = (Tank) randomObject;// Pick a random Tank
-            }
-        }
+
+        Tank randomTank;
+        do {
+            randomTank = (Tank) go.returnRandomTank();
+        } while (randomTank == myTank);
+
 //        ArrayList<Missile> missilesInGame = returnAllMissileFromObject(go);
 //        Missile randomMissile = missilesInGame.get(r.nextInt(missilesInGame.size()));
         /*
@@ -238,26 +173,16 @@ public class GameWorld implements IObservable, IGameWold {
         /*
         This is a helper function to remove missles from the map
         */
-        Missile myMissile = null;
-        GameObject myGameObject;
-        int i = 0;
-        int pass = 0;
-        while (i < x && pass <= x) {
-            System.out.print("Making a new itr\n\n");
-            pass++;
-            Iterator itr = go.iterator();
-            while (itr.hasNext()) {
-                myGameObject = (GameObject) itr.next();
-                if (myGameObject instanceof Missile) {
-                    itr.remove();
-                    i++;
-                    break;
-                }
-            }
-
-
+        int passes = 0;
+        ArrayList<Missile> tmpMissiles = new ArrayList<Missile>();
+        while (passes < x) {
+            passes++;
+            tmpMissiles.add((Missile) go.returnRandomMissile());
         }
-        if (i < x) return false;
+        if (tmpMissiles.size() != x) return false;
+        for (Missile m : tmpMissiles) {
+            go.remove(m);
+        }
         notifyObservers();
         return true;
     }
@@ -276,15 +201,12 @@ public class GameWorld implements IObservable, IGameWold {
         /*
         Block a random movable object
          */
-        GameObjectCollection tanks = returnAllTanksFromObject(go);
-        Iterator itr = tanks.iterator();
-        Tank t;
 
-        t = (Tank) itr.next(); // Get a random tank from the collection
-
+        Tank t = (Tank) go.returnRandomTank();
         t.setSpeed(0);
         t.toggleBlocked(); // set its status to blocked
         notifyObservers();
+
     }
 
     public void tick() {
@@ -317,12 +239,12 @@ public class GameWorld implements IObservable, IGameWold {
          */
         Iterator itr = go.iterator();
         while (itr.hasNext())
-        if (m == itr.next()){
-            int tmpHealth = m.getHealth();
-            if (tmpHealth < 1) {
-                itr.remove();
+            if (m == itr.next()) {
+                int tmpHealth = m.getHealth();
+                if (tmpHealth < 1) {
+                    itr.remove();
+                }
             }
-        }
         notifyObservers();
 
     }
@@ -419,12 +341,12 @@ public class GameWorld implements IObservable, IGameWold {
     }
 
     @Override
-    public void toggleStrategy(){
+    public void toggleStrategy() {
 
         Iterator iterator = go.iterator();
-        while (iterator.hasNext()){
+        while (iterator.hasNext()) {
             GameObject gameObject = (GameObject) iterator.next();
-            if (gameObject instanceof Tank){
+            if (gameObject instanceof Tank) {
                 if (currStrat == everyOtherTick)
                     ((Tank) gameObject).setCurStrategy(everyTick);
                 if (currStrat == everyTick)
