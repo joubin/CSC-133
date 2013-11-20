@@ -8,7 +8,6 @@ import java.net.URL;
  * User: joubin
  */
 public class CommandAbout extends AbstractAction {
-    GameWorldProxy gwProxy;
     private static CommandAbout theAboutCommand = null;
 
     /**

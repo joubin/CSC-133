@@ -9,8 +9,7 @@ import java.awt.event.ActionEvent;
 public class CommandBlockTank extends AbstractAction {
 
     private static CommandBlockTank blockT = null;
-    private
-    GameWorldProxy gwp;
+    private GameWorld gw;
 
     public CommandBlockTank() {
         super("Block Tank");
@@ -21,14 +20,14 @@ public class CommandBlockTank extends AbstractAction {
         return blockT;
     }
 
-    public void setTarget(GameWorldProxy gwp) {
-        this.gwp = gwp;
+    public void setTarget(GameWorld gw) {
+        this.gw = gw;
     }
 
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        gwp.blockMovableObject();
+        gw.blockMovableObject();
         System.out.println("Block movable From " + e.getActionCommand() + " " + e.getSource().getClass());
 
     }

@@ -9,7 +9,7 @@ import java.awt.event.ActionEvent;
 public class CommandMissileHitMissile extends AbstractAction {
 
     private static CommandMissileHitMissile missileHitMissile = null;
-    private GameWorldProxy gwp;
+    private GameWorld gameworld;
 
     public CommandMissileHitMissile() {
         super("Missile Hit Missile");
@@ -21,14 +21,14 @@ public class CommandMissileHitMissile extends AbstractAction {
     }
 
 
-    public void setTarget(GameWorldProxy gwp) {
-        this.gwp = gwp;
+    public void setTarget(GameWorld gw) {
+        this.gameworld = gw;
     }
 
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        gwp.missileCollisions();
+        gameworld.missileCollisions();
         System.out.println("Missile collide from " + e.getActionCommand() + " " + e.getSource().getClass());
 
     }

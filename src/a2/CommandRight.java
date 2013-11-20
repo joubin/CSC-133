@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
  */
 public class CommandRight extends AbstractAction {
     private static CommandRight commandRight = null;
-    private GameWorldProxy gameWorldProxy;
+    private GameWorld gameWorld;
 
     public CommandRight() {
         super("Turn Left");
@@ -19,13 +19,13 @@ public class CommandRight extends AbstractAction {
         return commandRight;
     }
 
-    public void target(GameWorldProxy gwp) {
-        this.gameWorldProxy = gwp;
+    public void target(GameWorld gw) {
+        this.gameWorld = gw;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        gameWorldProxy.changePlayerTankDirection(5);
+        gameWorld.changePlayerTankDirection(5);
         System.out.println("Right command from " + e.getActionCommand() + " " + e.getSource().getClass());
 
 

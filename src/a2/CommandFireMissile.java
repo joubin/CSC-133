@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
  */
 public class CommandFireMissile extends AbstractAction {
     private static CommandFireMissile commandFire = null;
-    private GameWorldProxy gameWorldProxy;
+    private GameWorld gameworld;
 
     public CommandFireMissile() {
         super("Fire");
@@ -19,14 +19,14 @@ public class CommandFireMissile extends AbstractAction {
         return commandFire;
     }
 
-    public void target(GameWorldProxy gwp) {
-        this.gameWorldProxy = gwp;
+    public void target(GameWorld gw) {
+        this.gameworld = gw;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (this.gameWorldProxy == null) System.exit(1);
-        gameWorldProxy.firePlayerTankMissile();
+        if (this.gameworld == null) System.exit(1);
+        gameworld.firePlayerTankMissile();
         System.out.println("Fire Missile From " + e.getActionCommand() + " " + e.getSource().getClass());
 
     }

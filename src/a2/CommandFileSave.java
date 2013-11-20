@@ -9,14 +9,14 @@ import java.awt.event.ActionEvent;
 public class CommandFileSave extends AbstractAction {
 
     private static CommandFileSave pFile = null;
-    private GameWorldProxy gwp;
+    private GameWorld gw;
 
     public CommandFileSave() {
         super("File");
     }
 
-    public void target(GameWorldProxy gwp) {
-        this.gwp = gwp;
+    public void target(GameWorld gw) {
+        this.gw = gw;
     }
 
     public synchronized static CommandFileSave getInstance() {

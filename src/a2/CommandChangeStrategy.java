@@ -9,8 +9,7 @@ import java.awt.event.ActionEvent;
 public class CommandChangeStrategy extends AbstractAction {
 
     private static CommandChangeStrategy changeStrategy = null;
-    private
-    GameWorldProxy gwp;
+    private GameWorld gw;
 
     public CommandChangeStrategy() {
         super("Enemy Switch");
@@ -21,14 +20,14 @@ public class CommandChangeStrategy extends AbstractAction {
         return changeStrategy;
     }
 
-    public void setTarget(GameWorldProxy gwp) {
-        this.gwp = gwp;
+    public void setTarget(GameWorld gw) {
+        this.gw = gw;
     }
 
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        gwp.toggleStrategy();
+        gw.toggleStrategy();
         System.out.println("Enemy Swtich From " + e.getActionCommand() + " " + e.getSource().getClass());
 
     }

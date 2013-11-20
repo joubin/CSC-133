@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
  */
 public class CommandIncreaseSpeed extends AbstractAction {
     private static CommandIncreaseSpeed commandIncreaseSpeed = null;
-    private GameWorldProxy gameWorldProxy;
+    private GameWorld gameworld;
 
     public CommandIncreaseSpeed() {
         super("Increase Speed");
@@ -19,13 +19,13 @@ public class CommandIncreaseSpeed extends AbstractAction {
         return commandIncreaseSpeed;
     }
 
-    public void target(GameWorldProxy gwp) {
-        this.gameWorldProxy = gwp;
+    public void target(GameWorld gw) {
+        this.gameworld = gw;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        gameWorldProxy.modifyPlayerTankSpeed(1);
+        gameworld.modifyPlayerTankSpeed(1);
 
         System.out.println("Increase Speed From " + e.getActionCommand() + " " + e.getSource().getClass());
 

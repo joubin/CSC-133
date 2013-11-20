@@ -96,17 +96,17 @@ public class Game extends JFrame {
         gwp = new GameWorldProxy(gw);
         bp = new ButtonPanel(gwp);
         sv = new ScoreView();
-        mv = new MapView();
+        mv = new MapView(gw);
 
         gw.addObserver(sv);
         gw.addObserver(mv);
 
 
-        JPanel mapPanel = mv;
+//        JPanel mapPanel = mv;
         int mapName = JComponent.WHEN_IN_FOCUSED_WINDOW;
-        InputMap myMap = mapPanel.getInputMap(mapName);
+        InputMap myMap = mv.getInputMap(mapName);
 //        InputMap myMap2 = new InputMap();
-        ActionMap myAction = mapPanel.getActionMap();
+        ActionMap myAction = mv.getActionMap();
 //        int myMap = JComponent.WHEN_IN_FOCUSED_WINDOW;
 
         CommandLeft turnLeft = CommandLeft.getInstance();

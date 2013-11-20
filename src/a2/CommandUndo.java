@@ -9,14 +9,14 @@ import java.awt.event.ActionEvent;
 public class CommandUndo extends AbstractAction {
 
     private static CommandUndo undo = null;
-    private GameWorldProxy gwp;
+    private GameWorld gw;
 
     public CommandUndo() {
         super("Undo");
     }
 
-    public void target(GameWorldProxy gwp) {
-        this.gwp = gwp;
+    public void target(GameWorld gw) {
+        this.gw = gw;
     }
 
     public synchronized static CommandUndo getInstance() {

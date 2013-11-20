@@ -34,7 +34,7 @@ public abstract class GameObject {
     Setting the x location. The formula below ensures that the the range is always positive
      */
     public void setX(float x) {
-        this.x = ((x % 1024 + 1024) % 1024);
+        this.x = ((x % 700 + 700) % 700  );
     }
 
     /*
@@ -48,7 +48,7 @@ public abstract class GameObject {
     Setting the y location. The formula below ensures that the the range is always positive
      */
     public void setY(float y) {
-        this.y = ((y % 1023 + 1023) % 1023);
+        this.y = ((y % 700 + 700) % 700);
     }
 
     /*
@@ -65,6 +65,8 @@ public abstract class GameObject {
     public String toString() {
         return String.format("loc=[%.2f,%.2f] color=[%s,%s,%s]", x, y, myColor.getRed(), myColor.getGreen(), myColor.getBlue());
     }
+
+    abstract void draw(Graphics g);
 
 
 }

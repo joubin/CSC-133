@@ -1,5 +1,6 @@
 package a2;
 
+import java.awt.*;
 import java.util.Random;
 
 /**
@@ -46,5 +47,11 @@ public class Rock extends LandscapeItem {
         This tostring combines what has been returned by gameobject and adds Rock specified attributes.
          */
         return String.format("Rock=> %s width=%d height=%d", super.toString(), width, height);
+    }
+
+    @Override
+    void draw(Graphics g) {
+        g.setColor(Color.GRAY);
+        g.fillRect((int) getX() - width, (int) getY() - height, width, height);
     }
 }

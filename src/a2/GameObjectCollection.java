@@ -33,14 +33,14 @@ public class GameObjectCollection implements ICollection {
         return myObjects.size();
     }
 
-    private ArrayList<GameObject> returnAllTanks() {
+    private ArrayList<Tank> returnAllTanks() {
         /*
         Returns all tanks that are in obj.
         This is a helper method
          */
-        ArrayList<GameObject> tmp = new ArrayList<GameObject>();
+        ArrayList<Tank> tmp = new ArrayList<Tank>();
         for (GameObject o : myObjects) {
-            if (o instanceof Tank) tmp.add(o);
+            if (o instanceof Tank) tmp.add((Tank) o);
         }
 
         return tmp;
@@ -69,8 +69,10 @@ public class GameObjectCollection implements ICollection {
 
     public GameObject returnRandomTank() {
         Random r = new Random();
-        int random = r.nextInt(myObjects.size());
-        return myObjects.get(random);
+        ArrayList<Tank> tmpAllTanks = returnAllTanks();
+
+        int random = r.nextInt(tmpAllTanks.size());
+        return tmpAllTanks.get(random);
     }
 
     public GameObject returnRandomMissile() {
@@ -81,8 +83,9 @@ public class GameObjectCollection implements ICollection {
 
     public GameObject returnRandomMovable() {
         Random r = new Random();
-        int random = r.nextInt(myObjects.size());
-        return myObjects.get(random);
+        ArrayList<MovableItem> tmpMovable = returnAllMovable();
+        int random = r.nextInt(tmpMovable.size());
+        return tmpMovable.get(random);
 
     }
 

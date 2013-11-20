@@ -9,7 +9,6 @@ import java.net.URL;
  */
 public class CommandHelp extends AbstractAction {
 
-    GameWorld gwProxy;
     private static CommandHelp theCommandHelp = null;
 
     /**

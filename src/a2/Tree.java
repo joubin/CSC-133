@@ -1,5 +1,6 @@
 package a2;
 
+import java.awt.*;
 import java.util.Random;
 
 /**
@@ -38,5 +39,11 @@ public class Tree extends LandscapeItem {
         Appends the toString provided from the parent class -- all objects -- to Tree specific information
          */
         return String.format("Tree=> %s diameter=%d", super.toString(), this.rad);
+    }
+
+    @Override
+    void draw(Graphics g) {
+        g.setColor(Color.GREEN);
+        g.fillOval((int) getX(), (int) getY(), rad, rad);
     }
 }

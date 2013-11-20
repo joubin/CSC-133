@@ -82,7 +82,7 @@ public class GameWorld implements IObservable, IGameWold {
 
 
         while (true) { // loop will exit when something is returned.
-            float[] xy = {randGen.nextInt(1024), randGen.nextInt(1024)}; // pick and x and y between 0 - 1024
+            float[] xy = {randGen.nextInt(700), randGen.nextInt(700)}; // pick and x and y between 0 - 1024
             int checkedAll = 0;
 
             Iterator iterator = go.iterator();
@@ -355,6 +355,10 @@ public class GameWorld implements IObservable, IGameWold {
             }
         }
 
+    }
+
+    public GameObjectCollection getGameWorldObjects(){
+        return go;
     }
 
 }

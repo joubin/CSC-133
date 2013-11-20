@@ -6,7 +6,7 @@ package a2;
  * Date: 10/11/13
  * Time: 12:16 PM
  */
-public class GameWorldProxy implements IObservable, IGameWold {
+public class GameWorld implements IObservable, IGameWold {
     GameWorld gw; // only game has knowldge of the real game world object
 
     public GameWorldProxy(GameWorld gw) {
@@ -41,7 +41,7 @@ public class GameWorldProxy implements IObservable, IGameWold {
 
     @Override
     public void setSound(boolean sound) {
-        gw.setSound(!gw.getSound());
+        // Does nothing for safety
     }
 
 
@@ -55,42 +55,42 @@ public class GameWorldProxy implements IObservable, IGameWold {
 
     @Override
     public void getHitWithMissile() {
-        gw.getHitWithMissile();
+        // Does nothing for safety
     }
 
     @Override
     public void changePlayerTankDirection(int d) {
-        gw.changePlayerTankDirection(d);
+        // Does nothing for safety
     }
 
     @Override
     public void modifyPlayerTankSpeed(int s) {
-        gw.modifyPlayerTankSpeed(s);
+        // Does nothing for safety
     }
 
     @Override
     public void fireEnemyTankMissile() {
-        gw.fireEnemyTankMissile();
+        // Does nothing for safety
     }
 
     @Override
     public void missileCollisions() {
-        gw.missileCollisions();
+        // Does nothing for safety
     }
 
     @Override
     public void firePlayerTankMissile() {
-        gw.firePlayerTankMissile();
+        // Does nothing for safety
     }
 
     @Override
     public void blockMovableObject() {
-        gw.blockMovableObject();
+        // Does nothing for safety
     }
 
     @Override
     public void toggleStrategy() {
-        gw.toggleStrategy();
+        // Does nothing for safety
     }
 
 

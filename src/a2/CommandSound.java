@@ -7,15 +7,15 @@ import java.awt.event.ActionEvent;
  * User: joubin
  */
 public class CommandSound extends AbstractAction {
-    GameWorldProxy gwProxy;
+    private GameWorld gameWorld;
     private static CommandSound soundCommand = null;
 
     public CommandSound() {
         super("Sound");
     }
 
-    public void target(GameWorldProxy gwProxy) {
-        this.gwProxy = gwProxy;
+    public void target(GameWorld gameInstance) {
+        this.gameWorld = gameInstance;
     }
 
 
@@ -26,7 +26,7 @@ public class CommandSound extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        gwProxy.setSound(!gwProxy.getSound());
+        gameWorld.setSound(!gameWorld.getSound());
         System.out.println("Sound Command From " + e.getActionCommand() + " " + e.getSource().getClass());
 
     }

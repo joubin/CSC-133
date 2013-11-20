@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
  */
 public class CommandTick extends AbstractAction {
 
-    GameWorldProxy gwProxy;
+    private GameWorld gameWorld;
     private static CommandTick _TickCommand = null;
 
     public CommandTick() {
@@ -26,13 +26,13 @@ public class CommandTick extends AbstractAction {
 
     }
 
-    public void setTarget(GameWorldProxy gwp) {
-        this.gwProxy = gwp;
+    public void setTarget(GameWorld gw) {
+        this.gameWorld = gw;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        gwProxy.tick();
+        gameWorld.tick();
         System.out.println("Tick From " + e.getActionCommand() + " " + e.getSource().getClass());
 
     }

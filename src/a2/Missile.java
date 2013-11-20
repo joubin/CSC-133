@@ -1,5 +1,7 @@
 package a2;
 
+import java.awt.*;
+
 /**
  * Created with IntelliJ IDEA.
  * User: joubin
@@ -19,7 +21,7 @@ public class Missile extends Projectile {
 
     public Missile(Tank t) {
         super(t.getDirection());
-        setHealth(5);
+        setHealth(100);
         this.setSpeed(t.getSpeed() + 5);
         setX(t.getX());
         setY(t.getY());
@@ -43,5 +45,14 @@ public class Missile extends Projectile {
         Returns the parent class toString which is uniq to all objects and adds missile specific attributes.
          */
         return String.format("Missile=> %s speed=%d heading=%d      " + this.getHealth(), super.toString(), this.getSpeed(), this.getDirection());
+    }
+
+    @Override
+    void draw(Graphics g) {
+        g.setColor(Color.RED);
+//        int [] x = {(int) getX()+10,(int) getX()+22, (int) getX()+33};
+//        int [] y = {(int) getY()+11,(int) getY()+22, (int) getY()+33};
+//        g.fillPolygon(x, y, 3);
+        g.fillOval((int) getX(), (int) getY(), 5,5);
     }
 }

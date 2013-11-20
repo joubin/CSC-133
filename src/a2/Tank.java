@@ -1,5 +1,6 @@
 package a2;
 
+import java.awt.*;
 import java.util.Random;
 
 /**
@@ -15,6 +16,7 @@ public class Tank extends Vehicle {
     private boolean isPlayer = false; // special flag to differentiate the player tank from other tanks
     private String name = "Tank";
     protected IStrategy curStrategy = null;
+
 
 
     public void setCurStrategy(IStrategy curStrategy) {
@@ -46,7 +48,7 @@ public class Tank extends Vehicle {
         setHealth(10);
         this.missileCount = 10;
         this.isPlayer = true;
-        Random random = new Random(1024);
+        Random random = new Random(700);
         setX(x);
         setY(y);
         if (myTank) name = "My Tank";
@@ -137,15 +139,31 @@ public class Tank extends Vehicle {
         return String.format("%s=> %s speed=%d heading=%d armor=%d missile=%d", name, super.toString(), getSpeed(), getDirection(), getHealth(), missileCount);
     }
 
+    @Override
+    void draw(Graphics g) {
+        g.setColor(Color.RED);
+        if (isPlayer) g.setColor(Color.BLUE);
+        int localx = (int) getX();
+        int localy = (int) getY();
+        g.drawRect(localx-15, localy-15, 30, 30);
+        g.drawLine( localx, localy-15, localx, localy+15);
+        int sx[] = {(int) getX()-15, (int) getX(),(int) getX()+15};
+        int sy[] = {(int) getY()+15, (int) getY()+30, (int) getY()+15};
+        g.setColor(Color.BLACK);
+        g.fillPolygon( sx, sy, 3);
+    }
+
     public void update() {
 
         super.update();
         if (curStrategy != null) {
             curStrategy.apply();
-            System.out.println("\n                      =====> " + curStrategy.toString());
+            System.out.println("\n=====> " + curStrategy.toString());
         }
 
     }
+
+
 
 
     // Make it so it can only fire a missle when it has missles to fire.
