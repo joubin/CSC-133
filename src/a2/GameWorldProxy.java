@@ -6,7 +6,7 @@ package a2;
  * Date: 10/11/13
  * Time: 12:16 PM
  */
-public class GameWorld implements IObservable, IGameWold {
+public class GameWorldProxy implements IObservable, IGameWold {
     GameWorld gw; // only game has knowldge of the real game world object
 
     public GameWorldProxy(GameWorld gw) {
@@ -93,5 +93,7 @@ public class GameWorld implements IObservable, IGameWold {
         // Does nothing for safety
     }
 
-
+    public GameObjectCollection getGameWorldObjects(){
+        return gw.getGameWorldObjects();
+    }
 }

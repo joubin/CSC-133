@@ -11,10 +11,10 @@ import java.awt.*;
  * Time: 8:20 PM
  */
 public class ButtonPanel extends JPanel {
-    private GameWorldProxy gwp = null;
+    private GameWorld gameWorld = null;
 
-    public ButtonPanel(GameWorldProxy gwp) {
-        this.gwp = gwp;
+    public ButtonPanel(GameWorld gwp) {
+        this.gameWorld = gwp;
         this.setPreferredSize(new Dimension(200, 700));
         this.setLayout(new GridLayout(11, 1));
         this.setBorder(new TitledBorder("Commands"));
@@ -32,20 +32,20 @@ public class ButtonPanel extends JPanel {
         CommandGetHitByMissile getHitByMissile = CommandGetHitByMissile.getInstance();
         CommandMissileHitMissile missileHitMissile = CommandMissileHitMissile.getInstance();
         CommandChangeStrategy changeStrategy = CommandChangeStrategy.getInstance();
-        changeStrategy.setTarget(gwp);
-        missileHitMissile.setTarget(gwp);
-        getHitByMissile.setTarget(gwp);
-        tick.setTarget(gwp);
+        changeStrategy.setTarget(gameWorld);
+        missileHitMissile.setTarget(gameWorld);
+        getHitByMissile.setTarget(gameWorld);
+        tick.setTarget(gameWorld);
         JButton missileHitMissileButton = new JButton(missileHitMissile);
         JButton tickButton = new JButton(tick);
-        JButton gethit = new JButton(getHitByMissile);
+        JButton getHit = new JButton(getHitByMissile);
         JButton helpButton = new JButton(CommandHelp.getInstance());
         JButton quitButton = new JButton(CommandQuit.getInstance());
         JButton changeStrategyButton = new JButton(changeStrategy);
 
         this.add(changeStrategyButton);
         this.add(missileHitMissileButton);
-        this.add(gethit);
+        this.add(getHit);
         this.add(tickButton);
         this.add(helpButton);
         this.add(quitButton);

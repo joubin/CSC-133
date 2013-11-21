@@ -31,7 +31,7 @@ public class Tank extends Vehicle {
          */
         super(0); // set initial direction of the tank
         setHealth(10); // set the health
-        this.missileCount = 10; // set missile count
+        this.missileCount = 100; // set missile count
         setX(x); // set x and y coordinates given by the gameworld
         setY(y);
         this.curStrategy = strategy;
@@ -46,7 +46,7 @@ public class Tank extends Vehicle {
          */
         super(0);
         setHealth(10);
-        this.missileCount = 10;
+        this.missileCount = 100;
         this.isPlayer = true;
         Random random = new Random(700);
         setX(x);
@@ -108,6 +108,8 @@ public class Tank extends Vehicle {
 
         Increase and decrease speed
          */
+        System.out.print(" SPEED SPEED SPEED SPEED SPEED SPEED ");
+
         if (getBlockStatus()) {
             System.out.println("You are blocked");
         } else {
@@ -140,17 +142,18 @@ public class Tank extends Vehicle {
     }
 
     @Override
-    void draw(Graphics g) {
-        g.setColor(Color.RED);
+    public void draw(Graphics g) {
+        g.setColor(getMyColor());
+        int width = 30;
+        int height = 30;
         if (isPlayer) g.setColor(Color.BLUE);
-        int localx = (int) getX();
-        int localy = (int) getY();
-        g.drawRect(localx-15, localy-15, 30, 30);
-        g.drawLine( localx, localy-15, localx, localy+15);
-        int sx[] = {(int) getX()-15, (int) getX(),(int) getX()+15};
-        int sy[] = {(int) getY()+15, (int) getY()+30, (int) getY()+15};
-        g.setColor(Color.BLACK);
-        g.fillPolygon( sx, sy, 3);
+        int localx = (int) getX() - (width/2);
+        int localy = (int) getY() - (width/2);
+        g.drawRect(localx, localy, width, width);
+//        int sx[] = {(int) getX()-15, (int) getX(),(int) getX()+15};
+//        int sy[] = {(int) getY()+15, (int) getY()+30, (int) getY()+15};
+//        g.setColor(Color.BLACK);
+//        g.fillPolygon( sx, sy, 3);
     }
 
     public void update() {
@@ -164,6 +167,32 @@ public class Tank extends Vehicle {
     }
 
 
+
+    @Override
+    public void handleCollision(ICollider otherObject) {
+        // I am a Tank
+        GameObject tmp = (GameObject) otherObject;
+
+        if (tmp instanceof Tank){
+            ((Tank) this).toggleBlocked();
+        }
+
+        if (tmp instanceof Missile){
+            this.setHealth(-1);
+        }
+
+
+    }
+
+    @Override
+    public int getSize() {
+        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void setSize() {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
 
 
     // Make it so it can only fire a missle when it has missles to fire.

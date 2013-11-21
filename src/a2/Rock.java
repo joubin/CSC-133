@@ -50,8 +50,28 @@ public class Rock extends LandscapeItem {
     }
 
     @Override
-    void draw(Graphics g) {
+    public void draw(Graphics g) {
         g.setColor(Color.GRAY);
         g.fillRect((int) getX() - width, (int) getY() - height, width, height);
+    }
+
+    @Override
+    public boolean collidesWith(ICollider otherObject) {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void handleCollision(ICollider otherObject) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public int getSize() {
+        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void setSize() {
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 }

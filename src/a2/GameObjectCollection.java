@@ -77,8 +77,11 @@ public class GameObjectCollection implements ICollection {
 
     public GameObject returnRandomMissile() {
         Random r = new Random();
-        int random = r.nextInt(myObjects.size());
-        return myObjects.get(random);
+        ArrayList<Missile> tmpMissiles = returnAllMissile();
+        int random = 0;
+        if (tmpMissiles.size() > 0) random = r.nextInt(tmpMissiles.size());
+        else return null;
+        return tmpMissiles.get(random);
     }
 
     public GameObject returnRandomMovable() {

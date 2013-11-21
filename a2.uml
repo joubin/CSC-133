@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>a2</OriginalElement>
+  <nodes>
+    <node x="161.0" y="1338.0">a2.ScoreView</node>
+    <node x="1618.875" y="0.0">a2.GameObject</node>
+    <node x="1696.0" y="1965.0">a2.ButtonPanel</node>
+    <node x="1025.0" y="1756.0">a2.CommandMissileHitMissile</node>
+    <node x="0.0" y="1756.0">a2.CommandFileSave</node>
+    <node x="1069.0" y="1965.0">a2.CommandHelp</node>
+    <node x="1475.0" y="1338.0">a2.StrategyEveryTick</node>
+    <node x="1868.0" y="516.5">a2.Projectile</node>
+    <node x="1406.0" y="505.0">a2.Tree</node>
+    <node x="2059.0" y="664.0">a2.Tank</node>
+    <node x="1781.0" y="1547.0">a2.CommandLeft</node>
+    <node x="0.0" y="1547.0">a2.CommandIncreaseSpeed</node>
+    <node x="2195.5" y="325.0">a2.ISteerable</node>
+    <node x="372.0" y="1965.0">a2.CommandBlockTank</node>
+    <node x="2185.0" y="1965.0">a2.Resources</node>
+    <node x="1625.0" y="494.0">a2.Rock</node>
+    <node x="1386.0" y="1547.0">a2.CommandRight</node>
+    <node x="727.0" y="1965.0">a2.CommandAbout</node>
+    <node x="0.0" y="1965.0">a2.CommandTick</node>
+    <node x="487.0" y="411.0">a2.GameWorld</node>
+    <node x="2158.0" y="1547.0">a2.CommandSound</node>
+    <node x="17.5" y="0.0">a2.IGameWold</node>
+    <node x="693.0" y="1756.0">a2.CommandUndo</node>
+    <node x="1929.0" y="1756.0">a2.CommandChangeStrategy</node>
+    <node x="1971.0" y="1965.0">a2.Starter</node>
+    <node x="1755.0" y="1236.0">a2.CommandDecreaseSpeed</node>
+    <node x="838.0" y="1360.0">a2.GameObjectCollection</node>
+    <node x="1487.0" y="1756.0">a2.CommandGetHitByMissile</node>
+    <node x="953.5" y="143.5">a2.IObservable</node>
+    <node x="1858.0" y="797.0">a2.Missile</node>
+    <node x="1877.75" y="258.0">a2.MovableItem</node>
+    <node x="0.0" y="1382.5">a2.MapView</node>
+    <node x="1557.0" y="336.0">a2.LandscapeItem</node>
+    <node x="967.0" y="1547.0">a2.CommandFireMissile</node>
+    <node x="466.0" y="1236.0">a2.Game</node>
+    <node x="507.0" y="1547.0">a2.CommandFireEnemyMissile</node>
+    <node x="51.25" y="1236.0">a2.IObserver</node>
+    <node x="917.5" y="1236.0">a2.ICollection</node>
+    <node x="2213.0" y="528.0">a2.Vehicle</node>
+    <node x="1401.5" y="1236.0">a2.IStrategy</node>
+    <node x="1220.0" y="1338.0">a2.StrategyEveryOtherTick</node>
+    <node x="0.0" y="597.5">a2.GameWorldProxy</node>
+    <node x="347.0" y="1756.0">a2.CommandFileNew</node>
+    <node x="1376.0" y="1965.0">a2.CommandQuit</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="a2.StrategyEveryTick" target="a2.IStrategy">
+      <point x="0.0" y="-49.0" />
+      <point x="1592.5" y="1313.0" />
+      <point x="1496.75" y="1313.0" />
+      <point x="31.75" y="26.0" />
+    </edge>
+    <edge source="a2.StrategyEveryOtherTick" target="a2.IStrategy">
+      <point x="0.0" y="-49.0" />
+      <point x="1337.5" y="1313.0" />
+      <point x="1433.25" y="1313.0" />
+      <point x="-31.75" y="26.0" />
+    </edge>
+    <edge source="a2.MapView" target="a2.IObserver">
+      <point x="0.0" y="-37.5" />
+      <point x="70.5" y="1313.0" />
+      <point x="116.0" y="1313.0" />
+      <point x="-64.75" y="26.0" />
+    </edge>
+    <edge source="a2.Tank" target="a2.Vehicle">
+      <point x="0.0" y="-181.5" />
+      <point x="0.0" y="26.0" />
+    </edge>
+    <edge source="a2.GameWorldProxy" target="a2.IGameWold">
+      <point x="-116.75" y="-203.5" />
+      <point x="-99.25" y="180.5" />
+    </edge>
+    <edge source="a2.GameWorldProxy" target="a2.IObservable">
+      <point x="116.75" y="-203.5" />
+      <point x="350.25" y="391.0" />
+      <point x="1016.5" y="391.0" />
+      <point x="-63.0" y="37.0" />
+    </edge>
+    <edge source="a2.MovableItem" target="a2.GameObject">
+      <point x="0.0" y="-93.0" />
+      <point x="2019.25" y="233.0" />
+      <point x="1858.125" y="233.0" />
+      <point x="79.75" y="104.0" />
+    </edge>
+    <edge source="a2.GameWorld" target="a2.IGameWold">
+      <point x="-218.5" y="-390.0" />
+      <point x="705.5" y="381.0" />
+      <point x="315.25" y="381.0" />
+      <point x="99.25" y="180.5" />
+    </edge>
+    <edge source="a2.Vehicle" target="a2.ISteerable">
+      <point x="32.0" y="-26.0" />
+      <point x="0.0" y="26.0" />
+    </edge>
+    <edge source="a2.GameObjectCollection" target="a2.ICollection">
+      <point x="0.0" y="-60.0" />
+      <point x="0.0" y="37.0" />
+    </edge>
+    <edge source="a2.Missile" target="a2.Projectile">
+      <point x="0.0" y="-48.5" />
+      <point x="0.0" y="37.5" />
+    </edge>
+    <edge source="a2.ScoreView" target="a2.IObserver">
+      <point x="0.0" y="-82.0" />
+      <point x="291.0" y="1313.0" />
+      <point x="245.5" y="1313.0" />
+      <point x="64.75" y="26.0" />
+    </edge>
+    <edge source="a2.Tree" target="a2.LandscapeItem">
+      <point x="0.0" y="-49.0" />
+      <point x="1505.5" y="469.0" />
+      <point x="1589.0" y="469.0" />
+      <point x="-32.0" y="15.0" />
+    </edge>
+    <edge source="a2.Vehicle" target="a2.MovableItem">
+      <point x="-32.0" y="-26.0" />
+      <point x="2245.0" y="469.0" />
+      <point x="2090.0" y="469.0" />
+      <point x="70.75" y="93.0" />
+    </edge>
+    <edge source="a2.LandscapeItem" target="a2.GameObject">
+      <point x="0.0" y="-15.0" />
+      <point x="1621.0" y="233.0" />
+      <point x="1698.625" y="233.0" />
+      <point x="-79.75" y="104.0" />
+    </edge>
+    <edge source="a2.Projectile" target="a2.MovableItem">
+      <point x="0.0" y="-37.5" />
+      <point x="-70.75" y="93.0" />
+    </edge>
+    <edge source="a2.GameWorld" target="a2.IObservable">
+      <point x="218.5" y="-390.0" />
+      <point x="63.0" y="37.0" />
+    </edge>
+    <edge source="a2.Rock" target="a2.LandscapeItem">
+      <point x="0.0" y="-60.0" />
+      <point x="1736.5" y="469.0" />
+      <point x="1653.0" y="469.0" />
+      <point x="32.0" y="15.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.524022346368715" x="430.6481876332623" y="1137.5" />
+  <SelectedNodes>
+    <node>a2.Vehicle</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

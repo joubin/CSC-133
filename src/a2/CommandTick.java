@@ -33,7 +33,7 @@ public class CommandTick extends AbstractAction {
     @Override
     public void actionPerformed(ActionEvent e) {
         gameWorld.tick();
-        System.out.println("Tick From " + e.getActionCommand() + " " + e.getSource().getClass());
+        //System.out.println("Tick From " + e.getActionCommand() + " " + e.getSource().getClass());
 
     }
 }

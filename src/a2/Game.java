@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
+import java.net.MalformedURLException;
 import java.util.Scanner;
 
 /**
@@ -23,6 +24,7 @@ public class Game extends JFrame {
     private ScoreView sv;
     private MapView mv;
     private int numberOfTanks, numberOfTrees, numberOfRocks;
+    private Timer timer;
 
 
     private JFrame loadingMenu = new JFrame();
@@ -32,6 +34,7 @@ public class Game extends JFrame {
         This constructor creates an instance of the game world and initializes it with all of the needed
         parameters.
          */
+
         JButton okButton = new JButton("    Ok    ");
         JButton quitButton = new JButton("  Quit  ");
 
@@ -59,7 +62,16 @@ public class Game extends JFrame {
                 numberOfTanks = Integer.parseInt(numTanksField.getText());
                 numberOfTrees = Integer.parseInt(numTreeField.getText());
                 numberOfRocks = Integer.parseInt(numOfRocksField.getText());
-                gw.initialize(numberOfTanks, numberOfRocks, numberOfTrees); // init the gameworld
+                try {
+                    gw.initialize(numberOfTanks, numberOfRocks, numberOfTrees); // init the gameworld
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+                CommandTick tick = CommandTick.getInstance();
+                tick.setTarget(gw);
+                timer = new Timer(20, tick);
+                timer.start();
+                gw.setTimer(timer);
                 loadingMenu.dispatchEvent(new WindowEvent(loadingMenu, WindowEvent.WINDOW_CLOSING));
             }
         });
@@ -94,9 +106,9 @@ public class Game extends JFrame {
 
         gw = new GameWorld();
         gwp = new GameWorldProxy(gw);
-        bp = new ButtonPanel(gwp);
+        bp = new ButtonPanel(gw);
         sv = new ScoreView();
-        mv = new MapView(gw);
+        mv = new MapView(gwp);
 
         gw.addObserver(sv);
         gw.addObserver(mv);
@@ -118,16 +130,17 @@ public class Game extends JFrame {
         CommandGetHitByMissile getHitByMissile = CommandGetHitByMissile.getInstance();
         CommandChangeStrategy changeStrategy = CommandChangeStrategy.getInstance();
 
-        changeStrategy.setTarget(gwp);
 
 
-        getHitByMissile.setTarget(gwp);
-        fireEnemyMissile.target(gwp);
-        fireMissile.target(gwp);
-        turnLeft.target(gwp);
-        turnRight.target(gwp);
-        decreaseSpeed.target(gwp);
-        increaseSpeed.target(gwp);
+
+        changeStrategy.setTarget(gw);
+        getHitByMissile.setTarget(gw);
+        fireEnemyMissile.target(gw);
+        fireMissile.target(gw);
+        turnLeft.target(gw);
+        turnRight.target(gw);
+        decreaseSpeed.target(gw);
+        increaseSpeed.target(gw);
 
         KeyStroke leftArrow = KeyStroke.getKeyStroke('l');
         KeyStroke rightArrow = KeyStroke.getKeyStroke('r');
@@ -153,31 +166,25 @@ public class Game extends JFrame {
         loadingMenu.requestFocus();
 
 
-        play();
+//        play();
     }
 
     private void makeGUI() {
 
         //Get commands
         CommandAbout about = CommandAbout.getInstance();
-        CommandHelp help = CommandHelp.getInstance();
-        CommandIncreaseSpeed increaseSpeed = CommandIncreaseSpeed.getInstance();
-        CommandLeft left = CommandLeft.getInstance();
-        CommandQuit quit = CommandQuit.getInstance();
-        CommandRight right = CommandRight.getInstance();
         CommandSound sound = CommandSound.getInstance();
-        CommandTick tick = CommandTick.getInstance();
         CommandGetHitByMissile getHitByMissile = CommandGetHitByMissile.getInstance();
         CommandMissileHitMissile missileHitMissile = CommandMissileHitMissile.getInstance();
         CommandBlockTank blockTank = CommandBlockTank.getInstance();
 
 
-        missileHitMissile.setTarget(gwp);
-        getHitByMissile.setTarget(gwp);
-        blockTank.setTarget(gwp);
+        missileHitMissile.setTarget(gw);
+        getHitByMissile.setTarget(gw);
+        blockTank.setTarget(gw);
 
 
-        sound.target(gwp);
+        sound.target(gw);
 
 
         this.setLayout(new BorderLayout());
@@ -196,7 +203,7 @@ public class Game extends JFrame {
         JMenuItem myUndo = new JMenuItem("Undo");
         JMenuItem myAbout = new JMenuItem("About");
         JMenuItem myQuit = new JMenuItem("Quit");
-        JCheckBoxMenuItem soundMenu = new JCheckBoxMenuItem("Sound", false);
+        JCheckBoxMenuItem soundMenu = new JCheckBoxMenuItem("Sound", true);
         soundMenu.setAction(sound);
         file.add(myNew);
         file.add(mySave);

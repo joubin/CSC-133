@@ -10,10 +10,10 @@ import java.util.Iterator;
  */
 public class MapView extends JPanel implements IObserver {
     private GameWorldProxy gwp;
-    private GameWorld gameWorldInstance;
+//    private GameWorld gwp;
 
-    public MapView(GameWorld gameWorldInstance) {
-        this.gameWorldInstance = gameWorldInstance;
+    public MapView(GameWorldProxy gameWorldInstance) {
+        this.gwp = gameWorldInstance;
         this.setBorder(new TitledBorder("Map"));
 
     }
@@ -28,7 +28,7 @@ public class MapView extends JPanel implements IObserver {
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         GameObjectCollection localGameObjectCollection;
-        localGameObjectCollection = gameWorldInstance.getGameWorldObjects();
+        localGameObjectCollection = gwp.getGameWorldObjects();
         Iterator iterator = localGameObjectCollection.iterator();
         while (iterator.hasNext()){
             GameObject tmp = (GameObject) iterator.next();

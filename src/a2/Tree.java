@@ -42,8 +42,39 @@ public class Tree extends LandscapeItem {
     }
 
     @Override
-    void draw(Graphics g) {
+    public void draw(Graphics g) {
         g.setColor(Color.GREEN);
         g.fillOval((int) getX(), (int) getY(), rad, rad);
+    }
+
+
+
+    @Override
+    public void handleCollision(ICollider otherObject) {
+        // I am a tree
+        GameObject tmp = (GameObject) otherObject;
+
+        //collision for tank
+        if (tmp instanceof Tank) {
+            ((Tank) tmp).toggleBlocked();
+            System.out.println("Just hit a tree" +
+                    "just hit a tree" +
+                    "just hit a tree" +
+                    "ouch");
+        }
+        if (tmp instanceof Missile){
+            //Collision for tree
+            tmp.setShoulddie();
+        }
+    }
+
+    @Override
+    public int getSize() {
+        return rad;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void setSize() {
+        //Does nothing because it should not be resized
     }
 }

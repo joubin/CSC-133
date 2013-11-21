@@ -91,8 +91,8 @@ public abstract class MovableItem extends GameObject {
         /*
         This move method properly moves the objects given the correct direction and speed
          */
-        float newx = (float) Math.sin(direction) * speed;
-        float newy = (float) Math.cos(direction) * speed;
+        float newx = (float) Math.sin(Math.toRadians(direction)) * speed;
+        float newy = (float) Math.cos(Math.toRadians(direction)) * speed;
         newx += getX();
         newy += getY();
         setX(newx);
@@ -109,6 +109,9 @@ public abstract class MovableItem extends GameObject {
         game tick.
          */
         move();
+        if (health < 1){
+            setShoulddie();
+        }
 
     }
 

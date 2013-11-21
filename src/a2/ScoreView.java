@@ -40,7 +40,7 @@ public class ScoreView extends JPanel implements IObserver {
     @Override
     public void update(IObservable o, Object arg) {
         GameWorldProxy gwp = (GameWorldProxy) o;
-        Integer myTime = gwp.getClock();
+        Integer myTime = gwp.getClock()/50;
         Integer myScore = gwp.getScore();
         Integer myLives = gwp.getPlayerHealth();
         Boolean sound = gwp.getSound();

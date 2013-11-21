@@ -28,7 +28,7 @@ public class CommandChangeStrategy extends AbstractAction {
     @Override
     public void actionPerformed(ActionEvent e) {
         gw.toggleStrategy();
-        System.out.println("Enemy Swtich From " + e.getActionCommand() + " " + e.getSource().getClass());
+        //System.out.println("Enemy Swtich From " + e.getActionCommand() + " " + e.getSource().getClass());
 
     }
 }

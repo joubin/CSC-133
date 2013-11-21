@@ -44,15 +44,35 @@ public class Missile extends Projectile {
         /*
         Returns the parent class toString which is uniq to all objects and adds missile specific attributes.
          */
-        return String.format("Missile=> %s speed=%d heading=%d      " + this.getHealth(), super.toString(), this.getSpeed(), this.getDirection());
+        return String.format("Missile=> %s speed=%d heading=%d" , super.toString(), this.getSpeed(), this.getDirection());
     }
 
     @Override
-    void draw(Graphics g) {
+    public void draw(Graphics g) {
         g.setColor(Color.RED);
 //        int [] x = {(int) getX()+10,(int) getX()+22, (int) getX()+33};
 //        int [] y = {(int) getY()+11,(int) getY()+22, (int) getY()+33};
 //        g.fillPolygon(x, y, 3);
         g.fillOval((int) getX(), (int) getY(), 5,5);
+    }
+
+    @Override
+    public boolean collidesWith(ICollider otherObject) {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void handleCollision(ICollider otherObject) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public int getSize() {
+        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void setSize() {
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 }

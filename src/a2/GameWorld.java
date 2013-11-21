@@ -1,5 +1,10 @@
 package a2;
 
+import javax.swing.*;
+import java.applet.Applet;
+import java.applet.AudioClip;
+import java.io.File;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
@@ -20,18 +25,35 @@ public class GameWorld implements IObservable, IGameWold {
     private int score; // Unique score for the player
     private ArrayList<IObserver> observers = new ArrayList<IObserver>(); // Since GameWorld is observable, it has to register its observers
     private boolean sound = true;
-    private StrategyEveryOtherTick everyOtherTick = null;
-    private StrategyEveryTick everyTick = null;
+    private StrategyFireConservative everyOtherTick = null;
+    private StrategyFireFrivolously everyTick = null;
     private IStrategy currStrat = null;
+    private Timer timer;
+    private int millSecTime;
+    private int gameClock;
+    private Sound fireMissile;
+    private Sound hitRock;
+    private Sound missileExplode;
+    private Sound tankMoving;
+    private Sound theme;
+    private GameWorldProxy myProxy;
+    private Sound allSound[];
 
 
-    public void initialize(int numTank, int numRock, int numTree) {
+    public void initialize(int numTank, int numRock, int numTree) throws MalformedURLException {
         /*
         this method behaves exactly like a constructor, however, I renamed it becase the professors sample code called
         created an instance of the gameworld without any parameters.
          */
-        everyTick = new StrategyEveryTick(this);
-        everyOtherTick = new StrategyEveryOtherTick(this);
+        myProxy = new GameWorldProxy(this);
+        fireMissile = new Sound("fireMissile.wav", myProxy);
+        hitRock = new Sound("hitRock.wav", myProxy);
+        missileExplode = new Sound("missileExplode.wav", myProxy);
+        tankMoving = new Sound("tankMoving.wav", myProxy);
+        theme = new Sound("theme.wav", myProxy);
+        allSound = new Sound[]{fireMissile, hitRock, missileExplode, tankMoving, theme};
+        everyTick = new StrategyFireFrivolously(this);
+        everyOtherTick = new StrategyFireConservative(this);
         currStrat = everyTick;
         System.out.println("Rock " + numRock + " Tank " + numTank + " tree " + numTree);
         for (int i = 0; i < numRock; ++i) {
@@ -63,6 +85,7 @@ public class GameWorld implements IObservable, IGameWold {
          */
         myTank = new Tank(getAllXY()[0], getAllXY()[1], true);
         go.add(myTank);
+        theme.loop();
 
     }
 
@@ -106,16 +129,19 @@ public class GameWorld implements IObservable, IGameWold {
 
     public void modifyPlayerTankSpeed(int i) { // increase or decrease speed of the player tank
         myTank.modifySpeed(i);
+        if (sound && i > 0 && myTank.getSpeed() > 0) tankMoving.loop();
+        if (myTank.getSpeed() < 1) tankMoving.stop();
+
         notifyObservers();
     }
 
     public void firePlayerTankMissile() { // Fire player tank
-        System.out.print("ASD");
         boolean ableToFire = myTank.fireMissile(); // First check to see if the tank is able to fire
         if (ableToFire) { // if so, create a new missile object and decrease the missile count of players tank
             Missile m = new Missile(myTank);
             myTank.modifyMissleCount(-1);
             go.add(m); // add the newly created missile to the collection of game objects.
+            if (sound) fireMissile.play();
         } else {
             System.out.println("This tank has no more ammo"); // Print error message.
         }
@@ -174,14 +200,20 @@ public class GameWorld implements IObservable, IGameWold {
         This is a helper function to remove missles from the map
         */
         int passes = 0;
-        ArrayList<Missile> tmpMissiles = new ArrayList<Missile>();
+        ArrayList<GameObject> tmpMissiles = new ArrayList<GameObject>();
         while (passes < x) {
             passes++;
-            tmpMissiles.add((Missile) go.returnRandomMissile());
+            tmpMissiles.add((GameObject) go.returnRandomMissile());
         }
-        if (tmpMissiles.size() != x) return false;
-        for (Missile m : tmpMissiles) {
-            go.remove(m);
+        if (tmpMissiles.size() != x || tmpMissiles.contains(null)) return false;
+        for (GameObject m : tmpMissiles) {
+            if (!(m instanceof Missile)){
+                return false;
+            }
+        }
+
+        for (GameObject m : tmpMissiles) {
+            m.setShoulddie();
         }
         notifyObservers();
         return true;
@@ -219,7 +251,28 @@ public class GameWorld implements IObservable, IGameWold {
          */
         clock = clock + 1;
 
-        Iterator itr = go.iterator();
+//        millSecTime += millSecondElapsed;
+//        int currentMillTime = millSecTime;
+//
+//        if(millSecTime >= 1000){
+//            updateClock();
+//            millSecTime = 0;
+//        }
+
+         Iterator itr = go.iterator();
+         Iterator itr2 = go.iterator();
+        while (itr.hasNext()){
+            GameObject tmp = (GameObject) itr.next();
+            while (itr2.hasNext()){
+                 GameObject tmp2 = (GameObject) itr2.next();
+                 if(tmp.collidesWith(tmp2)){
+                     tmp.handleCollision(tmp2);
+                 }
+            }
+        }
+
+
+        itr = go.iterator();
         while (itr.hasNext()) {
             GameObject dumbTmpGameObject = (GameObject) itr.next();
             MovableItem tmpGameObject = null;
@@ -232,19 +285,24 @@ public class GameWorld implements IObservable, IGameWold {
         notifyObservers();
     }
 
+    private void updateClock() {
+        gameClock++;
+    }
+
 
     public void deathReaper(MovableItem m) {
         /*
         Remove an object that has health 0 or less (Should never happen)
          */
         Iterator itr = go.iterator();
-        while (itr.hasNext())
-            if (m == itr.next()) {
-                int tmpHealth = m.getHealth();
-                if (tmpHealth < 1) {
+        while (itr.hasNext()){
+            if (m == itr.next()){
+                boolean shouldDie = m.getShoudDie();
+                if (shouldDie) {
                     itr.remove();
                 }
             }
+        }
         notifyObservers();
 
     }
@@ -322,6 +380,12 @@ public class GameWorld implements IObservable, IGameWold {
 
     public void setSound(boolean sound) {
         this.sound = sound;
+        if(!sound)
+        for (Sound s: allSound){
+            s.stop();
+        }
+        else
+            theme.loop();
         notifyObservers();
     }
 
@@ -337,7 +401,7 @@ public class GameWorld implements IObservable, IGameWold {
         for (int i = 0; i < observers.size(); i++) {
             observers.get(i).update(tmpProxy, randomObject);
         }
-        drawMap();
+        //drawMap();
     }
 
     @Override
@@ -361,6 +425,15 @@ public class GameWorld implements IObservable, IGameWold {
         return go;
     }
 
+    public void setTimer(Timer t){
+        timer = t;
+    }
+
+
+
 }
+
+
+
 
 

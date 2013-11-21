@@ -9,7 +9,7 @@ import java.util.Random;
  * Date: 9/20/13
  * Time: 10:55 AM
  */
-public abstract class GameObject {
+public abstract class GameObject implements IDrawable, ICollider{
 
     private float x, y; // All game objects have an x and y coordinates
     Random myRandom = new Random(); // A random number generator that will be used to set the inital positions of x and y
@@ -19,6 +19,7 @@ public abstract class GameObject {
     private float red = myRandom.nextFloat();
     private float green = myRandom.nextFloat();
     private float blue = myRandom.nextFloat();
+    private boolean shouldDie = false;
 
     private Color myColor = new Color(red, green, blue);
 
@@ -66,7 +67,22 @@ public abstract class GameObject {
         return String.format("loc=[%.2f,%.2f] color=[%s,%s,%s]", x, y, myColor.getRed(), myColor.getGreen(), myColor.getBlue());
     }
 
-    abstract void draw(Graphics g);
+    public void setShoulddie(){
+        this.shouldDie = true;
+    }
 
+    public boolean getShoudDie(){
+        return this.shouldDie;
+    }
+    @Override
+    public abstract void draw(Graphics g);
 
+    @Override
+    public boolean collidesWith(ICollider otherObject) {
+        GameObject tmpgo = (GameObject) otherObject;
+        float d2 = (float) (Math.pow(getY()-tmpgo.getY(), 2) + Math.pow(getX()-tmpgo.getX(),2));
+        float d = (float) Math.pow((getSize() + tmpgo.getSize()), 2);
+        if (d2 <= d) return true;
+        return false;
+    }
 }

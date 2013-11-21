@@ -2,6 +2,7 @@ package a2;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.io.File;
 import java.net.URL;
 
 /**
@@ -28,10 +29,10 @@ public class CommandAbout extends AbstractAction {
 
 
     public synchronized void actionPerformed(ActionEvent e) {
-        URL pathToImage = this.getClass().getResource("/a2/Resources/tank.png");
+//        URL pathToImage = this.getClass().getResource( File.separator+"a2"+File.separator+"Resources "+File.separator+"tank.png");
 
-        final ImageIcon icon = new ImageIcon(pathToImage);
-
+        String pathToTankLogo = "." + File.separator + "Resources" + File.separator + "tank.png";
+        final ImageIcon icon = new ImageIcon(pathToTankLogo);
         System.out.println("About From " + e.getActionCommand() + " " + e.getSource().getClass());
 //        PauseCommand.getInstance().action();
         JOptionPane.showMessageDialog(null, " Tank \n Author: Joubin Jabbari \n CSC 133 @ CSU, Sacramento \n Version a.2", "About", JOptionPane.INFORMATION_MESSAGE, icon);
