@@ -1,10 +1,14 @@
 package a2;
 
+import org.w3c.dom.events.MouseEvent;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
+import java.awt.geom.Point2D;
 import java.net.MalformedURLException;
 import java.util.Scanner;
 
@@ -14,7 +18,7 @@ import java.util.Scanner;
  * Date: 9/19/13
  * Time: 11:33 PM
  */
-public class Game extends JFrame {
+public class Game extends JFrame implements MouseListener {
 
     private GameWorld gw; // An instance of the game world
     private Scanner in = new Scanner(System.in); // Scanner used to get input from the user
@@ -25,6 +29,7 @@ public class Game extends JFrame {
     private MapView mv;
     private int numberOfTanks, numberOfTrees, numberOfRocks;
     private Timer timer;
+    private Point2D pp = new Point2D.Float();
 
 
     private JFrame loadingMenu = new JFrame();
@@ -69,7 +74,7 @@ public class Game extends JFrame {
                 }
                 CommandTick tick = CommandTick.getInstance();
                 tick.setTarget(gw);
-                timer = new Timer(20, tick);
+                timer = new Timer(30, tick);
                 timer.start();
                 gw.setTimer(timer);
                 loadingMenu.dispatchEvent(new WindowEvent(loadingMenu, WindowEvent.WINDOW_CLOSING));
@@ -109,6 +114,7 @@ public class Game extends JFrame {
         bp = new ButtonPanel(gw);
         sv = new ScoreView();
         mv = new MapView(gwp);
+        mv.addMouseListener(this);
 
         gw.addObserver(sv);
         gw.addObserver(mv);
@@ -297,4 +303,36 @@ public class Game extends JFrame {
         }
     }
 
+
+    @Override
+    public void mouseClicked(java.awt.event.MouseEvent e) {
+        if (!gw.getTimerStat()){
+            pp = e.getPoint();
+            gw.select((int) pp.getX(), (int) pp.getY(), e.isControlDown());
+
+        }
+    }
+
+    @Override
+    public void mousePressed(java.awt.event.MouseEvent e) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void mouseReleased(java.awt.event.MouseEvent e) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void mouseEntered(java.awt.event.MouseEvent e) {
+        System.out.println("asd" +
+                "asd" +
+                "asd" +
+                "asd");
+    }
+
+    @Override
+    public void mouseExited(java.awt.event.MouseEvent e) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
 }

@@ -9,22 +9,25 @@ import java.awt.*;
  * Time: 11:34 AM
  */
 public class Missile extends Projectile {
+
+
     /*
-    A missile is constructed and given the direction of the tank that fired it.
+        A missile is constructed and given the direction of the tank that fired it.
 
-    It inherets the speed of the tank plus 5
+        It inherets the speed of the tank plus 5
 
-    and it starts at the tanks x and y coordinates.
+        and it starts at the tanks x and y coordinates.
 
-    Missile do not have the ability to change directions.
-     */
-
+        Missile do not have the ability to change directions.
+         */
+    private Tank missileOwner;
     public Missile(Tank t) {
         super(t.getDirection());
+        missileOwner = t;
         setHealth(100);
         this.setSpeed(t.getSpeed() + 5);
-        setX(t.getX());
-        setY(t.getY());
+        setX((int)t.getDeltaX());
+        setY((int)t.getDeltaY());
     }
 
 
@@ -56,23 +59,25 @@ public class Missile extends Projectile {
         g.fillOval((int) getX(), (int) getY(), 5,5);
     }
 
-    @Override
-    public boolean collidesWith(ICollider otherObject) {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
-    }
+
 
     @Override
     public void handleCollision(ICollider otherObject) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        this.setShoulddie();
+        this.setHealth(-1*getHealth());
     }
 
     @Override
     public int getSize() {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+        return 5;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
     public void setSize() {
         //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public Tank getMissileOwner() {
+        return missileOwner;
     }
 }

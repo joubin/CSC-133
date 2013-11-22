@@ -29,7 +29,7 @@ public class Tree extends LandscapeItem {
         It then generates a random number to set as its size attribute.
          */
         Random randGenrator = new Random();
-        this.rad = randGenrator.nextInt(21);
+        this.rad = randGenrator.nextInt(21)+10;
         setX(x);
         setY(y);
     }

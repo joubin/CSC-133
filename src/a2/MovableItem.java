@@ -67,7 +67,9 @@ public abstract class MovableItem extends GameObject {
         /*
         set a new direction for a given object
          */
-        this.direction = ((direction % 360 + 360) % 360);
+        this.direction += direction;
+        this.direction = (direction%360);
+//        this.direction = ((direction % 360 + 360) % 360);
     }
 
     public void mChangeDirection(int direction) {
@@ -95,8 +97,14 @@ public abstract class MovableItem extends GameObject {
         float newy = (float) Math.cos(Math.toRadians(direction)) * speed;
         newx += getX();
         newy += getY();
-        setX(newx);
-        setY(newy);
+        if (newx >= 700  || newy >= 700){
+            setDirection(getDirection()+180);
+        }else if(newx <= 0  || newy <= 0){
+            setDirection(180+getDirection());
+        }else{
+            setX(newx);
+            setY(newy);
+        }
     }
 
     public void update() {

@@ -20,6 +20,7 @@ public abstract class GameObject implements IDrawable, ICollider{
     private float green = myRandom.nextFloat();
     private float blue = myRandom.nextFloat();
     private boolean shouldDie = false;
+    private int rad;
 
     private Color myColor = new Color(red, green, blue);
 
@@ -36,6 +37,7 @@ public abstract class GameObject implements IDrawable, ICollider{
      */
     public void setX(float x) {
         this.x = ((x % 700 + 700) % 700  );
+
     }
 
     /*
@@ -79,10 +81,23 @@ public abstract class GameObject implements IDrawable, ICollider{
 
     @Override
     public boolean collidesWith(ICollider otherObject) {
-        GameObject tmpgo = (GameObject) otherObject;
-        float d2 = (float) (Math.pow(getY()-tmpgo.getY(), 2) + Math.pow(getX()-tmpgo.getX(),2));
-        float d = (float) Math.pow((getSize() + tmpgo.getSize()), 2);
-        if (d2 <= d) return true;
-        return false;
+       boolean result = false;
+        int thisCenterX = (int) this.getX(); // find centers int thisCenterY = this.yLoc + (OBJECT_SIZE/2);
+        int thisCenterY = (int) this.getY(); // find centers int thisCenterY = this.yLoc + (OBJECT_SIZE/2);
+        GameObject obj = (GameObject) otherObject;
+        int otherCenterX = (int) obj.getX();
+        int otherCenterY = (int) obj.getY();
+// find dist between centers (use square, to avoid taking roots)
+        int dx = thisCenterX - otherCenterX;
+        int dy = thisCenterY - otherCenterY;
+        int distBetweenCentersSqr = ((dx*dx) + (dy*dy));
+        // find square of sum of radii
+        int thisRadius = getSize();
+        int otherRadius = obj.getSize();
+        int radiiSqr = (thisRadius*thisRadius + 2*thisRadius*otherRadius
+                + otherRadius*otherRadius);
+        if (distBetweenCentersSqr <= radiiSqr) { result = true ; }
+
+        return result ;
     }
 }

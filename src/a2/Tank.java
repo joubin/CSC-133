@@ -9,14 +9,29 @@ import java.util.Random;
  * Date: 9/20/13
  * Time: 11:13 AM
  */
-public class Tank extends Vehicle {
+public class Tank extends Vehicle implements ISelectable {
 
     private int missileCount;   // each tank has it own number of missiles
     private boolean blocked = false; // tanks can get blocked by other objects. The game world will let them know if so
     private boolean isPlayer = false; // special flag to differentiate the player tank from other tanks
     private String name = "Tank";
     protected IStrategy curStrategy = null;
+    private int width = 30;
+    private int height = 30;
+    private int size = (int) (2*Math.sqrt(2*Math.pow(15,2)));
+    private double deltaX;
+    private Missile lastMissileToHit = null;
+    private boolean isSelected;
 
+    public double getDeltaY() {
+        return deltaY;
+    }
+
+    public double getDeltaX() {
+        return deltaX;
+    }
+
+    private double deltaY;
 
 
     public void setCurStrategy(IStrategy curStrategy) {
@@ -108,7 +123,6 @@ public class Tank extends Vehicle {
 
         Increase and decrease speed
          */
-        System.out.print(" SPEED SPEED SPEED SPEED SPEED SPEED ");
 
         if (getBlockStatus()) {
             System.out.println("You are blocked");
@@ -142,18 +156,48 @@ public class Tank extends Vehicle {
     }
 
     @Override
+    public void setSelected(boolean s) {
+        this.isSelected = s;
+    }
+
+    @Override
+    public boolean isSelected() {
+        return isSelected;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public boolean contains(int x, int y) {
+        if ((x > (getX()-width/2)) &&  (y > (getY()-height/2)) && (y < (getY()+height/2)) && (x < getX()+width/2)){
+            System.out.println(x+" "+y+" "+getX()+" "+getY());
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+
+    @Override
     public void draw(Graphics g) {
         g.setColor(getMyColor());
-        int width = 30;
-        int height = 30;
         if (isPlayer) g.setColor(Color.BLUE);
         int localx = (int) getX() - (width/2);
         int localy = (int) getY() - (width/2);
-        g.drawRect(localx, localy, width, width);
-//        int sx[] = {(int) getX()-15, (int) getX(),(int) getX()+15};
-//        int sy[] = {(int) getY()+15, (int) getY()+30, (int) getY()+15};
-//        g.setColor(Color.BLACK);
-//        g.fillPolygon( sx, sy, 3);
+        if (isSelected){
+            g.fillRect(localx, localy, width, height);
+        } else{
+            g.drawRect(localx, localy, width, height);
+
+        }
+        int direction = this.getDirection();
+        g.drawOval((int) getX()-size/4, (int) getY()-size/4,(int) size/2, (int) size/2);
+        g.setColor(Color.RED);
+        g.drawOval((int) getX()-size/2, (int) getY()-size/2,(int) size, (int) size);
+        deltaX = ((double) Math.cos(Math.toRadians(90-direction)) * width) + getX();
+        deltaY = ((double) Math.sin(Math.toRadians(90-direction)) * height) + getY();
+        g.setColor(Color.black);
+        g.drawLine((int) this.getX(), (int) this.getY(), (int) deltaX,(int) deltaY);
+
+
     }
 
     public void update() {
@@ -173,20 +217,28 @@ public class Tank extends Vehicle {
         // I am a Tank
         GameObject tmp = (GameObject) otherObject;
 
-        if (tmp instanceof Tank){
-            ((Tank) this).toggleBlocked();
+        if (tmp instanceof Tank || tmp instanceof LandscapeItem){
+
+            this.changeDirection(this.getDirection()+180);
+            System.out.println("I hit a tree or another tank");
         }
 
         if (tmp instanceof Missile){
-            this.setHealth(-1);
+            if (((Missile) tmp).getMissileOwner() != this && lastMissileToHit != tmp){
+                this.setHealth(-1);
+                lastMissileToHit = (Missile) tmp;
+
+            }
         }
+
+
 
 
     }
 
     @Override
     public int getSize() {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+        return this.size;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override

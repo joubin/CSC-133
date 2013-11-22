@@ -55,19 +55,31 @@ public class Rock extends LandscapeItem {
         g.fillRect((int) getX() - width, (int) getY() - height, width, height);
     }
 
-    @Override
-    public boolean collidesWith(ICollider otherObject) {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
-    }
 
     @Override
     public void handleCollision(ICollider otherObject) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        //collision for tank
+        GameObject tmp = (GameObject) otherObject;
+
+        if (tmp instanceof Tank) {
+            ((Tank) tmp).toggleBlocked();
+            System.out.println("Just hit a tree" +
+                    "just hit a tree" +
+                    "just hit a tree" +
+                    "ouch");
+        }
+        if (tmp instanceof Missile){
+            //Collision for tree
+            tmp.setShoulddie();
+        }
     }
 
     @Override
     public int getSize() {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+        int max = Math.max(width, height);
+        max = (int) (Math.sqrt(Math.pow(max,2)*2));
+        return max;
+
     }
 
     @Override

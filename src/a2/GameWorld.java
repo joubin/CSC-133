@@ -38,8 +38,7 @@ public class GameWorld implements IObservable, IGameWold {
     private Sound theme;
     private GameWorldProxy myProxy;
     private Sound allSound[];
-
-
+    private boolean timerOn = true;
     public void initialize(int numTank, int numRock, int numTree) throws MalformedURLException {
         /*
         this method behaves exactly like a constructor, however, I renamed it becase the professors sample code called
@@ -89,6 +88,7 @@ public class GameWorld implements IObservable, IGameWold {
 
     }
 
+
     public float[] getAllXY() {
         /*
         This code has not been tested for accuracy.
@@ -134,6 +134,8 @@ public class GameWorld implements IObservable, IGameWold {
 
         notifyObservers();
     }
+
+
 
     public void firePlayerTankMissile() { // Fire player tank
         boolean ableToFire = myTank.fireMissile(); // First check to see if the tank is able to fire
@@ -260,13 +262,35 @@ public class GameWorld implements IObservable, IGameWold {
 //        }
 
          Iterator itr = go.iterator();
-         Iterator itr2 = go.iterator();
         while (itr.hasNext()){
+            Iterator itr2 = go.iterator();
             GameObject tmp = (GameObject) itr.next();
             while (itr2.hasNext()){
                  GameObject tmp2 = (GameObject) itr2.next();
-                 if(tmp.collidesWith(tmp2)){
+//                System.out.println("Checking for collisions");
+
+                if(tmp.collidesWith(tmp2) && tmp != tmp2){
+                    //System.out.println("Found collision");
+
                      tmp.handleCollision(tmp2);
+                    if(tmp instanceof Missile || tmp2 instanceof Missile) missileExplode.play(); // Collison of a missile and something happened
+                    if (tmp instanceof Tank && (tmp2 instanceof LandscapeItem || tmp2 instanceof Tank) ) hitRock.play(); // hit something
+                    // if missile is mine and tank is not mine
+                    if (tmp instanceof Missile && tmp2 instanceof Tank){
+                        Missile tmpMissile = (Missile) tmp;
+                        Tank tmpTank = (Tank) tmp2;
+                        if (tmpMissile.getMissileOwner() == myTank && tmpTank != myTank){
+                            addScore();
+                            fireMissile.stop();
+                            System.out.println("Playing Audio");
+                            hitRock.play();
+                            hitRock.play();
+                            hitRock.play();
+
+
+
+                        }
+                    }
                  }
             }
         }
@@ -429,6 +453,55 @@ public class GameWorld implements IObservable, IGameWold {
         timer = t;
     }
 
+    public void reverseAll(){
+        Iterator itr = go.iterator();
+        while(itr.hasNext()){
+            GameObject tmp = (GameObject) itr.next();
+            if (tmp instanceof MovableItem && tmp instanceof ISelectable && ((ISelectable) tmp).isSelected()){
+                ((MovableItem) tmp).mChangeDirection(180);
+            }
+        }
+    }
+
+    public void toggleTimer() {
+        if (timerOn){
+            timer.stop();
+            setSound(false);
+        }
+        if (!timerOn){
+            timer.start();
+            setSound(true);
+        }
+        timerOn = !timerOn;
+
+    }
+
+    public boolean getTimerStat(){
+        return timerOn;
+    }
+
+    public void select(int x, int y, boolean ctrl){
+        Iterator itr = go.iterator();
+        if (!ctrl){
+            while(itr.hasNext()){
+                GameObject obj = (GameObject) itr.next();
+                if (obj instanceof ISelectable){
+                   ((ISelectable) obj).setSelected(false);
+                }
+            }
+        }
+        itr = go.iterator();
+        while(itr.hasNext()){
+            GameObject obj = (GameObject) itr.next();
+            if (obj instanceof ISelectable){
+                if(((ISelectable) obj).contains(x, y)){
+                    ((ISelectable) obj).setSelected(true);
+                }
+
+            }
+        }
+
+    }
 
 
 }
