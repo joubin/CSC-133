@@ -42,7 +42,7 @@ public class Tree extends LandscapeItem {
     }
 
     @Override
-    public void draw(Graphics g) {
+    public void draw(Graphics2D g) {
         g.setColor(Color.GREEN);
         int size = rad / 2;
         g.fillOval((int) getX() - rad, (int) getY() - rad, rad, rad);

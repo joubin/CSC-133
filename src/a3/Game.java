@@ -87,6 +87,7 @@ public class Game extends JFrame implements MouseListener {
         });
 
 
+
         JPanel setup = new JPanel();
 
 
@@ -314,7 +315,7 @@ public class Game extends JFrame implements MouseListener {
     public void mouseClicked(java.awt.event.MouseEvent e) {
         if (!gw.getTimerStat()) {
             pp = e.getPoint();
-            gw.select((int) pp.getX(), (int) pp.getY(), e.isControlDown());
+            mv.select((int) pp.getX(), (int) pp.getY(), e.isControlDown());
 
         }
     }

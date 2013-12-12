@@ -305,7 +305,7 @@ public class GameWorld implements IObservable, IGameWold {
             MovableItem tmpGameObject = null;
             if (dumbTmpGameObject instanceof MovableItem) {
                 tmpGameObject = (MovableItem) dumbTmpGameObject;
-                tmpGameObject.update();
+                tmpGameObject.update(clock);
                 deathReaper(tmpGameObject);
             }
         }
@@ -483,28 +483,6 @@ public class GameWorld implements IObservable, IGameWold {
         return timerOn;
     }
 
-    public void select(int x, int y, boolean ctrl) {
-        Iterator itr = go.iterator();
-        if (!ctrl) {
-            while (itr.hasNext()) {
-                GameObject obj = (GameObject) itr.next();
-                if (obj instanceof ISelectable) {
-                    ((ISelectable) obj).setSelected(false);
-                }
-            }
-        }
-        itr = go.iterator();
-        while (itr.hasNext()) {
-            GameObject obj = (GameObject) itr.next();
-            if (obj instanceof ISelectable) {
-                if (((ISelectable) obj).contains(x, y)) {
-                    ((ISelectable) obj).setSelected(true);
-                }
-
-            }
-        }
-
-    }
 
 
 }

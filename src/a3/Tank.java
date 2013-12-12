@@ -1,6 +1,8 @@
 package a3;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 import java.util.Random;
 
 /**
@@ -178,12 +180,16 @@ public class Tank extends Vehicle implements ISelectable {
 
     }
 
+
+
     @Override
-    public void draw(Graphics g) {
-        g.setColor(Color.RED);
-        if (isPlayer) g.setColor(Color.BLUE);
+    public void draw(Graphics2D g) {
         int localx = (int) getX() - (width / 2);
         int localy = (int) getY() - (height / 2);
+        AffineTransform myTransform = new AffineTransform();
+
+
+        if (isPlayer) g.setColor(Color.BLUE);
         if (isSelected) {
             g.fillRect(localx, localy, width, height);
         } else {
@@ -202,9 +208,9 @@ public class Tank extends Vehicle implements ISelectable {
 
     }
 
-    public void update() {
+    public void update(int time) {
 
-        super.update();
+        super.update(time);
         if (curStrategy != null) {
             curStrategy.apply();
             //System.out.println("\n=====> " + curStrategy.toString());

@@ -50,7 +50,7 @@ public class Rock extends LandscapeItem {
     }
 
     @Override
-    public void draw(Graphics g) {
+    public void draw(Graphics2D g) {
         g.setColor(Color.GRAY);
         g.fillRect((int) getX() - width / 2, (int) getY() - height / 2, width, height);
         g.setColor(Color.RED);

@@ -13,6 +13,7 @@ public abstract class MovableItem extends GameObject {
     private int direction;  // Direction of the object
     private int speed;  // Speed of the object
     private int health; // Health of the object
+    private int lastTimeTick;
 
     public float getPrevx() {
         return prevx;
@@ -100,15 +101,15 @@ public abstract class MovableItem extends GameObject {
 //        }
     }
 
-    public void move() {
+    public void move(int time) {
         /*
         This move method properly moves the objects given the correct direction and speed
          */
 
         prevx = getX();
         prevy = getY();
-        float newx = (float) Math.sin(Math.toRadians(direction)) * speed;
-        float newy = (float) Math.cos(Math.toRadians(direction)) * speed;
+        float newx = (float) Math.sin(Math.toRadians(direction)) * speed * (time-lastTimeTick);
+        float newy = (float) Math.cos(Math.toRadians(direction)) * speed * (time-lastTimeTick);
         newx += getX();
         newy += getY();
         if (newx >= 700 || newy >= 700) {
@@ -119,9 +120,10 @@ public abstract class MovableItem extends GameObject {
             setX(newx);
             setY(newy);
         }
+        lastTimeTick = time;
     }
 
-    public void update() {
+    public void update(int time) {
         /*
         added for ease of use.
 
@@ -130,7 +132,7 @@ public abstract class MovableItem extends GameObject {
         However, the word move does not fully collect all of the tasks that need to take place at each
         game tick.
          */
-        move();
+        move(time);
         if (health < 1) {
             setShoulddie();
         }

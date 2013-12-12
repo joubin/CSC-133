@@ -20,7 +20,7 @@ public class Missile extends Projectile {
     private Tank missileOwner;
 
     public Missile(Tank t) {
-        super(t.getDirection());
+        super(t.getDirection()+180);
         missileOwner = t;
         setHealth(20);
         this.setSpeed(t.getSpeed() + 5);
@@ -29,13 +29,13 @@ public class Missile extends Projectile {
     }
 
 
-    public void update() {
+    public void update(int time) {
         /*
         The update method of missile is uniq because after each game tick, the missile dies.
 
         Therefore, its update method ensures that that takes place.
         */
-        super.move();
+        super.move(time);
         setHealth(-1);
 
     }
@@ -49,7 +49,7 @@ public class Missile extends Projectile {
     }
 
     @Override
-    public void draw(Graphics g) {
+    public void draw(Graphics2D g) {
         int[] x = {(int) getX() - 10, (int) getX() + 10, (int) getX()};
         int[] y = {(int) getY() - 15, (int) getY() - 15, (int) getY() + 15};
         g.setColor(Color.RED);

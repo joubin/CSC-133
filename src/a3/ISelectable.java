@@ -13,5 +13,5 @@ public interface ISelectable {
 
     public boolean contains(int x, int y);
 
-    public void draw(Graphics g);
+    public void draw(Graphics2D g);
 }

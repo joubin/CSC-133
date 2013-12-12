@@ -1,6 +1,7 @@
 package a3;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.util.Random;
 
 /**
@@ -21,7 +22,7 @@ public abstract class GameObject implements IDrawable, ICollider {
     private float blue = myRandom.nextFloat();
     private boolean shouldDie = false;
     private int rad;
-
+    private Point2D points;
     private Color myColor = new Color(red, green, blue);
 
 
@@ -78,7 +79,7 @@ public abstract class GameObject implements IDrawable, ICollider {
     }
 
     @Override
-    public abstract void draw(Graphics g);
+    public abstract void draw(Graphics2D g);
 
     @Override
     public boolean collidesWith(ICollider otherObject) {
@@ -102,5 +103,14 @@ public abstract class GameObject implements IDrawable, ICollider {
 
         return result;
 
+    }
+
+    public Point2D getPoint(){
+        return new Point2D.Float(getX(), getY());
+    }
+    // TODO include the set on every game object constructor
+    public void setPoint(Point2D p){
+        setX((float) p.getX());
+        setY((float) p.getY());
     }
 }
