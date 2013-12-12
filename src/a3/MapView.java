@@ -31,7 +31,15 @@ public class MapView extends JPanel implements IObserver {
         ndToScreen = new AffineTransform();
 
     }
-
+    private void setHW(){
+        height = this.getHeight();
+        width = this.getWidth();
+        topRightY = height;
+        topRightX = width;
+        bottomLeftX = width-topRightX;
+        bottomLeftY = height-topRightY;
+        System.out.println( topRightX + " " + topRightY + " " + bottomLeftY +" " +bottomLeftX);
+    }
     @Override
     public void update(IObservable o, Object arg) {
         gwp = (GameWorldProxy) o;
@@ -55,12 +63,13 @@ public class MapView extends JPanel implements IObserver {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
-        AffineTransform base = new AffineTransform(g2d.getTransform());
+        setHW();
+        AffineTransform base = g2d.getTransform();
         setWorldToND();
         setNdToScreen();
         theVTM = (AffineTransform) ndToScreen.clone();
         theVTM.concatenate(worldToND);
-//        g2d.transform(theVTM);
+        g2d.transform(theVTM);
         GameObjectCollection localGameObjectCollection;
         localGameObjectCollection = gwp.getGameWorldObjects();
         Iterator iterator = localGameObjectCollection.iterator();
@@ -68,7 +77,7 @@ public class MapView extends JPanel implements IObserver {
             GameObject tmp = (GameObject) iterator.next();
             tmp.draw(g2d);
         }
-
+        g2d.setTransform(base);
     }
 
     public void select(int x, int y, boolean ctrl) {
