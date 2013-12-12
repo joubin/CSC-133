@@ -24,10 +24,7 @@ public class MapView extends JPanel implements IObserver {
         this.setBorder(new TitledBorder("Map"));
         this.setPreferredSize(new Dimension(700, 700));
 
-        height = this.getHeight();
-        width = this.getWidth();
-        topRightY = height;
-        topRightX = width;
+
         bottomLeftX = 0;
         bottomLeftY = 0;
         worldToND = new AffineTransform();
@@ -43,7 +40,7 @@ public class MapView extends JPanel implements IObserver {
 
     private void setWorldToND(){
         worldToND.setToIdentity();
-        worldToND.scale(1/(700), 1/(700));
+        worldToND.scale(1/(topRightX-bottomLeftX), 1/(topRightY-bottomLeftY));
         worldToND.translate(-bottomLeftX, -bottomLeftY);
 
     }
@@ -63,7 +60,7 @@ public class MapView extends JPanel implements IObserver {
         setNdToScreen();
         theVTM = (AffineTransform) ndToScreen.clone();
         theVTM.concatenate(worldToND);
-        g2d.transform(theVTM);
+//        g2d.transform(theVTM);
         GameObjectCollection localGameObjectCollection;
         localGameObjectCollection = gwp.getGameWorldObjects();
         Iterator iterator = localGameObjectCollection.iterator();

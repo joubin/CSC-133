@@ -58,7 +58,6 @@ public class Game extends JFrame implements MouseListener {
 
         numOfRocksField.setColumns(10);
 
-
         okButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -76,6 +75,7 @@ public class Game extends JFrame implements MouseListener {
                 timer.start();
                 gw.setTimer(timer);
                 loadingMenu.dispatchEvent(new WindowEvent(loadingMenu, WindowEvent.WINDOW_CLOSING));
+
             }
         });
         quitButton.addActionListener(new ActionListener() {
@@ -85,7 +85,6 @@ public class Game extends JFrame implements MouseListener {
                 loadingMenu.dispatchEvent(new WindowEvent(loadingMenu, WindowEvent.WINDOW_CLOSING));
             }
         });
-
 
 
         JPanel setup = new JPanel();
