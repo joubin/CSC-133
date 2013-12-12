@@ -1,6 +1,8 @@
 package a3;
 
+import javax.xml.stream.Location;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
@@ -10,9 +12,9 @@ import java.util.Random;
  * Date: 9/20/13
  * Time: 10:55 AM
  */
-public abstract class GameObject implements IDrawable, ICollider {
+public abstract class GameObject implements IDrawable, ICollider, ITransformations {
 
-    private float x, y; // All game objects have an x and y coordinates
+//    private double x, y; // All game objects have an x and y coordinates
     Random myRandom = new Random(); // A random number generator that will be used to set the inital positions of x and y
     /*
     For each item, get a random RGB value and create a color out of it using the color class.
@@ -22,38 +24,48 @@ public abstract class GameObject implements IDrawable, ICollider {
     private float blue = myRandom.nextFloat();
     private boolean shouldDie = false;
     private int rad;
-    private Point2D points;
+//    private Point2D points;
     private Color myColor = new Color(red, green, blue);
+    private AffineTransform translation = new AffineTransform();
+    private AffineTransform rotation = new AffineTransform();
+    private AffineTransform scale = new AffineTransform();
+
 
 
     /*
     Returns the X location of an item.
      */
-    public float getX() {
-        return x;
+    public double getX() {
+        return translation.getTranslateX();
     }
+
+    public void setLocation(double x, double y){
+        translation.setToIdentity();
+        translation.translate(x, y);
+    }
+
 
     /*
     Setting the x location. The formula below ensures that the the range is always positive
      */
-    public void setX(float x) {
-        this.x = ((x % 700 + 700) % 700);
-
-    }
+//    public void setX(double x) {
+//        this.x = ((x % 700 + 700) % 700);
+//
+//    }
 
     /*
     Returns the y location of an item.
     */
-    public float getY() {
-        return y;
+    public double getY() {
+        return translation.getTranslateY();
     }
 
     /*
     Setting the y location. The formula below ensures that the the range is always positive
      */
-    public void setY(float y) {
-        this.y = ((y % 700 + 700) % 700);
-    }
+//    public void setY(double y) {
+//        this.y = ((y % 700 + 700) % 700);
+//    }
 
     /*
     Returns the color of the given object
@@ -66,9 +78,9 @@ public abstract class GameObject implements IDrawable, ICollider {
     To string that all objects have in common.
     Returns a string consiting of the location, and color of the object
      */
-    public String toString() {
-        return String.format("loc=[%.2f,%.2f] color=[%s,%s,%s]", x, y, myColor.getRed(), myColor.getGreen(), myColor.getBlue());
-    }
+//    public String toString() {
+//        return String.format("loc=[%.2f,%.2f] color=[%s,%s,%s]", x, y, myColor.getRed(), myColor.getGreen(), myColor.getBlue());
+//    }
 
     public void setShoulddie() {
         this.shouldDie = true;
@@ -79,7 +91,11 @@ public abstract class GameObject implements IDrawable, ICollider {
     }
 
     @Override
-    public abstract void draw(Graphics2D g);
+    public void draw(Graphics2D g){
+        g.transform(this.translation);
+        g.transform(this.scale);
+        g.transform(this.rotation);
+    }
 
     @Override
     public boolean collidesWith(ICollider otherObject) {
@@ -105,12 +121,27 @@ public abstract class GameObject implements IDrawable, ICollider {
 
     }
 
-    public Point2D getPoint(){
-        return new Point2D.Float(getX(), getY());
-    }
+
     // TODO include the set on every game object constructor
     public void setPoint(Point2D p){
-        setX((float) p.getX());
-        setY((float) p.getY());
+//        setX((float) p.getX());
+//        setY((float) p.getY());
+        setLocation(p.getX(), p.getY());
     }
+
+    public void rotate(float degrees){
+        rotation.rotate(Math.toRadians(-degrees));
+    }
+
+    public void scale(double x, double y){
+        scale.scale(x, y);
+    }
+
+    public void translate(double dx, double dy){
+        translation.translate(dx, dy);
+    }
+
+   public void resetRotation(){
+        rotation.setToIdentity();
+   }
 }

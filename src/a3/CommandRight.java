@@ -25,7 +25,7 @@ public class CommandRight extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        gameWorld.changePlayerTankDirection(5);
+        gameWorld.changePlayerTankDirection(-5);
         System.out.println("Right command from " + e.getActionCommand() + " " + e.getSource().getClass());
 
 

@@ -12,5 +12,19 @@ public abstract class Vehicle extends MovableItem implements ISteerable {
      */
     public Vehicle(int direction) {
         super(direction);
+
+    }
+
+    public void steer(int direction) {
+        /*
+        change direction. Only some movable object can change their course.
+         The commented out section below further insures that rule.
+
+         However it is not a requirement as long as sub classes are properly implemented.
+         */
+//        if(this instanceof ISteerable){
+            setDirection(getDirection() + direction);
+
+//        }
     }
 }

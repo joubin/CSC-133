@@ -2,10 +2,7 @@ package a3;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseListener;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.awt.geom.Point2D;
 import java.net.MalformedURLException;
 import java.util.Scanner;
@@ -16,7 +13,7 @@ import java.util.Scanner;
  * Date: 9/19/13
  * Time: 11:33 PM
  */
-public class Game extends JFrame implements MouseListener {
+public class Game extends JFrame implements MouseListener, MouseMotionListener {
 
     private GameWorld gw; // An instance of the game world
     private Scanner in = new Scanner(System.in); // Scanner used to get input from the user
@@ -113,6 +110,7 @@ public class Game extends JFrame implements MouseListener {
         sv = new ScoreView();
         mv = new MapView(gwp);
         mv.addMouseListener(this);
+//        mv.addMouseMotionListener(this);
 
         gw.addObserver(sv);
         gw.addObserver(mv);
@@ -314,14 +312,14 @@ public class Game extends JFrame implements MouseListener {
     public void mouseClicked(java.awt.event.MouseEvent e) {
         if (!gw.getTimerStat()) {
             pp = e.getPoint();
-            mv.select((int) pp.getX(), (int) pp.getY(), e.isControlDown());
+            mv.select((Point) pp, e.isControlDown());
 
         }
     }
-
+    private Point pressedHere;
     @Override
     public void mousePressed(java.awt.event.MouseEvent e) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        pressedHere = e.getPoint();
     }
 
     @Override
@@ -342,5 +340,17 @@ public class Game extends JFrame implements MouseListener {
 
     public void requestMapViewFocus() {
         mv.requestFocus();
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+        System.out.println("asd");
+        mv.setSelectionPoints(pressedHere, e.getPoint());
+        mv.update(gwp, null);
     }
 }

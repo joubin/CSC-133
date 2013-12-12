@@ -2,7 +2,6 @@ package a3;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
 import java.util.Random;
 
 /**
@@ -51,8 +50,9 @@ public class Tank extends Vehicle implements ISelectable {
         super(0); // set initial direction of the tank
         setHealth(10); // set the health
         this.missileCount = 100; // set missile count
-        setX(x); // set x and y coordinates given by the gameworld
-        setY(y);
+//        setX(x); // set x and y coordinates given by the gameworld
+//        setY(y);
+        setLocation(x, y);
         this.curStrategy = strategy;
 
 
@@ -67,9 +67,7 @@ public class Tank extends Vehicle implements ISelectable {
         setHealth(10);
         this.missileCount = 100;
         this.isPlayer = true;
-        Random random = new Random(700);
-        setX(x);
-        setY(y);
+        setLocation(x, y);
         if (myTank) name = "My Tank";
 
     }
@@ -142,7 +140,7 @@ public class Tank extends Vehicle implements ISelectable {
         /*
         steer the object by setting new direction
          */
-        mChangeDirection(direction);
+        steer(direction);
     }
 
     public String getName() {
@@ -170,7 +168,8 @@ public class Tank extends Vehicle implements ISelectable {
     }
 
     @Override
-    public boolean contains(int x, int y) {
+    public boolean contains(double x, double y) {
+        //Transform x with world conrdinates.
         if ((x > (getX() - width / 2)) && (y > (getY() - height / 2)) && (y < (getY() + height / 2)) && (x < getX() + width / 2)) {
             System.out.println(x + " " + y + " " + getX() + " " + getY());
             return true;
@@ -184,10 +183,11 @@ public class Tank extends Vehicle implements ISelectable {
 
     @Override
     public void draw(Graphics2D g) {
-        int localx = (int) getX() - (width / 2);
-        int localy = (int) getY() - (height / 2);
-        AffineTransform myTransform = new AffineTransform();
+        AffineTransform save = (AffineTransform) g.getTransform().clone();
+        super.draw(g);
 
+        int localx = -width/2;
+        int localy = -height/2;
 
         if (isPlayer) g.setColor(Color.BLUE);
         if (isSelected) {
@@ -199,12 +199,12 @@ public class Tank extends Vehicle implements ISelectable {
         int direction = this.getDirection();
 //        g.drawOval((int) getX()-size/4, (int) getY()-size/4,(int) size/2, (int) size/2);
         g.setColor(Color.RED);
-        g.drawOval((int) getX() - (size / 2), (int) getY() - (size / 2), (int) size, (int) size);
-        dx = ((double) Math.cos(Math.toRadians(90 - direction)) * width) + getX();
-        dy = ((double) Math.sin(Math.toRadians(90 - direction)) * height) + getY();
+        g.drawOval(0 - (size / 2), 0 - (size / 2), (int) size, (int) size);
+        dx = ((double) Math.cos(Math.toRadians(90 - direction)) * width);
+        dy = ((double) Math.sin(Math.toRadians(90 - direction)) * height);
         g.setColor(Color.black);
-        g.drawLine((int) this.getX(), (int) this.getY(), (int) dx, (int) dy);
-
+        g.drawLine(0, 0, 0, 20);
+        g.setTransform(save);
 
     }
 
@@ -227,8 +227,9 @@ public class Tank extends Vehicle implements ISelectable {
         if (tmp instanceof Tank || tmp instanceof LandscapeItem) {
             this.changeDirection(this.getDirection() + 180);
 //            this.modifySpeed(this.getSize());
-            setX(getPrevx());
-            setY(getPrevy());
+//            setX(getPrevx());
+//            setY(getPrevy());
+            setLocation(getPrevx(), getPrevy());
             System.out.println("I hit a landscape item or another tree or another tank");
         }
 

@@ -11,5 +11,5 @@ public interface ISteerable {
     enforces the rule that all steerable objects have to have a "Change Direction" method
      */
 
-    public void mChangeDirection(int direction);
+    public void steer(int direction);
 }

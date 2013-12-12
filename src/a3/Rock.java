@@ -37,9 +37,9 @@ public class Rock extends LandscapeItem {
         Random randGenrator = new Random();
         this.width = randGenrator.nextInt(21) + 10;
         this.height = randGenrator.nextInt(21) + 10;
-        setX(x);
-        setY(y);
-
+//        setX(x);
+//        setY(y);
+        setLocation(x, y);
     }
 
     public String toString() {
@@ -51,11 +51,11 @@ public class Rock extends LandscapeItem {
 
     @Override
     public void draw(Graphics2D g) {
+        super.draw(g);
         g.setColor(Color.GRAY);
-        g.fillRect((int) getX() - width / 2, (int) getY() - height / 2, width, height);
+        g.fillRect(-width/2, -height / 2, width, height);
         g.setColor(Color.RED);
         int size = getSize();
-
     }
 
 

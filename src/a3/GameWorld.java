@@ -257,7 +257,7 @@ public class GameWorld implements IObservable, IGameWold {
 //            updateClock();
 //            millSecTime = 0;
 //        }
-
+        notifyObservers();
         Iterator itr = go.iterator();
         while (itr.hasNext()) {
             Iterator itr2 = go.iterator();
@@ -461,7 +461,7 @@ public class GameWorld implements IObservable, IGameWold {
         while (itr.hasNext()) {
             GameObject tmp = (GameObject) itr.next();
             if (tmp instanceof MovableItem && tmp instanceof ISelectable && ((ISelectable) tmp).isSelected()) {
-                ((MovableItem) tmp).mChangeDirection(180);
+                ((Vehicle) tmp).steer(180);
             }
         }
     }

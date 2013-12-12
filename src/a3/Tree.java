@@ -24,14 +24,16 @@ public class Tree extends LandscapeItem {
 
 
     public Tree(float x, float y) {
+        super();
         /*
         A tree is created at X and Y location provided by the game world.
         It then generates a random number to set as its size attribute.
          */
         Random randGenrator = new Random();
         this.rad = randGenrator.nextInt(21) + 10;
-        setX(x);
-        setY(y);
+//        setX(x);
+//        setY(y);
+        setLocation(x, y);
     }
 
     public String toString() {
@@ -43,9 +45,10 @@ public class Tree extends LandscapeItem {
 
     @Override
     public void draw(Graphics2D g) {
+        super.draw(g);
         g.setColor(Color.GREEN);
         int size = rad / 2;
-        g.fillOval((int) getX() - rad, (int) getY() - rad, rad, rad);
+        g.fillOval( -rad/2,- rad/2, rad, rad);
         g.setColor(Color.RED);
     }
 
@@ -53,6 +56,7 @@ public class Tree extends LandscapeItem {
     @Override
     public void handleCollision(ICollider otherObject) {
         // I am a tree
+
         GameObject tmp = (GameObject) otherObject;
 
         //collision for tank

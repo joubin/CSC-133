@@ -11,6 +11,7 @@ public class CommandHelp extends AbstractAction {
 
     private static CommandHelp theCommandHelp = null;
     private static Game game;
+    private static GameWorld gameWorld;
 
     /**
      * Pass the string help to AbstractAction as its title
@@ -19,6 +20,10 @@ public class CommandHelp extends AbstractAction {
         super("Help");
     }
 
+    public void target(GameWorld gw, Game g) {
+        this.gameWorld = gw;
+        this.game = g;
+    }
 
     public static synchronized CommandHelp getInstance(Game gw) {
         game = gw;
@@ -30,26 +35,22 @@ public class CommandHelp extends AbstractAction {
 
 
     public synchronized void actionPerformed(ActionEvent e) {
+        gameWorld.toggleTimer();
+        game.togglePauseButton();
+        if (gameWorld.getTimerStat())
+            game.changeTextOnPauseButton("Pause");
+        else game.changeTextOnPauseButton("Play");
 
         // TODO pause the game
         URL pathToImage = this.getClass().getResource("/a3/Resources/tank.png");
 
         final ImageIcon icon = new ImageIcon(pathToImage);
 
-        JOptionPane.showMessageDialog(null, "r: Turn right 5 degrees clockwise\n" +
-                "l: Turn left 5 degrees counter-clockwise\n" +
-                "i: Increase speed of your tank\n" +
-                "k: Decrease speed of your tank\n" +
-                "f: Fire missile from your tank\n" +
-                "e: Fire missile from enemy tank\n" +
-                "1: Indicate that a random tank has been hit by a missile\n" +
-                "2: indicates that a collision occurred between two missiles\n" +
-                "3: Random tank has colided with a land object and is now blocked\n" +
-                "t: Tick game clock\n" +
-                "d: Display current game states and values\n" +
-                "m: Display map for the current game\n" +
-                "q: Quit game\n" +
-                "?: Print this menu ", "Help", JOptionPane.INFORMATION_MESSAGE, icon);
+        JOptionPane.showMessageDialog(null, "Right Arrow: Turn right 5 degrees clockwise\n" +
+                "Left Arrow: Turn left 5 degrees counter-clockwise\n" +
+                "Up Arrow: Increase speed of your tank\n" +
+                "Down Arrow: Decrease speed of your tank\n" +
+                "Space: Fire missile from your tank\n", "Help", JOptionPane.INFORMATION_MESSAGE, icon);
 
         System.out.println("Help From " + e.getActionCommand() + " " + e.getSource().getClass());
         game.requestMapViewFocus();

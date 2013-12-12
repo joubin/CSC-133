@@ -1,7 +1,6 @@
 package a3;
 
 /**
- * Created with IntelliJ IDEA.
  * User: joubin
  * Date: 9/19/13
  * Time: 11:43 PM
@@ -15,21 +14,22 @@ public abstract class MovableItem extends GameObject {
     private int health; // Health of the object
     private int lastTimeTick;
 
-    public float getPrevx() {
+    public double getPrevx() {
         return prevx;
     }
 
-    public float getPrevy() {
+    public double getPrevy() {
         return prevy;
     }
 
-    private float prevx = 200;
-    private float prevy = 200;
+    private double prevx = 200;
+    private double prevy = 200;
 
     public MovableItem(int direction) {
         /*
         All objects have to have a direction when first constructed.
          */
+        super();
         this.direction = direction;
     }
 
@@ -75,31 +75,18 @@ public abstract class MovableItem extends GameObject {
         return direction;
     }
 
-    private void setDirection(int direction) {
+    public void setDirection(int direction) {
         /*
         set a new direction for a given object
          */
         this.direction += direction;
         this.direction = (direction % 360);
+        resetRotation();
+        this.rotate(this.direction);
 //        this.direction = ((direction % 360 + 360) % 360);
     }
 
-    public void mChangeDirection(int direction) {
-        /*
-        change direction. Only some movable object can change their course.
-         The commented out section below further insures that rule.
 
-         However it is not a requirement as long as sub classes are properly implemented.
-         */
-//        if(this instanceof ISteerable){
-        if (direction % 5 == 0) {
-            setDirection(getDirection() + direction);
-        } else {
-            int d = getDirection() - direction;
-            setDirection(getDirection() - (direction % 5));
-        }
-//        }
-    }
 
     public void move(int time) {
         /*
@@ -117,8 +104,9 @@ public abstract class MovableItem extends GameObject {
         } else if (newx <= 0 || newy <= 0) {
             setDirection(180 + getDirection());
         } else {
-            setX(newx);
-            setY(newy);
+//            setX(newx);
+//            setY(newy);
+            setLocation(newx, newy);
         }
         lastTimeTick = time;
     }

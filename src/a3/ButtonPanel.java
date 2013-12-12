@@ -48,7 +48,10 @@ public class ButtonPanel extends JPanel {
         JButton missileHitMissileButton = new JButton(missileHitMissile);
         JButton tickButton = new JButton(tick);
         JButton getHit = new JButton(getHitByMissile);
-        JButton helpButton = new JButton(CommandHelp.getInstance(instance));
+        CommandHelp commandHelp = new CommandHelp();
+        commandHelp.getInstance(instance);
+        commandHelp.target(gameWorld, instance);
+        JButton helpButton = new JButton(commandHelp);
         JButton quitButton = new JButton(CommandQuit.getInstance());
         JButton changeStrategyButton = new JButton(changeStrategy);
         pauseButton = new JButton(pauseCommand);

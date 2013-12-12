@@ -10,6 +10,9 @@ public abstract class LandscapeItem extends GameObject {
     collection of landscape items.
      */
 
+    public LandscapeItem(){
+        super();
+    }
     @Override
     public void setShoulddie() {
 

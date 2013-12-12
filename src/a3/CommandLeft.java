@@ -25,7 +25,7 @@ public class CommandLeft extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        gameWorld.changePlayerTankDirection(-5);
+        gameWorld.changePlayerTankDirection(5);
         System.out.println("Left Command From " + e.getActionCommand() + " " + e.getSource().getClass());
 
     }

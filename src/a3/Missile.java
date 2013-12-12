@@ -22,10 +22,12 @@ public class Missile extends Projectile {
     public Missile(Tank t) {
         super(t.getDirection()+180);
         missileOwner = t;
-        setHealth(20);
+        setHealth(200);
         this.setSpeed(t.getSpeed() + 5);
-        setX((int) t.getDeltaX());
-        setY((int) t.getDeltaY());
+//        setX((int) t.getDeltaX());
+//        setY((int) t.getDeltaY());
+        setLocation(t.getX(), t.getY());
+        System.out.println(t.getX()+" "+t.getY());
     }
 
 
@@ -37,6 +39,9 @@ public class Missile extends Projectile {
         */
         super.move(time);
         setHealth(-1);
+        if (getHealth() < 1){
+            setShoulddie();
+        }
 
     }
 
@@ -50,11 +55,12 @@ public class Missile extends Projectile {
 
     @Override
     public void draw(Graphics2D g) {
-        int[] x = {(int) getX() - 10, (int) getX() + 10, (int) getX()};
-        int[] y = {(int) getY() - 15, (int) getY() - 15, (int) getY() + 15};
+        super.draw(g);
+
+        int[] x = {0 - 5, 0 + 5, 0};
+        int[] y = {0 - 7, 0 - 7, 0 + 7};
         g.setColor(Color.RED);
         g.fillPolygon(x, y, 3);
-//        g.fillOval((int) getX()-5/2, (int) getY()-5/2, 5,5);
     }
 
 
@@ -62,7 +68,7 @@ public class Missile extends Projectile {
     public void handleCollision(ICollider otherObject) {
         if (otherObject instanceof Tank) {
             if (missileOwner == ((Tank) otherObject)) {
-                mChangeDirection(180);
+                steer(180);
                 return;
             }
         }

@@ -14,9 +14,9 @@ public abstract class Projectile extends MovableItem {
 
     }
 
-    public void mChangeDirection(int direction) {
+    public void steer(int direction) {
         /*
-        Overwrote the mChangeDirection so that only vehicals can change direction
+        Overwrote the steer so that only vehicals can change direction
          */
         // Does nothing because missiles should not be able to change direction
     }
