@@ -49,7 +49,7 @@ public class MapView extends JPanel implements IObserver {
     private void setWorldToND(){
         worldToND.setToIdentity();
         worldToND.scale(1/(topRightX-bottomLeftX), 1/(topRightY-bottomLeftY));
-        worldToND.translate(-bottomLeftX, -bottomLeftY);
+        worldToND.translate(-bottomLeftX, bottomLeftY);
 
     }
 
@@ -62,8 +62,8 @@ public class MapView extends JPanel implements IObserver {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Graphics2D g2d = (Graphics2D) g;
         setHW();
+        Graphics2D g2d = (Graphics2D) g;
         AffineTransform base = g2d.getTransform();
         setWorldToND();
         setNdToScreen();
