@@ -2,7 +2,6 @@ package a3;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.util.Random;
 
 /**
  * Created with IntelliJ IDEA.
@@ -24,6 +23,7 @@ public class Tank extends Vehicle implements ISelectable {
     private double dx;
     private Missile lastMissileToHit = null;
     private boolean isSelected;
+    private int grenadeCount;
 
 
     public double getDeltaY() {
@@ -48,11 +48,13 @@ public class Tank extends Vehicle implements ISelectable {
             Used to generate tanks not the players
          */
         super(0); // set initial direction of the tank
+
         setHealth(10); // set the health
         this.missileCount = 100; // set missile count
 //        setX(x); // set x and y coordinates given by the gameworld
 //        setY(y);
         setLocation(x, y);
+        grenadeCount = 10;
         this.curStrategy = strategy;
 
 
@@ -68,6 +70,8 @@ public class Tank extends Vehicle implements ISelectable {
         this.missileCount = 100;
         this.isPlayer = true;
         setLocation(x, y);
+        grenadeCount = 1000;
+
         if (myTank) name = "My Tank";
 
     }
@@ -105,6 +109,17 @@ public class Tank extends Vehicle implements ISelectable {
 
     }
 
+
+    public boolean fireGrenade() {
+        /*
+        fire a missile
+         */
+        if (grenadeCount > 0) {
+            return true;
+        }
+        return false;
+
+    }
     public void toggleBlocked() {
         /*
         get blocked or unblocked
@@ -183,7 +198,7 @@ public class Tank extends Vehicle implements ISelectable {
 
     @Override
     public void draw(Graphics2D g) {
-        AffineTransform save = (AffineTransform) g.getTransform().clone();
+        AffineTransform save =  g.getTransform();
         super.draw(g);
 
         int localx = -width/2;
@@ -252,6 +267,14 @@ public class Tank extends Vehicle implements ISelectable {
     @Override
     public void setSize() {
         //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public int getGrenadeCount() {
+        return grenadeCount;
+    }
+
+    public void setGrenadeCount(int grenadeCount) {
+        this.grenadeCount = grenadeCount;
     }
 
 

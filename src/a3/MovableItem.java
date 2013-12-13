@@ -92,22 +92,21 @@ public abstract class MovableItem extends GameObject {
         /*
         This move method properly moves the objects given the correct direction and speed
          */
-
+        if (lastTimeTick == 0){
+            lastTimeTick = time;
+        }
         prevx = getX();
         prevy = getY();
         float newx = (float) Math.sin(Math.toRadians(direction)) * speed * (time-lastTimeTick);
         float newy = (float) Math.cos(Math.toRadians(direction)) * speed * (time-lastTimeTick);
         newx += getX();
         newy += getY();
-        if (newx >= 700 || newy >= 700) {
-            setDirection(getDirection() + 180);
-        } else if (newx <= 0 || newy <= 0) {
-            setDirection(180 + getDirection());
-        } else {
+        if (this instanceof Grenade)
+            System.out.println("x:"+newx+" Y:"+newy+" Time:"+time);
 //            setX(newx);
 //            setY(newy);
-            setLocation(newx, newy);
-        }
+        setLocation(newx, newy);
+
         lastTimeTick = time;
     }
 

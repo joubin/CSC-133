@@ -20,6 +20,19 @@ public abstract class GameObject implements IDrawable, ICollider, ITransformatio
     For each item, get a random RGB value and create a color out of it using the color class.
      */
     private float red = myRandom.nextFloat();
+
+    public AffineTransform getTranslation() {
+        return translation;
+    }
+
+    public AffineTransform getRotation() {
+        return rotation;
+    }
+
+    public AffineTransform getScale() {
+        return scale;
+    }
+
     private float green = myRandom.nextFloat();
     private float blue = myRandom.nextFloat();
     private boolean shouldDie = false;
@@ -144,4 +157,6 @@ public abstract class GameObject implements IDrawable, ICollider, ITransformatio
    public void resetRotation(){
         rotation.setToIdentity();
    }
+
+
 }

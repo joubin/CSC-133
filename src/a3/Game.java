@@ -13,7 +13,7 @@ import java.util.Scanner;
  * Date: 9/19/13
  * Time: 11:33 PM
  */
-public class Game extends JFrame implements MouseListener, MouseMotionListener {
+public class Game extends JFrame implements MouseListener, MouseMotionListener, MouseWheelListener {
 
     private GameWorld gw; // An instance of the game world
     private Scanner in = new Scanner(System.in); // Scanner used to get input from the user
@@ -25,6 +25,7 @@ public class Game extends JFrame implements MouseListener, MouseMotionListener {
     private int numberOfTanks, numberOfTrees, numberOfRocks;
     private Timer timer;
     private Point2D pp = new Point2D.Float();
+    private Point mousePrevPoint = new Point(0,0);
 
 
     private JFrame loadingMenu = new JFrame();
@@ -110,7 +111,8 @@ public class Game extends JFrame implements MouseListener, MouseMotionListener {
         sv = new ScoreView();
         mv = new MapView(gwp);
         mv.addMouseListener(this);
-//        mv.addMouseMotionListener(this);
+        mv.addMouseMotionListener(this);
+        mv.addMouseWheelListener(this);
 
         gw.addObserver(sv);
         gw.addObserver(mv);
@@ -128,6 +130,7 @@ public class Game extends JFrame implements MouseListener, MouseMotionListener {
         CommandIncreaseSpeed increaseSpeed = CommandIncreaseSpeed.getInstance();
         CommandDecreaseSpeed decreaseSpeed = CommandDecreaseSpeed.getInstance();
         CommandFireMissile fireMissile = CommandFireMissile.getInstance();
+        CommandFireGrenade fireGrenade = CommandFireGrenade.getInstance();
         CommandFireEnemyMissile fireEnemyMissile = CommandFireEnemyMissile.getInstance();
         CommandGetHitByMissile getHitByMissile = CommandGetHitByMissile.getInstance();
         CommandChangeStrategy changeStrategy = CommandChangeStrategy.getInstance();
@@ -137,6 +140,7 @@ public class Game extends JFrame implements MouseListener, MouseMotionListener {
         getHitByMissile.setTarget(gw);
         fireEnemyMissile.target(gw);
         fireMissile.target(gw);
+        fireGrenade.target(gw);
         turnLeft.target(gw);
         turnRight.target(gw);
         decreaseSpeed.target(gw);
@@ -148,6 +152,7 @@ public class Game extends JFrame implements MouseListener, MouseMotionListener {
         KeyStroke downArrow = KeyStroke.getKeyStroke("DOWN");
         KeyStroke spaceKey = KeyStroke.getKeyStroke("SPACE");
         KeyStroke eKey = KeyStroke.getKeyStroke('e');
+        KeyStroke gKey = KeyStroke.getKeyStroke('g');
         myMap.put(leftArrow, 'l');
         myAction.put('l', turnLeft);
         myMap.put(rightArrow, 'r');
@@ -160,6 +165,8 @@ public class Game extends JFrame implements MouseListener, MouseMotionListener {
         myAction.put('f', fireMissile);
         myMap.put(eKey, "e");
         myAction.put("e", changeStrategy);
+        myMap.put(gKey, "g");
+        myAction.put("g", fireGrenade);
 
         this.makeGUI();
         this.requestFocus();
@@ -349,8 +356,35 @@ public class Game extends JFrame implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        System.out.println("asd");
-        mv.setSelectionPoints(pressedHere, e.getPoint());
-        mv.update(gwp, null);
+        if (e.isShiftDown()){
+            int x = (int) mousePrevPoint.getX();
+            int y = (int) mousePrevPoint.getY();
+            int newx = e.getX();
+            int newy = e.getY();
+            if (newx > x){
+                mv.pan('r');
+            }
+            if (newx < x){
+                mv.pan('l');
+            }
+            if (newy > y){
+                mv.pan('u');
+            }
+            if (newy <y){
+                mv.pan('d');
+            }
+
+            mousePrevPoint = e.getPoint();
+        }
+
+    }
+
+    @Override
+    public void mouseWheelMoved(MouseWheelEvent e) {
+        if (e.getWheelRotation()>0){
+            mv.zoomIn();
+        }else{
+            mv.zoomOut();
+        }
     }
 }

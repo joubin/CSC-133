@@ -4,6 +4,8 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.NoninvertibleTransformException;
+import java.awt.geom.Point2D;
 import java.util.Iterator;
 
 /**
@@ -21,10 +23,11 @@ public class MapView extends JPanel implements IObserver {
     private Point selectionStart = new Point(0,0);
     private Point selectionEnd = new Point(0,0);
     private AffineTransform viewTransform = new AffineTransform();
+    private AffineTransform worldToND, ndToScreen, theVTM, inverseVTM;
+    private double windowRight = 700, windowTop = 700, windowLeft = 0, windowBottom = 0;
 
     public MapView(GameWorldProxy gameWorldInstance) {
         this.gwp = gameWorldInstance;
-        this.setBorder(new TitledBorder("Map"));
         this.setPreferredSize(new Dimension(700, 700));
 
 
@@ -41,26 +44,78 @@ public class MapView extends JPanel implements IObserver {
         topRightX = width;
         bottomLeftX = width-topRightX;
         bottomLeftY = height-topRightY;
-        System.out.println(topRightX + " " + topRightY + " " + bottomLeftY + " " + bottomLeftX);
+    }
+
+
+    protected void zoomIn(){
+        double h = windowTop - windowBottom;
+        double w = windowRight - windowLeft;
+
+        windowLeft += w*0.05;
+        windowRight -= w*0.05;
+        windowTop -= h*0.05;
+        windowBottom += h*0.05;
+        this.repaint();
+    }
+
+    /**
+     * method that will make the window smaller when it is invoked causing a zoom out to happen
+     */
+    protected void zoomOut(){
+        double h = windowTop - windowBottom;
+        double w = windowRight - windowLeft;
+
+        windowLeft -= w*0.05;
+        windowRight += w*0.05;
+        windowTop += h*0.05;
+        windowBottom -= h*0.05;
+        this.repaint();
+    }
+
+    protected void pan(char x){
+        switch (x){
+            case 'u':
+                windowTop += 10;
+                windowBottom += 10;
+                break;
+            case 'd':
+                windowTop -= 10;
+                windowBottom -= 10;
+                break;
+            case 'l':
+                windowLeft -= 10;
+                windowRight -= 10;
+                break;
+            case 'r':
+                windowLeft += 10;
+                windowRight += 10;
+                break;
+            default:
+                break;
+        }
+
     }
     @Override
     public void update(IObservable o, Object arg) {
         gwp = (GameWorldProxy) o;
         this.repaint();
     }
+    private AffineTransform buildScreenTransform(double width, double height) {
+        AffineTransform result = new AffineTransform();
+        result.setToIdentity();
+        result.translate(0, height);
+        result.scale(width, -height);
+        return result;
+    }
 
-//    private void setWorldToND(){
-//        worldToND.setToIdentity();
-//        worldToND.scale(1/(topRightX-bottomLeftX), 1/(topRightY-bottomLeftY));
-//        worldToND.translate(-bottomLeftX, -bottomLeftY);
-//
-//    }
-//
-//    private void setNdToScreen(){
-//        ndToScreen.setToIdentity();
-//        ndToScreen.translate(0,height);
-//        ndToScreen.scale(width, -height);
-//    }
+
+    private AffineTransform buildNDTransform(double windowWidth, double windowHeight, double windowLeft, double windowBottom) {
+        AffineTransform result = new AffineTransform();
+        result.setToIdentity();
+        result.scale(1/windowWidth, 1/windowHeight);
+        result.translate(-windowLeft, -windowBottom);
+        return result;
+    }
 
 
     public AffineTransform getViewTransform(){
@@ -71,17 +126,19 @@ public class MapView extends JPanel implements IObserver {
         super.paintComponent(g);
         setHW();
         Graphics2D g2d = (Graphics2D) g;
-        this.viewTransform.setToIdentity();
-        this.viewTransform.translate(0, this.getHeight());
-        this.viewTransform.scale(1, -1);
+//        this.viewTransform.setToIdentity();
+//        this.viewTransform.translate(0, this.getHeight());
+//        this.viewTransform.scale(1, -1);
 
-//        AffineTransform base = g2d.getTransform();
-//        setWorldToND();
-//        setNdToScreen();
-//        theVTM = (AffineTransform) ndToScreen.clone();
-//        theVTM.concatenate(worldToND);
-//        g2d.transform(theVTM);
-        g2d.transform(viewTransform);
+        worldToND = buildNDTransform(windowRight-windowLeft,windowTop-windowBottom,windowLeft,windowBottom);
+        ndToScreen = buildScreenTransform(this.getSize().getWidth(),this.getSize().getHeight());
+        theVTM = (AffineTransform) ndToScreen.clone();
+        theVTM.concatenate(worldToND);
+        try {
+            inverseVTM = theVTM.createInverse();
+        } catch (NoninvertibleTransformException e) {
+        }
+        g2d.transform(theVTM);
         AffineTransform save = g2d.getTransform();
 
         GameObjectCollection localGameObjectCollection;
@@ -125,8 +182,9 @@ public class MapView extends JPanel implements IObserver {
         while (itr.hasNext()) {
             GameObject obj = (GameObject) itr.next();
             if (obj instanceof ISelectable) {
-                 viewTransform.transform(pp, pp);
-                if (((ISelectable) obj).contains(pp.getX(), pp.getY())) {
+                Point2D.Float transformedPoints = new Point2D.Float();
+                 inverseVTM.transform(pp, transformedPoints);
+                if (((ISelectable) obj).contains(transformedPoints.getX(), transformedPoints.getY())) {
                     ((ISelectable) obj).setSelected(true);
                     this.repaint();
                 }

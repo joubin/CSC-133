@@ -1,6 +1,7 @@
 package a3;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 
 /**
  * User: joubin
@@ -20,14 +21,15 @@ public class Missile extends Projectile {
     private Tank missileOwner;
 
     public Missile(Tank t) {
-        super(t.getDirection()+180);
+        super(t.getDirection());
         missileOwner = t;
         setHealth(200);
         this.setSpeed(t.getSpeed() + 5);
 //        setX((int) t.getDeltaX());
 //        setY((int) t.getDeltaY());
         setLocation(t.getX(), t.getY());
-        System.out.println(t.getX()+" "+t.getY());
+        rotate(getDirection());
+        System.out.println(t.getX()+"  "+t.getY());
     }
 
 
@@ -55,12 +57,16 @@ public class Missile extends Projectile {
 
     @Override
     public void draw(Graphics2D g) {
+        AffineTransform save =  g.getTransform();
+
         super.draw(g);
 
         int[] x = {0 - 5, 0 + 5, 0};
         int[] y = {0 - 7, 0 - 7, 0 + 7};
         g.setColor(Color.RED);
         g.fillPolygon(x, y, 3);
+        g.setTransform(save);
+
     }
 
 

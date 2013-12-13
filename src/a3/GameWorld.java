@@ -148,6 +148,18 @@ public class GameWorld implements IObservable, IGameWold {
     }
 
 
+    public void firePlayerTankGrenade() { // Fire player tank
+        boolean ableToFire = myTank.fireGrenade(); // First check to see if the tank is able to fire
+        if (ableToFire) { // if so, create a new missile object and decrease the missile count of players tank
+            Grenade m = new Grenade(myTank);
+            myTank.setGrenadeCount(myTank.getGrenadeCount() - 1);
+            go.add(m); // add the newly created missile to the collection of game objects.
+            if (sound) fireMissile.play();
+        } else {
+            System.out.println("This tank has no more ammo"); // Print error message.
+        }
+        notifyObservers();
+    }
     @Override
     public void fireEnemyTankMissile() { // Fire enemy Tank
         Tank randomTank;
@@ -257,7 +269,6 @@ public class GameWorld implements IObservable, IGameWold {
 //            updateClock();
 //            millSecTime = 0;
 //        }
-        notifyObservers();
         Iterator itr = go.iterator();
         while (itr.hasNext()) {
             Iterator itr2 = go.iterator();
@@ -324,8 +335,7 @@ public class GameWorld implements IObservable, IGameWold {
         Iterator itr = go.iterator();
         while (itr.hasNext()) {
             if (m == itr.next()) {
-                boolean shouldDie = m.getShoudDie();
-                if (shouldDie) {
+                if (m.getShoudDie()) {
                     itr.remove();
                 }
             }
