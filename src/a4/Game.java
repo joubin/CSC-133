@@ -31,6 +31,8 @@ public class Game extends JFrame implements MouseListener, MouseMotionListener, 
     private JFrame loadingMenu = new JFrame();
 
     public Game() {
+        setCursor (Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)); // This line is from stack overflow from google around
+
         /*
         This constructor creates an instance of the game world and initializes it with all of the needed
         parameters.
@@ -354,13 +356,12 @@ public class Game extends JFrame implements MouseListener, MouseMotionListener, 
     }
 
     @Override
-    public void mouseDragged(MouseEvent e) {
+    public void mouseMoved(MouseEvent e) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public void mouseMoved(MouseEvent e) {
-        if (e.isShiftDown()){
+    public void mouseDragged(MouseEvent e) {
             int x = (int) mousePrevPoint.getX();
             int y = (int) mousePrevPoint.getY();
             int newx = e.getX();
@@ -379,16 +380,16 @@ public class Game extends JFrame implements MouseListener, MouseMotionListener, 
             }
 
             mousePrevPoint = e.getPoint();
-        }
+
 
     }
 
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
         if (e.getWheelRotation()>0){
-            mv.zoomIn();
-        }else{
             mv.zoomOut();
+        }else{
+            mv.zoomIn();
         }
     }
 }

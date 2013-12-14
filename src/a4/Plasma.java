@@ -53,7 +53,7 @@ public class Plasma extends Missile{
     private boolean straightEnough (Point2D.Double[] ControlPointVector) {
 // find length around control polygon
         Double d1 = lengthOf(ControlPointVector[0],ControlPointVector[1]) + lengthOf(ControlPointVector[1], ControlPointVector[2]) + lengthOf(ControlPointVector[2], ControlPointVector[3]);
-// find distance directly between first and last control point
+// find doMathOnPoints directly between first and last control point
         Double d2 = lengthOf(ControlPointVector[0],ControlPointVector[3]) ;
         if ( Math.abs(d1 - d2) < 0.0001f )
             return true ;
@@ -71,18 +71,18 @@ public class Plasma extends Missile{
 
 
     private void subdivideCurve (Point2D.Double[] Q,Point2D.Double[] R, Point2D.Double[] S ) {
-        Point2D.Double T = distance(Q[1], Q[2]);
+        Point2D.Double T = doMathOnPoints(Q[1], Q[2]);
         R[0]=Q[0];
-        R[1]=distance(Q[0], Q[1]);
-        R[2]=distance(R[1], T);
+        R[1]= doMathOnPoints(Q[0], Q[1]);
+        R[2]= doMathOnPoints(R[1], T);
         S[3]=Q[3];
-        S[2]=distance(Q[3], Q[2]);
-        S[1]=distance(S[2], T);
-        R[3]=distance(R[2], S[1]);
+        S[2]= doMathOnPoints(Q[3], Q[2]);
+        S[1]= doMathOnPoints(S[2], T);
+        R[3]= doMathOnPoints(R[2], S[1]);
         S[0]=R[3];
     }
 
-    private Point2D.Double distance(Point2D.Double p1, Point2D.Double p2){
+    private Point2D.Double doMathOnPoints(Point2D.Double p1, Point2D.Double p2){
         return new Point2D.Double(( p1.getX() / 2.0f + p2.getX() / 2.0f ),
                 ( p1.getY() / 2.0f + p2.getY() / 2.0f ));
     }

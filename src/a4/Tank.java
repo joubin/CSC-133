@@ -223,7 +223,6 @@ public class Tank extends Vehicle implements ISelectable {
 
         }
         int direction = this.getDirection();
-//        g.drawOval((int) getX()-size/4, (int) getY()-size/4,(int) size/2, (int) size/2);
         g.setColor(Color.RED);
         g.drawOval(0 - (size / 2), 0 - (size / 2), (int) size, (int) size);
         dx = ((double) Math.cos(Math.toRadians(90 - direction)) * width);

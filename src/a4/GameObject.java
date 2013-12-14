@@ -37,7 +37,7 @@ public abstract class GameObject implements IDrawable, ICollider, ITransformatio
     private boolean shouldDie = false;
     private int rad;
 //    private Point2D points;
-    private Color myColor = new Color(red, green, blue);
+    private Color myColor =  new Color(red, green, blue);
     private AffineTransform translation = new AffineTransform();
     private AffineTransform rotation = new AffineTransform();
     private AffineTransform scale = new AffineTransform();

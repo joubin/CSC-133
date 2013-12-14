@@ -12,64 +12,19 @@ import java.util.Iterator;
  */
 public class MapView extends JPanel implements IObserver {
     private GameWorldProxy gwp;
-//    private AffineTransform worldToND, ndToScreen, theVTM ;
-    private int height = 700;
-    private int width = 700;
-    private int topRightY = 700;
-    private int topRightX = 700;
-    private int bottomLeftX = 0;
-    private int bottomLeftY = 0;
-    private Point selectionStart = new Point(0,0);
-    private Point selectionEnd = new Point(0,0);
-    private AffineTransform viewTransform = new AffineTransform();
+
     private AffineTransform worldToND, ndToScreen, theVTM, inverseVTM;
-    private double windowRight = 700, windowTop = 700, windowLeft = 0, windowBottom = 0;
+    private double windowRight = 700;
+    private double windowTop = 700;
+    private double windowLeft = 0;
+    private double windowBottom = 0;
 
     public MapView(GameWorldProxy gameWorldInstance) {
         this.gwp = gameWorldInstance;
         this.setPreferredSize(new Dimension(700, 700));
-
-
-        bottomLeftX = 0;
-        bottomLeftY = 0;
-//        worldToND = new AffineTransform();
-//        ndToScreen = new AffineTransform();
-
-    }
-    private void setHW(){
-        height = this.getHeight();
-        width = this.getWidth();
-        topRightY = height;
-        topRightX = width;
-        bottomLeftX = width-topRightX;
-        bottomLeftY = height-topRightY;
     }
 
 
-    protected void zoomIn(){
-        double h = windowTop - windowBottom;
-        double w = windowRight - windowLeft;
-
-        windowLeft += w*0.05;
-        windowRight -= w*0.05;
-        windowTop -= h*0.05;
-        windowBottom += h*0.05;
-        this.repaint();
-    }
-
-    /**
-     * method that will make the window smaller when it is invoked causing a zoom out to happen
-     */
-    protected void zoomOut(){
-        double h = windowTop - windowBottom;
-        double w = windowRight - windowLeft;
-
-        windowLeft -= w*0.05;
-        windowRight += w*0.05;
-        windowTop += h*0.05;
-        windowBottom -= h*0.05;
-        this.repaint();
-    }
 
     protected void pan(char x){
         switch (x){
@@ -117,17 +72,11 @@ public class MapView extends JPanel implements IObserver {
     }
 
 
-    public AffineTransform getViewTransform(){
-        return (AffineTransform) viewTransform.clone();
-    }
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        setHW();
         Graphics2D g2d = (Graphics2D) g;
-//        this.viewTransform.setToIdentity();
-//        this.viewTransform.translate(0, this.getHeight());
-//        this.viewTransform.scale(1, -1);
+
 
         worldToND = buildNDTransform(windowRight-windowLeft,windowTop-windowBottom,windowLeft,windowBottom);
         ndToScreen = buildScreenTransform(this.getSize().getWidth(),this.getSize().getHeight());
@@ -149,20 +98,42 @@ public class MapView extends JPanel implements IObserver {
             g2d.setTransform(save);
 
         }
-//        g.setColor(Color.BLACK);
-//        try {
-//            g.fillRect((int) selectionStart.getX(), (int) selectionStart.getY(),  (int)Math.abs(selectionStart.getX()-selectionEnd.getX()),(int) Math.abs(selectionStart.getY()-selectionEnd.getY()));
-//
-//        }catch (Exception e){
-//            System.out.println("fail");
-//        }
         g2d.setTransform(save);
 
     }
 
-    public void setSelectionPoints(Point s, Point e){
-        selectionStart = s;
-        selectionEnd = e;
+    public double getWindowHeight(){
+        double returnAnswer = windowTop - windowBottom;
+        return returnAnswer;
+    }
+
+    public double getWindowWidth(){
+        double returnAnswer = windowRight - windowLeft;
+        return returnAnswer;
+
+    }
+
+    protected void zoomIn(){
+        double tempHeight = getWindowHeight();
+        double tempWidth = getWindowWidth();
+
+        windowLeft += tempWidth*0.05;
+        windowRight -= tempWidth*0.05;
+        windowTop -= tempHeight*0.05;
+        windowBottom += tempHeight*0.05;
+        this.repaint();
+    }
+
+
+    protected void zoomOut(){
+        double tempHeight = getWindowHeight();
+        double tempWidth = getWindowWidth();
+
+        windowLeft -= tempWidth*0.05;
+        windowRight += tempWidth*0.05;
+        windowTop += tempHeight*0.05;
+        windowBottom -= tempHeight*0.05;
+        this.repaint();
     }
 
     public void select(Point pp, boolean ctrl) {
